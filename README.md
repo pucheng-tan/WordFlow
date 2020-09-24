@@ -7,3 +7,4 @@ Cameron Mcleod
 Pucheng Tan  
 Sarah Chen  
 Tara Epp  
+Yuta Ogawa
