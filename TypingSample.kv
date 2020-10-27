@@ -1,0 +1,63 @@
+
+
+<UserInfo>
+    BoxLayout:
+        orientation: 'horizontal'
+        Label: 
+            text: 'Logged in as xxxxxx'
+        
+
+<Timer> 
+    BoxLayout:
+        Label:
+            text: root.timetext
+
+
+<KeyboardPic>
+    BoxLayout:
+        Image:
+            source: '81o+E0tnm4L._AC_SX425_.jpg'
+            allow_stretch: True
+
+
+
+<TypingField>
+    BoxLayout:
+        TextInput:
+            text: 'start typing'
+            on_focus: self.text = ''
+
+
+<TypingScreen>
+    BoxLayout:
+        orientation: 'vertical'
+        UserInfo:
+            size_hint_y: 0.05
+
+        TypingField:
+            size_hint_y: 0.8
+        KeyboardPic:
+            size_hint_y: 0.8
+        BoxLayout:
+            size_hint_y: 0.1
+            orientation: 'horizontal'
+            Button:
+                text: 'foo'
+            Button:
+                text: 'bar'
+            Button:
+                id: 'quit'
+                text: 'quit'
+                size_hint_x: 0.2
+                on_press: root.manager.current = 'menu'
+
+<MenuScreen>
+    BoxLayout:
+        orientation: 'vertical'
+        UserInfo:
+            size_hint_y: 0.05
+        Button:
+            id: 'start'
+            text: 'start'
+            on_press: root.manager.current = 'typing'
+            
