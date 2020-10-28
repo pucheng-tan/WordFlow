@@ -16,9 +16,17 @@ class ChallengeService(APIService):
         # not in filters out where field does not exist
         # history = user.collection('History').where('AssignmentID', '>', '').stream()
 
-        history = self.get_db().collection('Schools').document(self.SCHOOL_ID).collection('UserProfiles').document('BMSoKUzVnRYn103t2Oi6Nacv9X03').collection('History').order_by('AssignmentID').stream()
+        # TODO: The below query works. But we want to just be able to pass in a parameters object
+        # history = self.get_db().collection('Schools').document(self.SCHOOL_ID).collection('UserProfiles').document('BMSoKUzVnRYn103t2Oi6Nacv9X03').collection('History').order_by('AssignmentID').stream()
 
-        
+        user_reference = "BMSoKUzVnRYn103t2Oi6Nacv9X03"
+        params = {
+            "Schools": {"reference": self.SCHOOL_ID}, 
+            "UserProfiles": {"reference": user_reference}, 
+            "History": {"where": [["AssignmentID", "exists"], ["CharsCorrect", "==", 500]]}
+        }
+
+        history = self.get(params)
         # for doc in history:
         #     print(f'{doc.id} => {doc.to_dict()}')
 
