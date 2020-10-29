@@ -7,4 +7,4 @@ class TestClass:
         y = "hello"
         assert hasattr(y, "check")
 
-        # pytest .\PoC\services\test_api_service_classes.py
+        # pytest .\PoC\services\test_classes.py
