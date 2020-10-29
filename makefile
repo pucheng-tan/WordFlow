@@ -6,6 +6,7 @@ for any more questions, ask Cameron \
 
 # after running make, use source /env/bin/activate or . \env\Scripts\activate
 # to start venv
+# when finished in venv, use 'deactivate'
 
 #note: does not currently support linux 
 
