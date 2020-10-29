@@ -1,0 +1,5 @@
+requests
+firebase-admin
+python-firebase
+pyttsx3
+pytest
