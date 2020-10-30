@@ -19,19 +19,25 @@ class APIService:
     _db = None
 
     def __init__(self):
-        if (self._db is None):
+        # this class needs to be singleton, following tutorial from here: https://www.tutorialspoint.com/python_design_patterns/python_design_patterns_singleton.htm
+        if (APIService._db is not None):
+            raise Exception("This class is a singleton!")
+        else:
             # TODO: This is not how credentials should be setup. 
             # If this is ever called more than once, the initialize_app gives an error because it is only ever meant to be called once!
             # The JSON is credentials for a service account that's actually not supposed to go into a public repository.
             cred = credentials.Certificate('PoC\services\cmpt370-group2-firebase-adminsdk-lno8j-3910eb45cf.json')
             firebase_admin.initialize_app(cred)
-            self._db = firestore.client()
+            APIService._db = firestore.client()
 
-    def get_db(self):
-        return self._db
+    @staticmethod
+    def get_db():
+        if APIService._db == None:
+            APIService()
+        return APIService._db
 
     def temp(self):
-        data = self.get_db().collection("Schools").document("o2lTSAI6X4yGdIZ0huB9").collection("UserProfiles").collection_group("History")
+        data = APIService.get_db().collection("Schools").document("o2lTSAI6X4yGdIZ0huB9").collection("UserProfiles").collection_group("History")
         return self.to_dict(data)
 
     def to_dict(self, data, is_document=False):
