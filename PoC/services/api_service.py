@@ -26,7 +26,7 @@ class APIService:
             # TODO: This is not how credentials should be setup. 
             # If this is ever called more than once, the initialize_app gives an error because it is only ever meant to be called once!
             # The JSON is credentials for a service account that's actually not supposed to go into a public repository.
-            cred = credentials.Certificate('PoC\services\cmpt370-group2-firebase-adminsdk-lno8j-3910eb45cf.json')
+            cred = credentials.Certificate('PoC/services/cmpt370-group2-firebase-adminsdk-lno8j-3910eb45cf.json')
             firebase_admin.initialize_app(cred)
             APIService._db = firestore.client()
 
