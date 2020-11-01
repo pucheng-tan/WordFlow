@@ -5,11 +5,12 @@ import pyttsx3
 ##note: does not run on python version 2.x
 engine = pyttsx3.init()
 
+
 def say_something(something):
     engine.say(something)
     engine.runAndWait()
     engine.stop()
-    
+
 
 dialogue = str(input("Type the audio you want to here: "))
 

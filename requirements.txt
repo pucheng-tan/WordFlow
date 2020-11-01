@@ -4,3 +4,4 @@ python-firebase
 pyttsx3
 pytest
 pytest-json-report
+yapf
