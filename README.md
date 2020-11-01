@@ -40,11 +40,11 @@ Note: Prefered python version is python 3.6!
 #### (Assuming the windows user does have access to make)
 
 1. clone git repo
-2. create the virual environment in the root folder of the repo 'python3 -m venv env'
-3. enter into the env, type '. env\Scripts\activate'
+2. create the virual environment in the root folder of the repo 'python3 -m venv env' (if this doesn't work, try python -m venv env)
+3. enter into the env, type '. env\Scripts\activate', (if this doesn't work, try just env\Scripts\activate)
 4. install dependencies using 'pip3 install -r requirements.txt'
 5. run 'pytest PoC\services'
-6. when finished running tests, type 'deactivate 'rm -f env'
+6. when finished running tests, type 'deactivate 'rm env'
 
 Known issues on windows:
 
