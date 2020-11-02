@@ -1,4 +1,3 @@
-
     
 # Group 2
 
@@ -36,7 +35,7 @@ Also: our test PoC is file PoC/services/test_api_service.py
 3. enter into the env, type '. env\Scripts\activate', (if this doesn't work, try just env\Scripts\activate)
 4. install dependencies using 'pip3 install -r requirements.txt'
 5. run 'pytest PoC\services'
-6. when finished running tests, type 'deactivate 'rm env'
+6. when finished running tests, type 'deactivate' and then 'rm env'
 
 Known issues on windows:
 
