@@ -1,7 +1,8 @@
 import tkinter as tk
+import signup
 
 
-class Application(tk.Frame):
+class Login(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
@@ -56,9 +57,10 @@ class Application(tk.Frame):
 
 
     def sign_up(self):
-        print("Sign Up")
+        new_root = tk.Tk()
+        signup.SignUp(new_root).mainloop()
 
 
 root = tk.Tk()
-app = Application(master=root)
+app = Login(master=root)
 app.mainloop()
