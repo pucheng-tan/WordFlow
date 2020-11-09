@@ -8,9 +8,9 @@ class Login(tk.Frame):
         self.master = master
         self.master.title("Welcome")
 
-        root.grid_rowconfigure(0, weight=1)
-        root.grid_rowconfigure(2, weight=1)
-        root.grid_columnconfigure(0, weight=1)
+        self.master.grid_rowconfigure(0, weight=1)
+        self.master.grid_rowconfigure(2, weight=1)
+        self.master.grid_columnconfigure(0, weight=1)
 
         self.frame = tk.LabelFrame(self.master)
         self.frame.grid(row=1)
