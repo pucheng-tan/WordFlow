@@ -2,6 +2,7 @@ from api_service import APIService
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+from firebase_admin import auth
 from datetime import datetime, timezone
 
 # JUST A TEMPORARY FILE USED FOR EXPERIMENTATION WITH API STUFF
@@ -45,7 +46,7 @@ def getting_users():
 
 
 # where: date between x and y // y = Nov 1
-def timestamp_stuff():
+# def timestamp_stuff():
     # datetime(year, month, day, hour=0, minute=0, second=0, microsecond=0, tzinfo=None, *, fold=0)
     tz = timezone.utc
     start_date = datetime(2020, 1, 1, tzinfo=tz) # DatetimeWithNanoseconds(2020, 1, 1, 1, 4)
@@ -160,7 +161,65 @@ def createing_steve():
     print(results)
 
 
-createing_steve()
+def create_school():
+    # TODO new school needs to have a name and an owner. The other collections will be automatically created as needed so don't bother making them
+    results = db.collection("Schools").document()
+
+# - create an account, and make sure it also creates a UserProfile
+# first create the user as a user proper, so we can get the User UID
+def auth_new_user():
+    user = {
+        "email": "testq@test.ca", 
+        "emailVerified": True, # default is false
+        "phoneNumber": "123-345-5678",
+        "password": "123Pass!", # must be at least 6 characters long for Firestore, we may want to be more strict
+        "Schools": SCHOOL_ID, 
+        "displayName": "New User"
+        }
+
+    u = auth.create_user(display_name=user["displayName"], email=user["email"], password=user["password"])
+    print(u.uid)
+    
+
+    # second make the user as the UserProfile within the school
+    # user_profile = {
+    #     ""
+    # }
+
+
+# - authenticate to an account, and get the UserProfile back
+def auth_login():
+    pass
+
+# - getting user data but not logging in
+def auth_get_user():
+
+    # user = auth.get_user_by_email("test1@test.ca")
+    # user = auth.get_user_by_phone_number("4")
+    user = auth.get_user(USER_ID) #<firebase_admin._user_mgt.UserRecord object at 0x000001A0867694E0> https://firebase.google.com/docs/reference/admin/java/reference/com/google/firebase/auth/UserRecord
+    print(user.uid)
+    # user = auth.get_user("12") # "firebase_admin._auth_utils.UserNotFoundError: No user record found for the provided user ID: 12."
+
+    # bulk
+    result = auth.get_users([
+        auth.UidIdentifier(USER_ID),
+        auth.EmailIdentifier("taramepp@gmail.com"),
+        auth.UidIdentifier(TARA_USER_ID),
+        auth.UidIdentifier("George")
+    ])
+
+    for user in result.users:
+        print("found: " + user.uid)
+
+    for uid in result.not_found:
+        print("not found: " + str(uid)) # <firebase_admin._user_identifier.UidIdentifier object at 0x000001B81C40B710>
+
+
+# - delete both the account and the userprofile
+# - maybe make another school and create the same user in both schools
+
+
+auth_new_user()
 # - "authenticate user with <email, password, school>. Return their user data as well"
 # check what happens when duplicate data is attempted to be enterred
 # try to get leaderboard data- use an orderby and a limit of 20
