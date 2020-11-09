@@ -87,7 +87,6 @@ class CreateSchool(tk.Frame):
             self.forget_label.grid_forget()
             print(school, email, password)
 
-
 # root = tk.Tk()
 # app = CreateSchool(master=root)
 # app.mainloop()

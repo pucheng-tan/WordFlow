@@ -1,5 +1,5 @@
 import tkinter as tk
-# import login
+import login
 
 class SignUp(tk.Frame):
     def __init__(self, master=None):
@@ -71,9 +71,9 @@ class SignUp(tk.Frame):
         self.existing_account_label.bind("<Button>", self.existing_account)
 
     def existing_account(self, event):
-        # self.master.destroy()
+        self.master.destroy()
         new_root = tk.Tk()
-        # login.Login(self.master).mainloop()
+        login.Login(new_root).mainloop()
 
     def create_buttons(self):
 

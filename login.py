@@ -1,5 +1,6 @@
 import tkinter as tk
 import signup
+import create_school
 
 class Login(tk.Frame):
     def __init__(self, master=None):
@@ -54,7 +55,7 @@ class Login(tk.Frame):
 
         self.school_entry = tk.Entry(self.frame)
         self.email_entry = tk.Entry(self.frame)
-        self.password_entry = tk.Entry(self.frame)
+        self.password_entry = tk.Entry(self.frame, show="*")
 
         self.school_entry.grid(row=4, padx=10, pady=5)
         self.email_entry.grid(row=6)
@@ -69,10 +70,9 @@ class Login(tk.Frame):
         self.create_school_label.bind("<Button>", self.create_school)
 
     def create_school(self, event):
-        # self.master.destroy()
-        # new_root = tk.Tk()
-        # create_school.CreateSchool(new_root).mainloop()
-        print("I clicked sign in")
+        self.master.destroy()
+        new_root = tk.Tk()
+        create_school.CreateSchool(new_root).mainloop()
 
     def create_buttons(self):
 
@@ -98,8 +98,10 @@ class Login(tk.Frame):
 
     def sign_up_button(self):
         print("I clicked sign up")
-        signup.SignUp(self.master).mainloop()
+        self.master.destroy()
+        new_root = tk.Tk()
+        signup.SignUp(new_root).mainloop()
 
-root = tk.Tk()
-app = Login(master=root)
-app.mainloop()
+# root = tk.Tk()
+# app = Login(master=root)
+# app.mainloop()
