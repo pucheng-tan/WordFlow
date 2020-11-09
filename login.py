@@ -1,7 +1,6 @@
 import tkinter as tk
 import signup
 
-
 class Login(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
@@ -67,10 +66,13 @@ class Login(tk.Frame):
         self.create_school_label.configure(font="Verdana 9 underline")
 
         self.create_school_label.grid(row=14)
-        self.create_school_label.bind("<Button>", self.mouse_click)
+        self.create_school_label.bind("<Button>", self.create_school)
 
-    def mouse_click(self, event):
-        print("I was clicked")
+    def create_school(self, event):
+        # self.master.destroy()
+        # new_root = tk.Tk()
+        # create_school.CreateSchool(new_root).mainloop()
+        print("I clicked sign in")
 
     def create_buttons(self):
 
@@ -80,7 +82,7 @@ class Login(tk.Frame):
 
 
         sign_up = tk.Button(self.frame, text="Sign Up", fg="white", bg="blue")
-        sign_up["command"] = self.sign_up
+        sign_up["command"] = self.sign_up_button
         sign_up.grid(row=13, padx=10, pady=5)
 
     def sign_in(self):
@@ -94,10 +96,9 @@ class Login(tk.Frame):
             print(school, email, password)
 
 
-    def sign_up(self):
-        new_root = tk.Tk()
-        signup.SignUp(new_root).mainloop()
-
+    def sign_up_button(self):
+        print("I clicked sign up")
+        signup.SignUp(self.master).mainloop()
 
 root = tk.Tk()
 app = Login(master=root)

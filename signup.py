@@ -1,5 +1,5 @@
 import tkinter as tk
-
+# import login
 
 class SignUp(tk.Frame):
     def __init__(self, master=None):
@@ -68,10 +68,12 @@ class SignUp(tk.Frame):
         self.existing_account_label.configure(font="Verdana 9 underline")
 
         self.existing_account_label.grid(row=15)
-        self.existing_account_label.bind("<Button>", self.mouseClick)
+        self.existing_account_label.bind("<Button>", self.existing_account)
 
-    def mouseClick(self, event):
-        print("I was clicked")
+    def existing_account(self, event):
+        # self.master.destroy()
+        new_root = tk.Tk()
+        # login.Login(self.master).mainloop()
 
     def create_buttons(self):
 
@@ -90,7 +92,7 @@ class SignUp(tk.Frame):
             self.forget_label.grid_forget()
             print(school, email, password)
 
-
-root = tk.Tk()
-app = SignUp(master=root)
-app.mainloop()
+# print("Sign Up")
+# root = tk.Tk()
+# app = SignUp(master=root)
+# app.mainloop()

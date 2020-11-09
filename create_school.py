@@ -1,6 +1,7 @@
 import tkinter as tk
+import login
 
-class Login(tk.Frame):
+class CreateSchool(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
@@ -63,10 +64,12 @@ class Login(tk.Frame):
         self.create_school_label.configure(font="Verdana 9 underline")
 
         self.create_school_label.grid(row=13)
-        self.create_school_label.bind("<Button>", self.mouse_click)
+        self.create_school_label.bind("<Button>", self.existing_account)
 
-    def mouse_click(self, event):
-        print("I was clicked")
+    def existing_account(self, event):
+        self.master.destroy()
+        new_root = tk.Tk()
+        login.Login(new_root).mainloop()
 
     def create_buttons(self):
 
@@ -85,6 +88,6 @@ class Login(tk.Frame):
             print(school, email, password)
 
 
-root = tk.Tk()
-app = Login(master=root)
-app.mainloop()
+# root = tk.Tk()
+# app = CreateSchool(master=root)
+# app.mainloop()
