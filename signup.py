@@ -22,7 +22,8 @@ class CreateUser(tk.Frame):
 
     def create_borders(self):
         self.first_line = tk.Canvas(self.frame, height=10, width=200)
-        self.first_line.create_rectangle(1, 5, 200, 10, fill="light blue", outline="light blue")
+        self.first_line.create_rectangle(1, 5, 200, 10, fill="light blue",
+                                         outline="light blue")
 
         self.first_line.grid(row=2)
 
@@ -34,10 +35,12 @@ class CreateUser(tk.Frame):
         self.email_label = tk.Label(self.frame, text="Email")
         self.invite_code_label = tk.Label(self.frame, text="Invite Code")
         self.password_label = tk.Label(self.frame, text="Password")
-        self.verify_password_label = tk.Label(self.frame, text="Verify Password")
+        self.verify_password_label = tk.Label(self.frame,
+                                              text="Verify Password")
 
         # Temporary labels
-        self.forget_label = tk.Label(self.frame, text="You are missing a field!", fg="red")
+        self.forget_label = tk.Label(self.frame,
+                                     text="You are missing a field!", fg="red")
 
         self.new_user_label.grid(row=1)
 
@@ -64,7 +67,8 @@ class CreateUser(tk.Frame):
 
 
     def create_clickable_labels(self):
-        self.existing_account_label = tk.Label(self.frame, text="Sign in to existing account", fg="blue")
+        text="Sign in to existing account"
+        self.existing_account_label = tk.Label(self.frame, text=text, fg="blue")
         self.existing_account_label.configure(font="Verdana 9 underline")
 
         self.existing_account_label.grid(row=15)
@@ -77,7 +81,8 @@ class CreateUser(tk.Frame):
 
     def create_buttons(self):
 
-        sign_in = tk.Button(self.frame, text="Create Account", fg="white", bg="blue")
+        sign_in = tk.Button(self.frame, text="Create Account", fg="white",
+                            bg="blue")
         sign_in["command"] = self.create_account
         sign_in.grid(row=13, padx=10, pady=10)
 

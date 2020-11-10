@@ -8,8 +8,6 @@ Typical usage example:
 import tkinter as tk
 import signup
 import create_school
-# from signup import CreateUser
-# from create_school import CreateSchool
 
 class Authentication(tk.Frame):
     """Creates the authentication window.
@@ -38,22 +36,26 @@ class Authentication(tk.Frame):
         self.create_buttons()
 
     def create_borders(self):
-        """Creates the blue borders and places them on the authentication frame."""
+        """Creates the blue borders and places them on the authentication
+        frame."""
 
         self.first_line = tk.Canvas(self.frame, height=10, width=200)
-        self.first_line.create_rectangle(1, 5, 200, 10, fill="light blue", outline="light blue")
+        self.first_line.create_rectangle(1, 5, 200, 10, fill="light blue",
+                                         outline="light blue")
 
         self.second_line = tk.Canvas(self.frame, height=10, width=200)
-        self.second_line.create_rectangle(1, 5, 200, 10, fill="light blue", outline="light blue")
+        self.second_line.create_rectangle(1, 5, 200, 10, fill="light blue",
+                                          outline="light blue")
 
         self.first_line.grid(row=2)
         self.second_line.grid(row=11)
 
     def create_labels(self):
         """Creates the labels for the authentication window.
-        Creates both the permanent labels that are always visible on the authentication window and the labels that only
-        appear under certain conditions such as a missing field. It also places the permanent labels on the
-        authentication frame.
+        Creates both the permanent labels that are always visible on the
+        authentication window and the labels that only
+        appear under certain conditions such as a missing field. It also places
+        the permanent labels on the authentication frame.
         """
 
         # Create permanent labels
@@ -65,7 +67,8 @@ class Authentication(tk.Frame):
         self.new_user_label = tk.Label(self.frame, text="New User")
 
         # Create temporary labels
-        self.forget_label = tk.Label(self.frame, text="You are missing a field!", fg="red")
+        self.forget_label = tk.Label(self.frame,
+                                     text="You are missing a field!", fg="red")
 
         # Place permanent labels in their positions
         self.sign_in_label.grid(row=1)
@@ -88,9 +91,11 @@ class Authentication(tk.Frame):
         self.password_entry.grid(row=8)
 
     def create_clickable_labels(self):
-        """Creates and places labels that can be clicked on for the authentication frame."""
+        """Creates and places labels that can be clicked on for the
+        authentication frame."""
 
-        self.create_school_label = tk.Label(self.frame, text="Create School", fg="blue")
+        self.create_school_label = tk.Label(self.frame, text="Create School",
+                                            fg="blue")
         self.create_school_label.configure(font="Verdana 9 underline")
 
         self.create_school_label.grid(row=14)
