@@ -9,6 +9,7 @@ import tkinter as tk
 import signup
 import create_school
 
+
 class Authentication(tk.Frame):
     """Creates the authentication window.
 
@@ -16,7 +17,6 @@ class Authentication(tk.Frame):
         master: The master of the authentication window.
         frame: The frame containing the widgets for authentication.
     """
-
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
@@ -40,11 +40,19 @@ class Authentication(tk.Frame):
         frame."""
 
         self.first_line = tk.Canvas(self.frame, height=10, width=200)
-        self.first_line.create_rectangle(1, 5, 200, 10, fill="light blue",
+        self.first_line.create_rectangle(1,
+                                         5,
+                                         200,
+                                         10,
+                                         fill="light blue",
                                          outline="light blue")
 
         self.second_line = tk.Canvas(self.frame, height=10, width=200)
-        self.second_line.create_rectangle(1, 5, 200, 10, fill="light blue",
+        self.second_line.create_rectangle(1,
+                                          5,
+                                          200,
+                                          10,
+                                          fill="light blue",
                                           outline="light blue")
 
         self.first_line.grid(row=2)
@@ -68,7 +76,8 @@ class Authentication(tk.Frame):
 
         # Create temporary labels
         self.forget_label = tk.Label(self.frame,
-                                     text="You are missing a field!", fg="red")
+                                     text="You are missing a field!",
+                                     fg="red")
 
         # Place permanent labels in their positions
         self.sign_in_label.grid(row=1)
@@ -94,7 +103,8 @@ class Authentication(tk.Frame):
         """Creates and places labels that can be clicked on for the
         authentication frame."""
 
-        self.create_school_label = tk.Label(self.frame, text="Create School",
+        self.create_school_label = tk.Label(self.frame,
+                                            text="Create School",
                                             fg="blue")
         self.create_school_label.configure(font="Verdana 9 underline")
 
@@ -140,6 +150,7 @@ class Authentication(tk.Frame):
         self.master.destroy()
         new_root = tk.Tk()
         signup.CreateUser(new_root).mainloop()
+
 
 # root = tk.Tk()
 # app = Authentication(master=root)

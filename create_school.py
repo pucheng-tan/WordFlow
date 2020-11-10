@@ -1,7 +1,21 @@
+"""Creates the CreateSchool window.
+
+Typical usage example:
+    create_school = CreateSchool(root)
+    create_school.mainloop()
+"""
+
 import tkinter as tk
 import login
 
+
 class CreateSchool(tk.Frame):
+    """Creates the CreateSchool window.
+
+    Attributes:
+        master: The master of the CreateSchool window.
+        frame: The frame containing the widgets for creating a user.
+    """
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
@@ -21,13 +35,27 @@ class CreateSchool(tk.Frame):
         self.create_buttons()
 
     def create_borders(self):
+        """Creates the blue borders and places them on the CreateSchool
+        frame."""
+
         self.first_line = tk.Canvas(self.frame, height=10, width=200)
-        self.first_line.create_rectangle(1, 5, 200, 10, fill="light blue",
+        self.first_line.create_rectangle(1,
+                                         5,
+                                         200,
+                                         10,
+                                         fill="light blue",
                                          outline="light blue")
 
         self.first_line.grid(row=2)
 
     def create_labels(self):
+        """Creates the labels for the CreateSchool window.
+        Creates both the permanent labels that are always visible on the
+        CreateSchool window and the labels that only appear under certain
+        conditions such as a missing field. It also places the permanent labels
+        on the CreateSchool frame.
+        """
+
         # Create permanent labels
         self.new_school_label = tk.Label(self.frame, text="New School")
 
@@ -39,7 +67,8 @@ class CreateSchool(tk.Frame):
 
         # Create temporary labels
         self.forget_label = tk.Label(self.frame,
-                                     text="You are missing a field!", fg="red")
+                                     text="You are missing a field!",
+                                     fg="red")
 
         # Place Permanent labels into their positions
         self.new_school_label.grid(row=1)
@@ -50,6 +79,7 @@ class CreateSchool(tk.Frame):
         self.verify_password_label.grid(row=9)
 
     def create_entries(self):
+        """Creates and places the entry fields for the CreateSchool frame."""
 
         self.school_entry = tk.Entry(self.frame)
         self.email_entry = tk.Entry(self.frame)
@@ -62,6 +92,8 @@ class CreateSchool(tk.Frame):
         self.verify_password_entry.grid(row=10)
 
     def create_clickable_labels(self):
+        """Creates and places labels that can be clicked on for the CreateSchool
+        frame."""
 
         self.create_school_label = tk.Label(self.frame,
                                             text="Sign in to existing account",
@@ -69,21 +101,29 @@ class CreateSchool(tk.Frame):
         self.create_school_label.configure(font="Verdana 9 underline")
 
         self.create_school_label.grid(row=13)
-        self.create_school_label.bind("<Button>", self.existing_account)
+        self.create_school_label.bind("<Button>",
+                                      self.existing_account_response)
 
-    def existing_account(self, event):
+    def existing_account_response(self, event):
+        """Responds to the existin account label being clicked."""
+
         self.master.destroy()
         new_root = tk.Tk()
         login.Authentication(new_root).mainloop()
 
     def create_buttons(self):
+        """Creates and places all the buttons for the CreateSchool frame."""
 
-        sign_in = tk.Button(self.frame, text="Create School", fg="white",
+        sign_in = tk.Button(self.frame,
+                            text="Create School",
+                            fg="white",
                             bg="blue")
-        sign_in["command"] = self.create_school
+        sign_in["command"] = self.create_school_response
         sign_in.grid(row=11, padx=11, pady=10)
 
-    def create_school(self):
+    def create_school_response(self):
+        """Responds to the create school button being clicked."""
+
         school = self.school_entry.get()
         email = self.email_entry.get()
         password = self.password_entry.get()
@@ -92,6 +132,7 @@ class CreateSchool(tk.Frame):
         else:
             self.forget_label.grid_forget()
             print(school, email, password)
+
 
 # root = tk.Tk()
 # app = CreateSchool(master=root)
