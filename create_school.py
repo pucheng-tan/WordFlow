@@ -69,7 +69,7 @@ class CreateSchool(tk.Frame):
     def existing_account(self, event):
         self.master.destroy()
         new_root = tk.Tk()
-        login.Login(new_root).mainloop()
+        login.Authentication(new_root).mainloop()
 
     def create_buttons(self):
 
