@@ -58,12 +58,12 @@ class CreateUser(tk.Frame):
         # Permanent labels
         self.new_user_label = tk.Label(self.frame, text="New User")
 
-        self.school_label = tk.Label(self.frame, text="School")
-        self.email_label = tk.Label(self.frame, text="Email")
-        self.invite_code_label = tk.Label(self.frame, text="Invite Code")
-        self.password_label = tk.Label(self.frame, text="Password")
+        self.school_label = tk.Label(self.frame, text="School:")
+        self.email_label = tk.Label(self.frame, text="Email:")
+        self.invite_code_label = tk.Label(self.frame, text="Invite Code:")
+        self.password_label = tk.Label(self.frame, text="Password:")
         self.verify_password_label = tk.Label(self.frame,
-                                              text="Verify Password")
+                                              text="Verify Password:")
 
         # Temporary labels
         self.forget_label = tk.Label(self.frame,

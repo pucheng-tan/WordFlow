@@ -59,11 +59,11 @@ class CreateSchool(tk.Frame):
         # Create permanent labels
         self.new_school_label = tk.Label(self.frame, text="New School")
 
-        self.school_label = tk.Label(self.frame, text="School")
-        self.email_label = tk.Label(self.frame, text="Email")
+        self.school_label = tk.Label(self.frame, text="School:")
+        self.email_label = tk.Label(self.frame, text="Email:")
         self.password_label = tk.Label(self.frame, text="Password")
         self.verify_password_label = tk.Label(self.frame,
-                                              text="Verify Password")
+                                              text="Verify Password:")
 
         # Create temporary labels
         self.forget_label = tk.Label(self.frame,

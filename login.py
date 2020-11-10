@@ -69,9 +69,9 @@ class Authentication(tk.Frame):
         # Create permanent labels
         self.sign_in_label = tk.Label(self.frame, text="Sign In")
 
-        self.school_label = tk.Label(self.frame, text="School")
-        self.email_label = tk.Label(self.frame, text="Email")
-        self.password_label = tk.Label(self.frame, text="Password")
+        self.school_label = tk.Label(self.frame, text="School:")
+        self.email_label = tk.Label(self.frame, text="Email:")
+        self.password_label = tk.Label(self.frame, text="Password:")
         self.new_user_label = tk.Label(self.frame, text="New User")
 
         # Create temporary labels
