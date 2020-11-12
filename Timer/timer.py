@@ -14,24 +14,42 @@ class Timer(object):
         self.create_buttons()
 
     def create_labels(self):
-        self.duration_label = tk.Label(self.frame, text="Duration:")
-        self.time_label = tk.Label(self.frame, text="2:00")
+        self.duration_label = tk.Label(self.frame, text="Duration:",)
+        self.time_label = tk.Label(self.frame, text="02:00", borderwidth=3, relief="sunken")
 
-        self.duration_label.grid(row=1, column=0)
-        self.time_label.grid(row=1, column=1)
+        self.duration_label.grid(row=1, column=0, rowspan=2)
+        self.time_label.grid(row=1, column=1, rowspan=2)
 
     def create_buttons(self):
+        self.up_button = tk.Button(self.frame, text=u"\u25b2", fg="blue", bg="white")
+        self.down_button = tk.Button(self.frame, text="\u25bc", fg="blue", bg="white")
         self.start_button = tk.Button(self.frame, text="Begin", fg="white",
                                  bg="blue")
+
+
+        self.up_button["command"] = self.up_button_response
+        self.down_button["command"] = self.down_button_response
         self.start_button["command"] = lambda: self.countdown_button(self.time_label["text"])
 
-        self.start_button.grid(row=2, column=0)
+        self.up_button.grid(row=1, column=2)
+        self.down_button.grid(row=2, column=2)
+
+        self.start_button.grid(row=3, column=0)
+
+    def up_button_response(self):
+        total_time = int(self.time_label["text"][1]) + 1
+        if total_time <= 5:
+            self.time_label.configure(text="0"+str(total_time)+":00")
+            self.frame.update()
+
+    def down_button_response(self):
+        total_time = int(self.time_label["text"][1]) - 1
+        if total_time >= 1:
+            self.time_label.configure(text="0"+str(total_time)+":00")
+            self.frame.update()
 
     def countdown_button(self, time_left):
-
-        time_left = int(time_left[0]) * 60
-
-        # length = 20
+        time_left = int(time_left[1]) * 60
 
         self.start_button["state"] = tk.DISABLED
 
