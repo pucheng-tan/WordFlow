@@ -14,8 +14,8 @@ class Timer(object):
         self.create_buttons()
 
     def create_labels(self):
-        self.duration_label = tk.Label(self.frame, text="Duration:",)
-        self.time_label = tk.Label(self.frame, text="02:00", borderwidth=3, relief="sunken")
+        self.duration_label = tk.Label(self.frame, text="Duration:", font=("TkDefaultFont", 15))
+        self.time_label = tk.Label(self.frame, text="02:00", font=("TkDefaultFont", 15), borderwidth=3, relief="sunken")
 
         self.duration_label.grid(row=1, column=0, rowspan=2)
         self.time_label.grid(row=1, column=1, rowspan=2)
@@ -23,8 +23,9 @@ class Timer(object):
     def create_buttons(self):
         self.up_button = tk.Button(self.frame, text=u"\u25b2", fg="blue", bg="white")
         self.down_button = tk.Button(self.frame, text="\u25bc", fg="blue", bg="white")
-        self.start_button = tk.Button(self.frame, text="Begin", fg="white",
-                                 bg="blue")
+        self.start_button = tk.Button(self.frame, text="Begin",
+                                      font=("TkDefaultFont", 15), fg="white",
+                                      bg="blue")
 
 
         self.up_button["command"] = self.up_button_response
