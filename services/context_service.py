@@ -1,15 +1,27 @@
 class ContextManager:
 
+    __instance = None
+
+
     _user_privilege = None # super-admin
     _user_uid = None
-    _school_id = None
+    _school_id = "o2lTSAI6X4yGdIZ0huB9"
 
     # Make sure this gets made at a singleton
-    # def __init__():
+    def __init__(self):
+        if ContextManager.__instance != None:
+            raise Exception("This class is a singleton! Call static get_instance() instead of constructor")
+        else: 
+            ContextManager.__instance = self
 
+    @staticmethod
+    def get_instance():
+        if ContextManager.__instance != None:
+            ContextManager()
+        return ContextManager.__instance
 
     def get_school(self):
-        return "o2lTSAI6X4yGdIZ0huB9"
+        return self._school_id
 
     def get_user_privilege(self):
         return self._user_privilege 

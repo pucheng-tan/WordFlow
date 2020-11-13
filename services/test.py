@@ -1,15 +1,18 @@
-from api_service import APIService
+from api_service import API
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from firebase_admin import auth
 from datetime import datetime, timezone
+from user import User, PrivilegeLevel
 
 # JUST A TEMPORARY FILE USED FOR EXPERIMENTATION WITH API STUFF
-api = APIService()
-db = APIService.get_db()
+# DON'T MIND ME
+api = API()
+db = API._get_db()
 
 SCHOOL_ID = "o2lTSAI6X4yGdIZ0huB9"
+TEST_SCHOOL_ID = SCHOOL_ID
 CLASSROOM_ID = "uWkea95OBZ1d94kaPThK"
 USER_ID = "BMSoKUzVnRYn103t2Oi6Nacv9X03"
 TARA_USER_ID = "kUJrBZtlYJeU8ZLAFFcm4dAJVBt2"
@@ -35,7 +38,7 @@ email = "pucheng@hotmail.yea"
 def getting_users():
     # - "get all users belonging to classroom X"
     classroom = db.collection("Schools").document(SCHOOL_ID).collection("Classrooms").document(CLASSROOM_ID)
-    classroom = api.to_dict(classroom, True)
+    classroom = api._to_dict(classroom, True)
 
     members = classroom["Members"]
     member_references = []
@@ -58,7 +61,7 @@ def getting_users():
     challenge_results = db.collection_group("History").where("UserProfile", "in", member_references).order_by("AssignmentID")
     # challenge_results = db.collection_group("History").where("UserProfile", "in", member_ids).where("Mode", "==", 1)
     challenge_results = db.collection_group("History").where("UserProfile", "in", member_references).where("DateCompleted", ">", start_date).where("DateCompleted", "<", end_date)
-    ch_r_dict = api.to_dict(challenge_results)
+    ch_r_dict = api._to_dict(challenge_results, False)
     #print(ch_r_dict)
 
 
@@ -219,7 +222,230 @@ def auth_get_user():
 # - maybe make another school and create the same user in both schools
 
 
-auth_new_user()
+# auth_new_user()
+
+# ({"Schools": TEST_SCHOOL_ID, "UserProfiles": TEST_USER_ID, "History": API.WHERE_CLAUSE}, [["Mode", "==", "0"]], "2020101513071234"),
+#     ({"History": API.SEARCH_ALL}, [["UserProfile", "==", "BMSoKUzVnRYn103t2Oi6Nacv9X03"], ["AssignmentID", "exists"]], "2020101513091234"),
+#     ({"Schools": TEST_SCHOOL_ID, "Classrooms": API.WHERE_CLAUSE}, [["Members", "array_contains", TEST_USER_ID]], "uWkea95OBZ1d94kaPThK"),
+#     ({"Schools": TEST_SCHOOL_ID, "Classrooms": TEST_CLASSROOM_ID}, [], TEST_CLASSROOM_ID)
+
+def test_first_func():
+    # path = {"History": API.SEARCH_ALL}
+    where = [["UserProfile", "==", "BMSoKUzVnRYn103t2Oi6Nacv9X03"]]
+    order_by = {"AssignmentID": True}
+
+    result = api.get_all("History", where, order_by)
+    print("CALLING THE GET")
+    # # print(api._to_dict(result, True))
+    statement = api.get_last_statement()
+    print(statement)
+    print(result)
+
+    # print("DOING IT MANUALLY")
+    # result = db.collection("Schools").document(SCHOOL_ID).collection("UserProfiles").document(USER_ID).collection("History").where("Mode", "==", 0)
+    # # result = api._to_dict(result, False)
+    # print(result)
+
+    # result = {'2020101513071234': {'DateCompleted': datetime(2020, 11, 1, 6, 0, tzinfo=timezone.utc), 'UserProfile': "<google.cloud.firestore_v1.document.DocumentReference object at 0x0000020F17913898>", 'Mode': 0, 'CharsTyped': 612, 'CharsCorrect': 600, 'Duration': 120}}
+    # results = list(result)
+    # print(results)
+
+def test_filter():
+    comparisons = ["<", ">", "<=", ">="]
+
+    clauses = [["1", "<", 30], ["2", "==", 500]]
+
+    # I want to get the fields where the second clause is in comparisons
+
+    x = map(lambda q: q[0], filter(lambda b: b[1] in comparisons, clauses))
+
+    print(len(x))
+
+def test_params3():
+    path = {"Schools": SCHOOL_ID, "Classrooms": CLASSROOM_ID}
+
+    result = api.get(path)
+    print(result)
+
+def test_params2():
+    path = {"Schools": SCHOOL_ID}
+    collection_name = "Classrooms"
+    user_path = "Schools/" + SCHOOL_ID + "/UserProfiles/" + USER_ID
+    # Valid choices are: <, <=, ==, >, >=, array_contains, array_contains_any, in.
+    where = [["Members", "array_contains_any", [user_path]]]
+
+    string_in_data = "Schools/o2lTSAI6X4yGdIZ0huB9/UserProfiles/BMSoKUzVnRYn103t2Oi6Nacv9X03"
+    if "cheese/" == "c" + "heese" + "/":
+        print("THEY MATCH")
+    else:
+        print("PATH:")
+        print(repr(user_path))
+        print(len(user_path))
+        print("DATA:")
+        print(repr(string_in_data))
+        print(len(string_in_data))
+    try:
+        result = api.get(path, collection_name=collection_name, where_clauses=where)
+        print(result)
+        print(api.get_last_statement())
+    except:
+        print(api.get_last_statement())
+
+    
+
+def test_params1():
+    collection_name = "History"
+    where_clauses = [["UserProfile", "string_starts", "Schools/" + TEST_SCHOOL_ID]]
+    order_by = [{"AssignmentID": True} ] 
+
+    # try:
+    result = api.get_all(collection_name, where_clauses, order_by)
+    print(result)
+    # except Exception as e:
+    #     print(api.get_last_statement())
+    #     print(e)
+    
+def test_dicts():
+    temp = [{"UserProfile": True}, {"Another": False}]
+    # temp2 = temp.get("UserProfile")
+    # print(temp2)
+    for order in temp:
+        key = list(order.keys())[0]
+        value = order[key]
+        print(key)
+        print(value)
+        # print(list(order.items())[0])
+        # print(list(order.keys())[0])
+        # print(list(order.values())[0])
+
+
+def test_post():
+    path = "/Albatross/AlbatrossID/Bat/BatID/Capybara"
+    # path = {"Albatross": "AlbatrossID", "Bat": "BatID", "Capybara": None}
+    data = {
+            "id": "CapybaraID", 
+            "Boolean": True, 
+            "Date": datetime.now(), 
+            "Number": 3.14159, 
+            "Array": [5, False, "cheese"], 
+            "None": None, 
+            "object": {
+                "Dog": 6, 
+                "Emu": {
+                    "Fox": [1, 2, 3]
+                }
+            }
+        }
+
+    result = api.post(path, data, False)
+    print(result)
+
+def test_path():
+    path_string = "Schools/o2lTSAI6X4yGdIZ0huB9/Classrooms/classID/Albratross"
+    split_path = path_string.split("/")
+
+    num_collections = len(split_path) // 2
+    path = []
+
+    print(split_path)
+    print(num_collections)
+    for i in range(0, num_collections):
+        collection_index = i * 2
+        document_index = collection_index + 1
+        collection = split_path[collection_index]
+        document = split_path[document_index]
+        path.append({collection: document})
+        print("COLLECTION:")
+        print(collection)
+        print(document)
+
+    print(path)
+    if len(split_path) % 2 == 1:
+        print(split_path[-1])
+
+
+def test_is_document():
+    query = db.collection("Schools").document("id").collection("Classrooms")
+    doc_type = str(type(query))
+    
+    if "DocumentReference" in doc_type:
+        print("It is a document!")
+    else:
+        print(doc_type)
+
+
+def test_string_path():
+    TEST_DATE = datetime(2020, 10, 30, tzinfo=timezone.utc)
+    path = "Schools/" + TEST_SCHOOL_ID + "/UserProfiles/" + USER_ID + "/History"
+    where_clauses = [["DateCompleted", ">", TEST_DATE], ["Mode", "==", 0], ["Duration", "in", [120]]]
+    limit = None
+    order_by = []
+
+    result = api.get(path, where_clauses, limit, order_by)
+    print(result)
+
+def test_user():
+    id = "123"
+    email = "email"
+    display_name = "tara"
+    privilege_level = PrivilegeLevel.super_admin
+    phone_number = "123-3456"
+
+    user = User(email, display_name, privilege_level, id, phone_number)
+
+    user_dict = {
+        "id": "123",
+        "email": "email",
+        "display_name": "tara",
+        "privilege_level": PrivilegeLevel.super_admin,
+        "phone_number": "123-3456"
+    }
+
+    # for key, value in user_dict.items():
+    #     print(key)
+    #     print(value)
+
+    # print(user_dict.items())
+
+    user = User().from_dict(user_dict)
+    print(user.id)
+    print(user.email)
+
+def test_date():
+    path = "Albatross/AlbatrossID/Bat/BatID/Capybara/CapybaraID"
+    get_result = api.get(path)
+
+    # date = get_result["Date"]
+
+    # for attribute in get_result:
+    #     value = get_result[attribute]
+    #     # print(attribute)
+    #     # print(value)
+    #     # print(str(type(value)))
+    #     if "DatetimeWithNanoseconds" in str(type(value)):
+    #         # print("IT'S A DATE")
+    #         date_timestamp = value.timestamp()
+    #         new_date = datetime.fromtimestamp(date_timestamp)
+    #         get_result[attribute] = new_date
+    #     else:
+    #         attribute_type = (str(type(value)))
+    #         if "{" in attribute_type or isinstance(value, list):
+    #             print("Right here")
+    #             print(attribute)
+    #             print(value)
+    #     # if isinstance(attribute, list):
+    #     #     print(attribute + " is an object")
+    #     #     print(value)
+
+    print(get_result)
+
+    # date_timestamp = date.timestamp()
+
+    # new_date = datetime.fromtimestamp(date_timestamp)
+    # print(date)
+test_date()
+
+
 # - "authenticate user with <email, password, school>. Return their user data as well"
 # check what happens when duplicate data is attempted to be enterred
 # try to get leaderboard data- use an orderby and a limit of 20
