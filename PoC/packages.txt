@@ -1,4 +1,0 @@
-pip install:
-
-requests
-firebase-admin
