@@ -1,7 +1,7 @@
 """Runs the authentication screen."""
 
 import tkinter as tk
-import login
+from Authentication import login
 
 
 def main():

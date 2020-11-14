@@ -6,7 +6,7 @@ Typical usage example:
 """
 
 import tkinter as tk
-import login
+from Authentication import login
 
 
 class CreateSchool(tk.Frame):
