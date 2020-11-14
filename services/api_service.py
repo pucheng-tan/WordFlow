@@ -297,9 +297,12 @@ class API:
         # if path doesn't lead to a document, it's time to create one
         if "DocumentReference" not in str(type(query)):
             # either use the id from the document, or auto a new one
-            doc_id = None if not "id" in data else data["id"]
+            doc_id = "" if not "id" in data else data["id"]
             API._last_statement += ".document(" + doc_id + ")"
-            query = query.document(doc_id)
+            if doc_id:
+                query = query.document(doc_id)
+            else:
+                query = query.document()
 
         API._last_statement += ".set(" + str(data) + ", merge=" + str(merge) + ")"
         result = query.set(data, merge=merge) 
