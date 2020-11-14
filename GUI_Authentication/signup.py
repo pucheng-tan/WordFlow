@@ -1,19 +1,19 @@
-"""Creates the CreateSchool window.
+"""Creates the CreateUser window.
 
 Typical usage example:
-    create_school = CreateSchool(root)
-    create_school.mainloop()
+    create_user = CreateUser(root)
+    create_user.mainloop()
 """
 
 import tkinter as tk
-from Authentication import login
+from GUI_Authentication import login
 
 
-class CreateSchool(tk.Frame):
-    """Creates the CreateSchool window.
+class CreateUser(tk.Frame):
+    """Creates the CreateUser window.
 
     Attributes:
-        master: The master of the CreateSchool window.
+        master: The master of the CreateUser window.
         frame: The frame containing the widgets for creating a user.
     """
     def __init__(self, master=None):
@@ -30,13 +30,12 @@ class CreateSchool(tk.Frame):
 
         self.create_borders()
         self.create_labels()
-        self.create_clickable_labels()
         self.create_entries()
+        self.create_clickable_labels()
         self.create_buttons()
 
     def create_borders(self):
-        """Creates the blue borders and places them on the CreateSchool
-        frame."""
+        """Creates the blue borders and places them on the CreateUser frame."""
 
         self.first_line = tk.Canvas(self.frame, height=10, width=200)
         self.first_line.create_rectangle(1,
@@ -49,91 +48,99 @@ class CreateSchool(tk.Frame):
         self.first_line.grid(row=2)
 
     def create_labels(self):
-        """Creates the labels for the CreateSchool window.
+        """Creates the labels for the CreateUser window.
         Creates both the permanent labels that are always visible on the
-        CreateSchool window and the labels that only appear under certain
+        CreateUser window and the labels that only appear under certain
         conditions such as a missing field. It also places the permanent labels
-        on the CreateSchool frame.
+        on the CreateUser frame.
         """
 
-        # Create permanent labels
-        self.new_school_label = tk.Label(self.frame, text="New School")
+        # Permanent labels
+        self.new_user_label = tk.Label(self.frame, text="New User")
 
         self.school_label = tk.Label(self.frame, text="School:")
         self.email_label = tk.Label(self.frame, text="Email:")
-        self.password_label = tk.Label(self.frame, text="Password")
+        self.invite_code_label = tk.Label(self.frame, text="Invite Code:")
+        self.password_label = tk.Label(self.frame, text="Password:")
         self.verify_password_label = tk.Label(self.frame,
                                               text="Verify Password:")
 
-        # Create temporary labels
+        # Temporary labels
         self.forget_label = tk.Label(self.frame,
                                      text="You are missing a field!",
                                      fg="red")
 
-        # Place Permanent labels into their positions
-        self.new_school_label.grid(row=1)
+        self.new_user_label.grid(row=1)
 
         self.school_label.grid(row=3)
         self.email_label.grid(row=5)
-        self.password_label.grid(row=7)
-        self.verify_password_label.grid(row=9)
+        self.invite_code_label.grid(row=7)
+        self.password_label.grid(row=9)
+        self.verify_password_label.grid(row=11)
 
     def create_entries(self):
-        """Creates and places the entry fields for the CreateSchool frame."""
+        """Creates and places the entry fields for the CreateUser frame."""
 
         self.school_entry = tk.Entry(self.frame)
         self.email_entry = tk.Entry(self.frame)
+        self.invite_code_entry = tk.Entry(self.frame)
         self.password_entry = tk.Entry(self.frame)
         self.verify_password_entry = tk.Entry(self.frame)
 
-        self.school_entry.grid(row=4, padx=10, pady=5)
+        self.school_entry.grid(row=4, padx=10, pady=10)
         self.email_entry.grid(row=6)
-        self.password_entry.grid(row=8)
-        self.verify_password_entry.grid(row=10)
+        self.invite_code_entry.grid(row=8)
+        self.password_entry.grid(row=10)
+        self.verify_password_entry.grid(row=12)
 
     def create_clickable_labels(self):
-        """Creates and places labels that can be clicked on for the CreateSchool
+        """Creates and places labels that can be clicked on for the CreateUser
         frame."""
 
-        self.create_school_label = tk.Label(self.frame,
-                                            text="Sign in to existing account",
-                                            fg="blue")
-        self.create_school_label.configure(font="Verdana 9 underline")
+        text = "Sign in to existing account"
+        self.existing_account_label = tk.Label(self.frame,
+                                               text=text,
+                                               fg="blue")
+        self.existing_account_label.configure(font="Verdana 9 underline")
 
-        self.create_school_label.grid(row=13)
-        self.create_school_label.bind("<Button>",
-                                      self.existing_account_response)
+        self.existing_account_label.grid(row=15)
+        self.existing_account_label.bind("<Button>",
+                                         self.existing_account_response)
 
     def existing_account_response(self, event):
-        """Responds to the existin account label being clicked."""
+        """Responds to the existing account label being clicked.
+        Args:
+            event: A mouse click.
+        """
 
         self.master.destroy()
         new_root = tk.Tk()
         login.Authentication(new_root).mainloop()
 
     def create_buttons(self):
-        """Creates and places all the buttons for the CreateSchool frame."""
+        """Creates and places all the buttons for the CreateUser frame."""
 
         sign_in = tk.Button(self.frame,
-                            text="Create School",
+                            text="Create Account",
                             fg="white",
                             bg="blue")
-        sign_in["command"] = self.create_school_response
-        sign_in.grid(row=11, padx=11, pady=10)
+        sign_in["command"] = self.create_account_response
+        sign_in.grid(row=13, padx=10, pady=10)
 
-    def create_school_response(self):
-        """Responds to the create school button being clicked."""
+    def create_account_response(self):
+        """Responds to the create account button being clicked."""
 
         school = self.school_entry.get()
         email = self.email_entry.get()
         password = self.password_entry.get()
         if not school or not email or not password:
-            self.forget_label.grid(row=12)
+            self.forget_label.grid(row=14)
         else:
             self.forget_label.grid_forget()
             print(school, email, password)
 
 
+# print("Sign Up")
 # root = tk.Tk()
-# app = CreateSchool(master=root)
+# app = SignUp(master=root)
 # app.mainloop()
