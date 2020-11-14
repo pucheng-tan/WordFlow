@@ -4,7 +4,7 @@ from pytest_jsonreport.plugin import JSONReport, json_metadata
 from user_service import UserService
 from datetime import datetime, timezone
 
-from user import PrivilegeLevel as PRIV
+from user_management import PRIVILEGE as PRIV
 user_service = UserService()
 
 TEST_SCHOOL_ID = "o2lTSAI6X4yGdIZ0huB9"
@@ -18,16 +18,17 @@ TEST_DATE = datetime(2020, 10, 30, tzinfo=timezone.utc)# November 1
 @pytest.mark.api_call
 @pytest.mark.parametrize("user, school_id", [
     ({
+        "id": "1234",
         "email": "test_post_user@test.caaaa",
         "password": "Pass123!",
         "display_name": "Test Post User",
-        "privilege_level": PRIV.standard
+        "privilege_level": PRIV["standard"]
     }, TEST_POST_SCHOOL_ID)
 ])
-def test_create_user(user, school_id, json_metadata):
-    result = user_service.create_user(user, school_id)
-    uid = result["document"]["id"]
-    path = result["document"]["path"]
+def test_create_user_profile(user, school_id, json_metadata):
+    result = user_service.create_user_profile(user, school_id)
+    uid = result["id"]
+    path = result["path"]
     expected_path = "Schools/" + TEST_POST_SCHOOL_ID + "/UserProfiles/" + uid
     assert path == expected_path
 
