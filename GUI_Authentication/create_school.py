@@ -69,9 +69,8 @@ class CreateSchool(tk.Frame):
         self.forget_label = tk.Label(self.frame,
                                      text="You are missing a field!",
                                      fg="red")
-        self.different_passwords = tk.Label(self.frame,
-                                            text="The passwords do not match!",
-                                            fg="red")
+        self.different_passwords_label = tk.Label(
+            self.frame, text="The passwords do not match!", fg="red")
 
         # Place Permanent labels into their positions
         self.new_school_label.grid(row=1)
@@ -133,12 +132,19 @@ class CreateSchool(tk.Frame):
         verify_password = self.verify_password_entry.get()
 
         if not school or not email or not password or not verify_password:
+            # Forget any other labels
+            self.different_passwords_label.grid_forget()
+
             self.forget_label.grid(row=12)
         elif password != verify_password:
+            # Forget any other labels
             self.forget_label.grid_forget()
-            self.different_passwords.grid(row=12)
+
+            self.different_passwords_label.grid(row=12)
         else:
+            # Forget all labels
             self.forget_label.grid_forget()
+            self.different_passwords_label.grid_forget()
             print(school, email, password, verify_password)
 
 

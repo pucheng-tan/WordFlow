@@ -69,6 +69,8 @@ class CreateUser(tk.Frame):
         self.forget_label = tk.Label(self.frame,
                                      text="You are missing a field!",
                                      fg="red")
+        self.different_passwords_label = tk.Label(
+            self.frame, text="The passwords do not match!", fg="red")
 
         self.new_user_label.grid(row=1)
 
@@ -132,12 +134,27 @@ class CreateUser(tk.Frame):
 
         school = self.school_entry.get()
         email = self.email_entry.get()
+        invite_code = self.invite_code_entry.get()
         password = self.password_entry.get()
-        if not school or not email or not password:
+        verify_password = self.verify_password_entry.get()
+
+        if (not school or not email or not invite_code or not password
+                or not verify_password):
+            # Forget any other labels
+            self.different_passwords_label.grid_forget()
+
             self.forget_label.grid(row=14)
-        else:
+        elif password != verify_password:
+            # Forget any other labels
             self.forget_label.grid_forget()
-            print(school, email, password)
+
+            self.different_passwords_label.grid(row=14)
+        else:
+            # Forget all labels
+            self.forget_label.grid_forget()
+            self.different_passwords_label.grid_forget()
+
+            print(school, email, invite_code, password, verify_password)
 
 
 # print("Sign Up")
