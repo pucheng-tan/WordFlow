@@ -1,4 +1,7 @@
 import tkinter as tk
+import os
+
+os.system('xset r off')
 
 window = tk.Tk()
 window.title('Typing Challenge')
@@ -114,9 +117,9 @@ def key_pressed(event):
 def key_released(event):
     # change the color of key
     if event.char == '`':
-        la1.configure(bg="red")
+        la1.configure(bg="powder blue")
     elif event.char == '1':
-        la2.configure(bg="red")
+        la2.configure(bg="powder blue")
     elif event.char == '2':
         la3.configure(bg="red")
     elif event.char == '3':
@@ -336,4 +339,3 @@ le1.place(x=237, y=300)
 
 window.mainloop()
 
-os.system("xset r off")
