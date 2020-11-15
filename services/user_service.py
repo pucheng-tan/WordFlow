@@ -3,7 +3,7 @@ from firebase_admin import auth
 import requests
 import json
 
-from api_service import API
+from services.api_service import API
 
 
 class UserService:

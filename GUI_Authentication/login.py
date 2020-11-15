@@ -7,6 +7,7 @@ Typical usage example:
 
 import tkinter as tk
 from GUI_Authentication import create_school, signup
+from managements import user_management
 
 
 class Authentication(tk.Frame):
@@ -33,6 +34,9 @@ class Authentication(tk.Frame):
         self.create_clickable_labels()
         self.create_entries()
         self.create_buttons()
+
+        # Connect to services
+        self.user_management = user_management.UserManagement()
 
     def create_borders(self):
         """Creates the blue borders and places them on the authentication
@@ -134,14 +138,27 @@ class Authentication(tk.Frame):
     def sign_in_response(self):
         """Responds to the sign in button being clicked."""
 
-        school = self.school_entry.get()
+        school_id = self.school_entry.get()
         email = self.email_entry.get()
         password = self.password_entry.get()
-        if not school or not email or not password:
+        if not school_id or not email or not password:
             self.forget_label.grid(row=9)
         else:
             self.forget_label.grid_forget()
-            print(school, email, password)
+            print(school_id, email, password)
+
+            # email = "blahblah@test.ca"
+            # password = "Pass123!"
+
+            # we will have to find a way to have a friendly reference to the school
+            # that also avoids the problem of errors in case of duplicate info
+            # school_id = "08iwDexEYakqz07Wio31"
+
+            response = self.user_management.login(email, password, school_id)
+            print(response)
+            if "error" in response:
+                print(response)
+                # // Todo display label or else
 
     def sign_up_response(self):
         """Responds to the sign up button being clicked."""

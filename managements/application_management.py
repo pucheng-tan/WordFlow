@@ -1,5 +1,5 @@
 from abc import ABC
-from context_service import ContextService
+from services.context_service import ContextService
 
 
 class ApplicationManagement(ABC):

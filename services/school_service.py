@@ -1,4 +1,4 @@
-from api_service import API
+from services.api_service import API
 
 class SchoolService:
     """ Perform school-specific tasks

@@ -1,5 +1,5 @@
-from application_management import ApplicationManagement
-from user_service import UserService
+from managements.application_management import ApplicationManagement
+from services.user_service import UserService
 
 PRIVILEGE = {"standard": 2, "admin": 1, "super_admin": 0}
 
@@ -51,6 +51,9 @@ class UserManagement(ApplicationManagement):
             "privilege_level": privilege_level,
             "display_name": display_name
         }
+
+        print(user_data)
+
         result = {"error": "Failed to create user profile"}
         # the school_id is whatever the current user's school is
         school_id = self._context.get_school_id()
@@ -129,7 +132,8 @@ class UserManagement(ApplicationManagement):
             if field not in user:
                 user[field] = None
         # set default for user privilege. We're going with standard...
-        if user["privilege_level"] not in PRIVILEGE.values():
+        # if user["privilege_level"] not in PRIVILEGE.values():
+        if "privilege_level" in fields and user["privilege_level"] not in PRIVILEGE.values():
             user["privilege_level"] = PRIVILEGE["standard"]
 
         return user

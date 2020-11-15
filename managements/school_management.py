@@ -1,5 +1,5 @@
-from application_management import ApplicationManagement
-from school_service import SchoolService
+from managements.application_management import ApplicationManagement
+from services.school_service import SchoolService
 
 class SchoolManagement(ApplicationManagement):
 
@@ -17,6 +17,8 @@ class SchoolManagement(ApplicationManagement):
         school["id"] = create_result["id"]
         # then update the school
         school = self.update_school_owner(school, owner_uid)
+
+        self._context.set_user(0, owner_uid, school["id"])
         return create_result 
 
     def update_school_owner(self, school, owner_uid):

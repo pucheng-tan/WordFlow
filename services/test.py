@@ -1,5 +1,5 @@
-from user_management import PRIVILEGE, UserManagement
-from school_management import SchoolManagement
+from managements.user_management import PRIVILEGE, UserManagement
+from managements.school_management import SchoolManagement
 
 UM = UserManagement()
 SM = SchoolManagement()

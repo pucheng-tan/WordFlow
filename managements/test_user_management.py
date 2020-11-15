@@ -1,7 +1,7 @@
 import pytest
 from pytest_jsonreport.plugin import JSONReport, json_metadata
 
-from user_management import UserManagement
+from managements.user_management import UserManagement
 from datetime import datetime, timezone
 
 @pytest.mark.xfail

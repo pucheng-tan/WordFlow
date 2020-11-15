@@ -8,6 +8,8 @@ Typical usage example:
 import tkinter as tk
 from GUI_Authentication import login
 
+from managements import school_management, user_management
+
 
 class CreateSchool(tk.Frame):
     """Creates the CreateSchool window.
@@ -33,6 +35,12 @@ class CreateSchool(tk.Frame):
         self.create_clickable_labels()
         self.create_entries()
         self.create_buttons()
+
+        # Create user manager
+        self.user_management = user_management.UserManagement()
+
+        # Create school manager
+        self.school_management = school_management.SchoolManagement()
 
     def create_borders(self):
         """Creates the blue borders and places them on the CreateSchool
@@ -145,6 +153,12 @@ class CreateSchool(tk.Frame):
             # Forget all labels
             self.forget_label.grid_forget()
             self.different_passwords_label.grid_forget()
+
+            # Creating super-admin and school
+            user = self.user_management.create_auth_user(email, password)
+            school = self.school_management.create_school(school, user["id"])
+            school_user = self.user_management.create_user_profile(email, user["id"], 0)
+
             print(school, email, password, verify_password)
 
 
