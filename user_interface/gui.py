@@ -1,7 +1,7 @@
 import tkinter as tk
 
-import main_menu
-from active_windows import home_window
+from user_interface import main_menu
+from user_interface.active_windows import home_window
 
 # import context_service
 

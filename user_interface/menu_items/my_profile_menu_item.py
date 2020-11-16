@@ -1,6 +1,6 @@
 import tkinter as tk
-import my_profile_window
-import menu_item
+from user_interface.active_windows import my_profile_window
+from user_interface.menu_items import menu_item
 
 class MyProfileMenuItem(menu_item.MenuItem):
     def __init__(self, main_menu):

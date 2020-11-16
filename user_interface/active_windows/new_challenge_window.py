@@ -1,5 +1,5 @@
 import tkinter as tk
-from active_windows import active_window
+from user_interface.active_windows import active_window
 
 class NewChallengeWindow(active_window.ActiveWindow):
     def __init__(self, gui):

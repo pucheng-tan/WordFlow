@@ -1,7 +1,7 @@
 import tkinter as tk
 # from ..active_windows import home_window
-import ..active_windows.home_window as home_window
-import menu_item
+from user_interface.active_windows import home_window
+from user_interface.menu_items import menu_item
 
 class HomeMenuItem(menu_item.MenuItem):
     def __init__(self, main_menu):

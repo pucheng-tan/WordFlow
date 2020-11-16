@@ -2,15 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed5a0e03-fc5f-4eda-81b2-92d692eb4349" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/user_interface/active_windows/active_window.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user_interface/active_windows/my_profile_window.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user_interface/active_windows/new_challenge_window.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user_interface/gui.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user_interface/main_menu.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user_interface/menu_items/home_menu_item.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user_interface/menu_items/menu_item.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user_interface/menu_items/my_profile_menu_item.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user_interface/menu_items/new_challenge_menu_item.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_interface/active_windows/home_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/user_interface/active_windows/home_window.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_interface/active_windows/my_profile_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/user_interface/active_windows/my_profile_window.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_interface/active_windows/new_challenge_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/user_interface/active_windows/new_challenge_window.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_interface/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/user_interface/gui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_interface/main_menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/user_interface/main_menu.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_interface/menu_items/home_menu_item.py" beforeDir="false" afterPath="$PROJECT_DIR$/user_interface/menu_items/home_menu_item.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_interface/menu_items/my_profile_menu_item.py" beforeDir="false" afterPath="$PROJECT_DIR$/user_interface/menu_items/my_profile_menu_item.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_interface/menu_items/new_challenge_menu_item.py" beforeDir="false" afterPath="$PROJECT_DIR$/user_interface/menu_items/new_challenge_menu_item.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,7 +32,7 @@
     <SUITE FILE_PATH="coverage/group2$test.coverage" NAME="test Coverage Results" MODIFIED="1605406019121" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/services" />
     <SUITE FILE_PATH="coverage/group2$create_school.coverage" NAME="create_school Coverage Results" MODIFIED="1605340887346" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI_Authentication" />
     <SUITE FILE_PATH="coverage/group2$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1605408146321" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Authentication" />
-    <SUITE FILE_PATH="coverage/group2$gui.coverage" NAME="gui Coverage Results" MODIFIED="1605567770728" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/user_interface" />
+    <SUITE FILE_PATH="coverage/group2$gui.coverage" NAME="gui Coverage Results" MODIFIED="1605570199526" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/user_interface" />
     <SUITE FILE_PATH="coverage/group2$guiManager.coverage" NAME="guiManager Coverage Results" MODIFIED="1605567019168" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/userInterface" />
   </component>
   <component name="FUSProjectUsageTrigger">
@@ -48,26 +48,26 @@
         <counts>
           <entry key="json" value="1" />
           <entry key="md" value="1" />
-          <entry key="py" value="88" />
+          <entry key="py" value="96" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="JSON" value="1" />
           <entry key="Markdown" value="1" />
-          <entry key="Python" value="88" />
+          <entry key="Python" value="96" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="38" />
-          <entry key="py" value="26803" />
+          <entry key="py" value="27282" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="38" />
-          <entry key="Python" value="26803" />
+          <entry key="Python" value="27282" />
         </counts>
       </usages-collector>
     </session>
@@ -77,20 +77,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/user_interface/gui.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="13" selection-start-line="13" selection-end-line="13" />
-              <folding>
-                <element signature="e#0#20#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/user_interface/active_windows/home_window.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
+            <state relative-caret-position="51">
+              <caret line="3" column="53" selection-start-line="3" selection-start-column="53" selection-end-line="3" selection-end-column="53" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -101,11 +89,82 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/user_interface/main_menu.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="567">
-              <caret line="21" column="53" selection-start-line="21" selection-start-column="53" selection-end-line="21" selection-end-column="53" />
+            <state relative-caret-position="475">
+              <caret line="28" column="33" selection-start-line="28" selection-start-column="33" selection-end-line="28" selection-end-column="33" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
-                <marker date="1605567738459" expanded="true" signature="274:709" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/user_interface/active_windows/home_window.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="1" column="55" selection-start-line="1" selection-start-column="55" selection-end-line="1" selection-end-column="55" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/user_interface/active_windows/my_profile_window.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="1" column="55" lean-forward="true" selection-start-line="1" selection-start-column="55" selection-end-line="1" selection-end-column="55" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/user_interface/active_windows/new_challenge_window.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="1" column="55" selection-start-line="1" selection-start-column="55" selection-end-line="1" selection-end-column="55" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/user_interface/menu_items/home_menu_item.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="3" column="47" lean-forward="true" selection-start-line="3" selection-start-column="47" selection-end-line="3" selection-end-column="47" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/user_interface/menu_items/my_profile_menu_item.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="47" lean-forward="true" selection-start-line="2" selection-start-column="47" selection-end-line="2" selection-end-column="47" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/user_interface/menu_items/new_challenge_menu_item.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="3" column="47" lean-forward="true" selection-start-line="3" selection-start-column="47" selection-end-line="3" selection-end-column="47" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -154,16 +213,21 @@
         <option value="$PROJECT_DIR$/GUI_Authentication/login.py" />
         <option value="$PROJECT_DIR$/user_interface/active_window.py" />
         <option value="$PROJECT_DIR$/user_interface/menu_item.py" />
-        <option value="$PROJECT_DIR$/user_interface/new_challenge_window.py" />
         <option value="$PROJECT_DIR$/user_interface/new_challenge_menu_item.py" />
         <option value="$PROJECT_DIR$/user_interface/my_profile_window.py" />
         <option value="$PROJECT_DIR$/user_interface/home_menu_item.py" />
         <option value="$PROJECT_DIR$/user_interface/home_window.py" />
         <option value="$PROJECT_DIR$/user_interface/my_profile_menu_item.py" />
         <option value="$PROJECT_DIR$/user_interface/active_windows.py" />
-        <option value="$PROJECT_DIR$/user_interface/main_menu.py" />
-        <option value="$PROJECT_DIR$/user_interface/gui.py" />
+        <option value="$PROJECT_DIR$/user_interface/new_challenge_window.py" />
         <option value="$PROJECT_DIR$/user_interface/active_windows/home_window.py" />
+        <option value="$PROJECT_DIR$/user_interface/active_windows/my_profile_window.py" />
+        <option value="$PROJECT_DIR$/user_interface/active_windows/new_challenge_window.py" />
+        <option value="$PROJECT_DIR$/user_interface/menu_items/home_menu_item.py" />
+        <option value="$PROJECT_DIR$/user_interface/menu_items/my_profile_menu_item.py" />
+        <option value="$PROJECT_DIR$/user_interface/menu_items/new_challenge_menu_item.py" />
+        <option value="$PROJECT_DIR$/user_interface/gui.py" />
+        <option value="$PROJECT_DIR$/user_interface/main_menu.py" />
       </list>
     </option>
   </component>
@@ -234,10 +298,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Sarah\PycharmProjects\group2\user_interface\active_windows" />
+      <recent name="C:\Users\Sarah\PycharmProjects\group2\user_interface\menu_items" />
       <recent name="C:\Users\Sarah\PycharmProjects\group2\managements" />
       <recent name="C:\Users\Sarah\PycharmProjects\group2" />
       <recent name="C:\Users\Sarah\PycharmProjects\group2\GUI_Authentication" />
-      <recent name="C:\Users\Sarah\PycharmProjects\group2\Authentication" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -578,50 +643,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/user_interface/active_windows/my_profile_window.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="9" column="20" lean-forward="true" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user_interface/menu_items/home_menu_item.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="22" column="37" selection-start-line="22" selection-start-column="37" selection-end-line="22" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/user_interface/active_windows.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/user_interface/active_windows/my_profile_window.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="55" lean-forward="true" selection-start-line="1" selection-start-column="55" selection-end-line="1" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user_interface/active_windows/home_window.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="55" selection-start-line="1" selection-start-column="55" selection-end-line="1" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/user_interface/active_windows/active_window.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
+        <state relative-caret-position="170">
           <caret line="10" column="32" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/user_interface/active_windows/new_challenge_window.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="9" column="20" lean-forward="true" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user_interface/menu_items/my_profile_menu_item.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="22" column="37" selection-start-line="22" selection-start-column="37" selection-end-line="22" selection-end-column="37" />
+        <state relative-caret-position="17">
+          <caret line="1" column="55" selection-start-line="1" selection-start-column="55" selection-end-line="1" selection-end-column="55" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
@@ -630,15 +685,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/user_interface/menu_items/menu_item.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
+        <state relative-caret-position="170">
           <caret line="10" column="25" lean-forward="true" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user_interface/menu_items/home_menu_item.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="47" lean-forward="true" selection-start-line="3" selection-start-column="47" selection-end-line="3" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user_interface/menu_items/my_profile_menu_item.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="47" lean-forward="true" selection-start-line="2" selection-start-column="47" selection-end-line="2" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/user_interface/menu_items/new_challenge_menu_item.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="22" column="37" lean-forward="true" selection-start-line="22" selection-start-column="37" selection-end-line="22" selection-end-column="37" />
+        <state relative-caret-position="51">
+          <caret line="3" column="47" lean-forward="true" selection-start-line="3" selection-start-column="47" selection-end-line="3" selection-end-column="47" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
@@ -647,19 +722,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/user_interface/main_menu.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="567">
-          <caret line="21" column="53" selection-start-line="21" selection-start-column="53" selection-end-line="21" selection-end-column="53" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-            <marker date="1605567738459" expanded="true" signature="274:709" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user_interface/active_windows/home_window.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
+        <state relative-caret-position="475">
+          <caret line="28" column="33" selection-start-line="28" selection-start-column="33" selection-end-line="28" selection-end-column="33" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
@@ -668,8 +732,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/user_interface/gui.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        <state relative-caret-position="51">
+          <caret line="3" column="53" selection-start-line="3" selection-start-column="53" selection-end-line="3" selection-end-column="53" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>

@@ -1,7 +1,7 @@
 import tkinter as tk
 
-from active_windows import new_challenge_window
-from menu_items import menu_item
+from user_interface.active_windows import new_challenge_window
+from user_interface.menu_items import menu_item
 
 class NewChallengeMenuItem(menu_item.MenuItem):
     def __init__(self, main_menu):

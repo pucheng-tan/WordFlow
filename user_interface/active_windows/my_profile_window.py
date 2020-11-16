@@ -1,5 +1,5 @@
 import tkinter as tk
-import active_window
+from user_interface.active_windows import active_window
 
 class MyProfileWindow(active_window.ActiveWindow):
     def __init__(self, gui):
