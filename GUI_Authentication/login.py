@@ -30,7 +30,8 @@ class Authentication(tk.Frame):
         self.frame.grid(row=1)
 
         self.create_borders()
-        self.create_labels()
+        self.create_permanent_labels()
+        self.create_temporary_labels()
         self.create_clickable_labels()
         self.create_entries()
         self.create_buttons()
@@ -61,12 +62,11 @@ class Authentication(tk.Frame):
         self.first_line.grid(row=2)
         self.second_line.grid(row=11)
 
-    def create_labels(self):
-        """Creates the labels for the authentication window.
+    def create_permanent_labels(self):
+        """Creates the permanent labels for the authentication window.
         Creates both the permanent labels that are always visible on the
-        authentication window and the labels that only
-        appear under certain conditions such as a missing field. It also places
-        the permanent labels on the authentication frame.
+        authentication window. It also places the permanent labels on the
+        authentication frame.
         """
 
         # Create permanent labels
@@ -77,17 +77,24 @@ class Authentication(tk.Frame):
         self.password_label = tk.Label(self.frame, text="Password:")
         self.new_user_label = tk.Label(self.frame, text="New User")
 
-        # Create temporary labels
-        self.forget_label = tk.Label(self.frame,
-                                     text="You are missing a field!",
-                                     fg="red")
-
         # Place permanent labels in their positions
         self.sign_in_label.grid(row=1)
         self.school_label.grid(row=3)
         self.email_label.grid(row=5)
         self.password_label.grid(row=7)
         self.new_user_label.grid(row=12)
+
+    def create_temporary_labels(self):
+        self.temporary_label = None
+
+        # Create temporary labels
+        self.forget_field_label = tk.Label(self.frame,
+                                     text="You are missing a field!",
+                                     fg="red")
+
+        self.error_label = tk.Label(self.frame,
+                                    text="Failed to authenticate",
+                                    fg="red")
 
     def create_entries(self):
         """Creates and places the entry fields for the authentication frame."""
@@ -138,27 +145,41 @@ class Authentication(tk.Frame):
     def sign_in_response(self):
         """Responds to the sign in button being clicked."""
 
+        bad_entries = self.check_entries()
+
+        if not bad_entries:
+            # Will open up to home screen in future
+            print("Yes")
+        else:
+            print("No")
+
+    def check_entries(self):
+        """Checks whether the entries are valid."""
+        display_temporary_label = False
+
         school_id = self.school_entry.get()
         email = self.email_entry.get()
         password = self.password_entry.get()
+
+        if self.temporary_label:
+            self.forget_temporary_label()
+
         if not school_id or not email or not password:
-            self.forget_label.grid(row=9)
+            self.temporary_label = self.forget_field_label
+            display_temporary_label = True
         else:
-            self.forget_label.grid_forget()
-            print(school_id, email, password)
-
-            # email = "blahblah@test.ca"
-            # password = "Pass123!"
-
-            # we will have to find a way to have a friendly reference to the school
-            # that also avoids the problem of errors in case of duplicate info
-            # school_id = "08iwDexEYakqz07Wio31"
-
             response = self.user_management.login(email, password, school_id)
-            print(response)
             if "error" in response:
-                print(response)
-                # // Todo display label or else
+                self.temporary_label = self.error_label
+                display_temporary_label = True
+
+        if display_temporary_label:
+            self.temporary_label.grid(row=9)
+
+        return display_temporary_label
+
+    def forget_temporary_label(self):
+        self.temporary_label.grid_forget()
 
     def sign_up_response(self):
         """Responds to the sign up button being clicked."""
