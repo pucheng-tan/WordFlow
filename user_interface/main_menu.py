@@ -1,0 +1,28 @@
+import tkinter as tk
+
+import menu_items
+
+class MainMenu(object):
+    def __init__(self, privilege, gui):
+        self.gui = gui
+        self.master = gui.master
+
+        self.frame = tk.LabelFrame()
+
+        self.create_standard_panel()
+
+    def create_standard_panel(self):
+        self.new_challenge_menu_item = menu_items.new_challenge_menu_item.NewChallengeMenuItem(self)
+        self.new_challenge_menu_item.place_on_menu(2, 3)
+
+        self.home_menu_item = menu_items.home_menu_item.HomeMenuItem(self)
+        self.home_menu_item.place_on_menu(1, 2)
+
+        self.my_profile_menu_item = menu_items.my_profile_menu_item.MyProfileMenuItem(self)
+        self.my_profile_menu_item.place_on_menu(1, 2)
+
+    def create_admin_panel(self):
+        pass
+
+    def create_super_admin_panel(self):
+        pass
