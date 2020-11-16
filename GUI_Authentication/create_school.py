@@ -6,7 +6,8 @@ Typical usage example:
 """
 
 import tkinter as tk
-from GUI_Authentication import login
+# from GUI_Authentication import login
+from GUI_Authentication import screen_handler
 
 from managements import school_management, user_management
 
@@ -35,6 +36,8 @@ class CreateSchool(tk.Frame):
         self.create_clickable_labels()
         self.create_entries()
         self.create_buttons()
+
+        self.screen_handler = screen_handler.ScreenHandler()
 
         # Create user manager
         self.user_management = user_management.UserManagement()
@@ -119,7 +122,8 @@ class CreateSchool(tk.Frame):
 
         self.master.destroy()
         new_root = tk.Tk()
-        login.Authentication(new_root).mainloop()
+        # login.Authentication(new_root).mainloop()
+        self.screen_handler.run_login_screen(new_root)
 
     def create_buttons(self):
         """Creates and places all the buttons for the CreateSchool frame."""

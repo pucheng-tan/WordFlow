@@ -6,7 +6,8 @@ Typical usage example:
 """
 
 import tkinter as tk
-from GUI_Authentication import create_school, signup
+# from GUI_Authentication import create_school, signup
+from GUI_Authentication import screen_handler
 from managements import user_management
 
 
@@ -35,6 +36,9 @@ class Authentication(tk.Frame):
         self.create_clickable_labels()
         self.create_entries()
         self.create_buttons()
+
+        # Connect to screen handler
+        self.screen_handler = screen_handler.ScreenHandler()
 
         # Connect to services
         self.user_management = user_management.UserManagement()
@@ -129,7 +133,8 @@ class Authentication(tk.Frame):
 
         self.master.destroy()
         new_root = tk.Tk()
-        create_school.CreateSchool(new_root).mainloop()
+        # create_school.CreateSchool(new_root).mainloop()
+        self.screen_handler.run_create_school(new_root)
 
     def create_buttons(self):
         """Creates and places all the buttons for the authentication frame."""
@@ -145,17 +150,20 @@ class Authentication(tk.Frame):
     def sign_in_response(self):
         """Responds to the sign in button being clicked."""
 
-        bad_entries = self.check_entries()
+        bad_entries, response = self.check_entries()
 
         if not bad_entries:
             # Will open up to home screen in future
             print("Yes")
+            print(response)
         else:
             print("No")
+            print(response)
 
     def check_entries(self):
         """Checks whether the entries are valid."""
         display_temporary_label = False
+        response = None
 
         school_id = self.school_entry.get()
         email = self.email_entry.get()
@@ -176,7 +184,7 @@ class Authentication(tk.Frame):
         if display_temporary_label:
             self.temporary_label.grid(row=9)
 
-        return display_temporary_label
+        return (display_temporary_label, response)
 
     def forget_temporary_label(self):
         self.temporary_label.grid_forget()
@@ -186,8 +194,8 @@ class Authentication(tk.Frame):
 
         self.master.destroy()
         new_root = tk.Tk()
-        signup.CreateUser(new_root).mainloop()
-
+        # signup.CreateUser(new_root).mainloop()
+        self.screen_handler.run_signup_screen(new_root)
 
 # root = tk.Tk()
 # app = Authentication(master=root)
