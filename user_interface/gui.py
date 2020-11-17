@@ -5,12 +5,6 @@ from user_interface.active_windows import home_window
 
 # import context_service
 
-import os, sys
-
-currentdir = os.path.dirname(os.path.realpath(__file__))
-parentdir = os.path.dirname(currentdir)
-sys.path.append(parentdir)
-
 class GUI(object):
     def __init__(self, privilege, master):
 

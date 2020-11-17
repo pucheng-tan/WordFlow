@@ -18,13 +18,13 @@ class MainMenu(object):
     def create_standard_panel(self):
 
         self.new_challenge_menu_item = new_challenge_menu_item.NewChallengeMenuItem(self)
-        self.new_challenge_menu_item.place_on_menu(2, 3)
+        self.new_challenge_menu_item.place_on_menu(0, 1)
 
         self.home_menu_item = home_menu_item.HomeMenuItem(self)
-        self.home_menu_item.place_on_menu(1, 2)
+        self.home_menu_item.place_on_menu(1, 1)
 
         self.my_profile_menu_item = my_profile_menu_item.MyProfileMenuItem(self)
-        self.my_profile_menu_item.place_on_menu(1, 2)
+        self.my_profile_menu_item.place_on_menu(2, 1)
 
     def create_admin_panel(self):
         pass
