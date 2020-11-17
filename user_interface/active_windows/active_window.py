@@ -21,9 +21,12 @@ class ActiveWindow(object):
     def show(self):
         """Show the active window
         """
+
         self.frame.grid(row=1, column=1)
+        # self.frame.pack()
 
     def hide(self):
         """hide the active window
         """
         self.frame.grid_remove()
+        # self.frame.pack_forget()

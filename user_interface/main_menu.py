@@ -34,6 +34,10 @@ class MainMenu(object):
         self.gui = gui
         self.master = gui.master
 
+        # The window will always open up in full size and is not resizable.
+        # self.master.state('zoomed')
+        # self.master.resizable(False, False)
+
         # The main menu frame
         self.frame = tk.LabelFrame(self.master)
 
@@ -50,6 +54,14 @@ class MainMenu(object):
         if privilege == "Standard":
             self.make_standard_menu_items()
             self.create_standard_panel()
+
+    def place_main_menu(self):
+
+        self.master.grid_rowconfigure(0, weight=1)
+        self.master.grid_rowconfigure(2, weight=1)
+        self.master.grid_columnconfigure(1, weight=1)
+
+        self.frame.grid(row=1, column=0) # Display the main menu on the left of the screen
 
     def make_common_menu_items(self):
 
