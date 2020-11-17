@@ -75,7 +75,7 @@ class typingChallenge:
         self.backButton = Button(self.frame, text="Back to main menu",command=self.back).grid(row=3,column=0)
         # self.label.pack()
         self.randomText = "She was in a hurry. Not the standard hurry when you're in a rush to get someplace, but a frantic hurry. The type of hurry where a few seconds could mean life or death. She raced down the road ignoring speed limits and weaving between cars. She was only a few minutes away when traffic came to a dead standstill on the road ahead."
-        words_length = count_words_length(self.randomText)
+        self.words_length = count_words_length(self.randomText)
         listOfWords = self.randomText.split()
 
 
@@ -100,25 +100,28 @@ class typingChallenge:
         
 
 
-        count = 0
-        start_index = "1.0"
-        end_index = "1." + str(words_length[0])
+      
+        self.start_index = "1.0"
+        self.end_index = "1." + str(self.words_length[0])
 
         textShow.mark_set("myword", "1.1")
         #print(self.textShow.index("myword wordend"),"here")
 
+        self.count = 0
         
         
         
-        
-        def move_mark():
+        def move_mark(self):
             
-            count = count + 1
+            
             # cur = textShow.index("myword wordend").split('.')
-            cur = end_index.split('.')
+            self.count = self.count + 1
+            cur = self.end_index.split('.')
             
-            start_index = cur[0]+'.'+str(int(cur[1]) + 1)
-            end_index = cur[0]+'.'+str(int(cur[1]) + 1 + words_length[count])
+            self.start_index = cur[0]+'.'+str(int(cur[1]) + 1)
+            self.end_index = cur[0]+'.'+str(int(cur[1]) + 1 + self.words_length[self.count])
+
+        
 
 
 
@@ -126,8 +129,9 @@ class typingChallenge:
             #self.displayInput.configure(state='normal')
             
             textBox.delete(0,'end')
-            textShow.tag_add("correct", start_index, end_index)
-            move_mark()
+            textShow.tag_add("correct", self.start_index, self.end_index)
+            
+            move_mark(self)
             #self.displayInput.configure(state='disabled')
                 
         
@@ -137,7 +141,7 @@ class typingChallenge:
         
 
         #testing inputf
-        textBox.bind('<space>',key_pressed)
+        textBox.bind('<space>',lambda a = self: key_pressed(self) )
 
         textBox.bind('<space')
 
