@@ -37,23 +37,17 @@ class MainMenu(object):
         # The frame containing main menu
         self.frame = tk.LabelFrame(self.master)
 
-        
-        self.frame_top = tk.LabelFrame(self.frame)
-        self.frame_bottom = tk.LabelFrame(self.frame)
-
-        self.frame_top.grid(row=1, column=1)
-        self.frame_bottom.grid(row=2, column=1)
+        # self.frame_top.pack(side=tk.TOP)
+        # self.frame_bottom.pack(side=tk.BOTTOM)
 
         self.make_common_menu_items()
         self.create_standard_panel()
 
-
-
     def make_common_menu_items(self):
 
-        self.new_challenge_menu_item = new_challenge_menu_item.NewChallengeMenuItem(self, self.frame_top)
+        self.new_challenge_menu_item = new_challenge_menu_item.NewChallengeMenuItem(self)
 
-        self.home_menu_item = home_menu_item.HomeMenuItem(self, self.frame_bottom)
+        self.home_menu_item = home_menu_item.HomeMenuItem(self)
 
     def create_standard_panel(self):
         """This function is used to create the items that are displayed on a standard user's main menu
@@ -63,7 +57,7 @@ class MainMenu(object):
 
         self.home_menu_item.place_on_menu(1, 1)
 
-        self.my_profile_menu_item = my_profile_menu_item.MyProfileMenuItem(self, self.frame_top)
+        self.my_profile_menu_item = my_profile_menu_item.MyProfileMenuItem(self)
         self.my_profile_menu_item.place_on_menu(2, 1)
 
         

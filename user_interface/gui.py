@@ -27,6 +27,7 @@ class GUI(object):
         self.active_window = home_window.HomeWindow(self)  # Create an active window (currently, the active window will dispay the home window)
 
         self.main_menu.frame.grid(row=1, column=0) # Display the main menu on the left of the screen
+
         self.active_window.show() # show the active window
 
 # root = tk.Tk()
