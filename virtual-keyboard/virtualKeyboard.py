@@ -13,6 +13,7 @@ e.pack()
 
 def key_pressed(event):
     # change the color of key
+    print('up', event.char)
     if event.char == '`':
         la1.configure(bg="red")
     elif event.char == '1':
@@ -116,6 +117,7 @@ def key_pressed(event):
 
 def key_released(event):
     # change the color of key
+    print('down', event.char)
     if event.char == '`':
         la1.configure(bg="powder blue")
     elif event.char == '1':
@@ -347,5 +349,6 @@ ld12.place(x=startingcoordinateX+612, y=startingCoordinateY+150)
 le1 = tk.Label(window, text='Space', bg="powder blue", font=('Arial', 12), width=34, height=2)
 le1.place(x=startingcoordinateX+212, y=startingCoordinateY+200)
 
-window.mainloop()
+os.system('xset r off')
 
+window.mainloop()
