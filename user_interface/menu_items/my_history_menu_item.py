@@ -2,7 +2,7 @@ import tkinter as tk
 from user_interface.active_windows import my_history_window
 from user_interface.menu_items import menu_item
 
-class MyProfileMenuItem(menu_item.MenuItem):
+class MyHistoryMenuItem(menu_item.MenuItem):
     """This class is used to create a button that will bring the user to the my history menu.
     """
     def __init__(self, main_menu):

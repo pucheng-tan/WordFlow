@@ -1,6 +1,7 @@
 import tkinter as tk
 
-# //TODO cleanup import statements
+# //TODO cleanup import statements (if possible)
+
 from user_interface.menu_items import assigned_challenges_menu_item
 
 from user_interface.menu_items import new_challenge_menu_item
@@ -48,6 +49,7 @@ class MainMenu(object):
     def create_standard_panel(self):
         """This function is used to create the items that are displayed on a standard user's main menu
         """
+        #newchallenge, myhistory
         self.new_challenge_menu_item.place_on_menu(0, 1)
 
         self.home_menu_item.place_on_menu(1, 1)
@@ -58,10 +60,18 @@ class MainMenu(object):
     def create_admin_panel(self):
         """This function is used to create the items that are displayed on a admin's main menu
         """
+        #classroom, user, report, newchallenge, myhistory
         pass
         
     # //TODO Create the super admin panel
     def create_super_admin_panel(self):
         """This function is used to create the items that are displayed on a super admin's main menu
         """
+        #School, classroom, user, report, newchallenge, my history
         pass
+
+    # //TODO Create bottom panel
+    # Profile, help, home
+
+
+
