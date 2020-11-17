@@ -9,7 +9,7 @@ class MyProfileMenuItem(menu_item.MenuItem):
         self.create_button()
 
     def create_button(self):
-        self.button = tk.Button(self.frame, text="MyProfile")
+        self.button = tk.Button(self.frame, text="My Profile")
         self.button["command"] = self.get_my_profile_window
 
         self.button.pack()
