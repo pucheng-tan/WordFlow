@@ -18,8 +18,6 @@ class ReportsMenuItem(menu_item.MenuItem):
         self.button = tk.Button(self.frame, text="Reports")
         self.button["command"] = self.get_reports_window
 
-        self.button.pack()
-
     def get_reports_window(self):
         """This function will hide everything on the active window and display the reports window
         """

@@ -11,15 +11,13 @@ class NewChallengeMenuItem(menu_item.MenuItem):
         Args:
             main_menu ([]): this class must know about the main menu because it knows about the GUI, and we need to alter the GUI's active window
         """
-        menu_item.MenuItem.__init__(self, main_menu,frame)
+        menu_item.MenuItem.__init__(self, main_menu, frame)
 
         self.create_button()
 
     def create_button(self):
         self.button = tk.Button(self.frame, text="New Challenge")
         self.button["command"] = self.get_new_challenge_window
-
-        self.button.pack()
 
     def get_new_challenge_window(self):
         """This function will hide everything on the active window and display the new challenges window

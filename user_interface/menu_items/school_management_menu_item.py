@@ -18,8 +18,6 @@ class SchoolManagementMenuItem(menu_item.MenuItem):
         self.button = tk.Button(self.frame, text="School Management")
         self.button["command"] = self.get_school_management_window
 
-        self.button.pack()
-
     def get_school_management_window(self):
         """This function will hide everything on the active window and display the school management window
         """

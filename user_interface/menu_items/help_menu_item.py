@@ -19,8 +19,6 @@ class HelpMenuItem(menu_item.MenuItem):
         self.button = tk.Button(self.frame, text="Help")
         self.button["command"] = self.get_help_window
 
-        self.button.pack()
-
     def get_help_window(self):
         """This function will hide everything on the active window and display the help window
         """

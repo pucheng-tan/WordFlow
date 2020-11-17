@@ -12,15 +12,13 @@ class HomeMenuItem(menu_item.MenuItem):
         Args:
             main_menu ([]): this class must know about the main menu because it knows about the GUI, and we need to alter the GUI's active window
         """
-        self.frame = frame
+        # self.frame = frame
 
         self.create_button()
 
     def create_button(self):
         self.button = tk.Button(self.frame, text="Home")
         self.button["command"] = self.get_home_window
-
-        self.button.pack()
 
     def get_home_window(self):
         """This function will hide everything on the active window and display the home window
