@@ -1,10 +1,18 @@
 import tkinter as tk
 
-#import menu_items.new_challenge_menu_item
+from user_interface.menu_items import assigned_challenges_menu_item
 
 from user_interface.menu_items import new_challenge_menu_item
+from user_interface.menu_items import my_history_menu_item
+
+from user_interface.menu_items import school_management_menu_item
+from user_interface.menu_items import classroom_management_menu_item
+from user_interface.menu_items import user_management_menu_item
+from user_interface.menu_items import reports_menu_item
+
 from user_interface.menu_items import home_menu_item
 from user_interface.menu_items import my_profile_menu_item
+from user_interface.menu_items import help_menu_item
 
 class MainMenu(object):
     def __init__(self, privilege, gui):
