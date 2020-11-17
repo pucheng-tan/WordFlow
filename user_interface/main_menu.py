@@ -1,5 +1,6 @@
 import tkinter as tk
 
+# //TODO cleanup import statements
 from user_interface.menu_items import assigned_challenges_menu_item
 
 from user_interface.menu_items import new_challenge_menu_item
