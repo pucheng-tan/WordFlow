@@ -5,18 +5,20 @@ from user_interface.menu_items import menu_item
 class UserManagementMenuItem(menu_item.MenuItem):
     """This class is used to create a button that will bring the user to the user management menu.
     """
-    def __init__(self, main_menu, frame):
+    def __init__(self, main_menu):
         """
         Args:
             main_menu ([]): this class must know about the main menu because it knows about the GUI, and we need to alter the GUI's active window
         """
-        menu_item.MenuItem.__init__(self, main_menu, frame)
+        menu_item.MenuItem.__init__(self, main_menu)
 
         self.create_button()
 
     def create_button(self):
         self.button = tk.Button(self.frame, text="User Management")
         self.button["command"] = self.get_user_management_window
+
+        self.button.grid(row=0, column=0)
 
     def get_user_management_window(self):
         """This function will hide everything on the active window and display the user management window

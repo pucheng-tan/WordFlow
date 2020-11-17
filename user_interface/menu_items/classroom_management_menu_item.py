@@ -18,6 +18,8 @@ class Classroom_Management_MenuItem(menu_item.MenuItem):
         self.button = tk.Button(self.frame, text="Classroom Management")
         self.button["command"] = self.get_classroom_challenge_window
 
+        self.button.grid(row=0, column=0)
+
     def get_classroom_challenge_window(self):
         """This function will hide everything on the active window and display the classroom management window
         """
