@@ -75,6 +75,7 @@ class typingChallenge:
         textShow = Text(self.frame)
         textShow.grid(row=1,column=0)
         textShow.insert('end',self.randomText)
+        textShow.insert('end',"\033[0;32;47m Test1 \033[\n")
 
         textShow.tag_configure("correct",background="blue",foreground="white")
         textShow.tag_configure("false",background="red",foreground="white")
@@ -87,6 +88,7 @@ class typingChallenge:
 
         textBox = Entry(self.frame,width=35,borderwidth=5)
         textBox.grid(row=2,column=0)
+        
 
         
 
@@ -105,7 +107,7 @@ class typingChallenge:
             cur = textShow.index("myword wordend").split('.')
             
 
-            new_index = cur[0]+'.'+str(int(cur[1]) + 2)
+            new_index = cur[0]+'.'+str(int(cur[1]) + 1)
             print(new_index)
             textShow.mark_set("myword", new_index)
 
