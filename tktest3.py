@@ -75,7 +75,7 @@ class typingChallenge:
         self.backButton = Button(self.frame, text="Back to main menu",command=self.back).grid(row=3,column=0)
         # self.label.pack()
         self.randomText = "She was in a hurry. Not the standard hurry when you're in a rush to get someplace, but a frantic hurry. The type of hurry where a few seconds could mean life or death. She raced down the road ignoring speed limits and weaving between cars. She was only a few minutes away when traffic came to a dead standstill on the road ahead."
-        self.words_length = count_words_length(self.randomText)
+        words_length = count_words_length(self.randomText)
         listOfWords = self.randomText.split()
 
 
@@ -101,8 +101,8 @@ class typingChallenge:
 
 
         count = 0
-        start_index = "1.1"
-        end_index = "1." + str(words_length[0]+1)
+        start_index = "1.0"
+        end_index = "1." + str(words_length[0])
 
         textShow.mark_set("myword", "1.1")
         #print(self.textShow.index("myword wordend"),"here")
@@ -110,18 +110,17 @@ class typingChallenge:
         
         
         
-
+        
         def move_mark():
-            global count
+            
             count = count + 1
-            cur = textShow.index("myword wordend").split('.')
+            # cur = textShow.index("myword wordend").split('.')
+            cur = end_index.split('.')
             
             start_index = cur[0]+'.'+str(int(cur[1]) + 1)
             end_index = cur[0]+'.'+str(int(cur[1]) + 1 + words_length[count])
 
-            #new_index = cur[0]+'.'+str(int(cur[1]) + 1)
-            print(new_index)
-            textShow.mark_set("myword", new_index)
+
 
         def key_pressed(self):
             #self.displayInput.configure(state='normal')
