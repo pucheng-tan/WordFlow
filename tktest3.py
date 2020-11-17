@@ -95,10 +95,6 @@ class typingChallenge:
 
         textBox = Entry(self.frame,width=35,borderwidth=5)
         textBox.grid(row=2,column=0)
-        
-
-        
-
 
       
         self.start_index = "1.0"
@@ -108,12 +104,14 @@ class typingChallenge:
         #print(self.textShow.index("myword wordend"),"here")
 
         self.count = 0
+
+        self.user_input = ""
+        self.correct_input = ""
+        self.correctness
         
         
         
         def move_mark(self):
-            
-            
             # cur = textShow.index("myword wordend").split('.')
             self.count = self.count + 1
             cur = self.end_index.split('.')
@@ -121,21 +119,30 @@ class typingChallenge:
             self.start_index = cur[0]+'.'+str(int(cur[1]) + 1)
             self.end_index = cur[0]+'.'+str(int(cur[1]) + 1 + self.words_length[self.count])
 
-        
-
+        def compare(self):
+            self.correct_input = 
+            if(self.user_input == self.correct_input):
+                return 1
+            else:
+                return 0
 
 
         def key_pressed(self):
             #self.displayInput.configure(state='normal')
-            
+            self.user_input = textBox.get()
             textBox.delete(0,'end')
-            textShow.tag_add("correct", self.start_index, self.end_index)
-            
+
+            self.correctness = compare()
+
+            if (self.correctness):
+                textShow.tag_add("correct", self.start_index, self.end_index)
+            else:
+                textShow.tag_add("false", self.start_index, self.end_index)
+
             move_mark(self)
             #self.displayInput.configure(state='disabled')
                 
-        
-
+    
         
         
         
