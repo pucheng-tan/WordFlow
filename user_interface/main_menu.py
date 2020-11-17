@@ -21,14 +21,18 @@ class MainMenu(object):
 
         self.frame = tk.LabelFrame()
 
+        self.make_common_menu_items()
         self.create_standard_panel()
 
-    def create_standard_panel(self):
 
+    def make_common_menu_items(self):
         self.new_challenge_menu_item = new_challenge_menu_item.NewChallengeMenuItem(self)
-        self.new_challenge_menu_item.place_on_menu(0, 1)
 
         self.home_menu_item = home_menu_item.HomeMenuItem(self)
+
+    def create_standard_panel(self):
+        self.new_challenge_menu_item.place_on_menu(0, 1)
+
         self.home_menu_item.place_on_menu(1, 1)
 
         self.my_profile_menu_item = my_profile_menu_item.MyProfileMenuItem(self)
