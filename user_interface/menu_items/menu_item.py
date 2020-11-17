@@ -8,4 +8,4 @@ class MenuItem(object):
         self.frame = tk.Frame(self.main_menu.frame)
 
     def place_on_menu(self, row, column):
-        self.frame.pack()
+        self.frame.grid(row=row, column=column)
