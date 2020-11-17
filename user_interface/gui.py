@@ -5,6 +5,12 @@ from user_interface.active_windows import home_window
 
 # import context_service
 
+import os, sys
+
+currentdir = os.path.dirname(os.path.realpath(__file__))
+parentdir = os.path.dirname(currentdir)
+sys.path.append(parentdir)
+
 class GUI(object):
     def __init__(self, privilege, master):
 
@@ -17,8 +23,8 @@ class GUI(object):
         self.main_menu.frame.grid(row=1, column=0)
         self.active_window.show()
 
-root = tk.Tk()
+# root = tk.Tk()
 
-GUI("Standard", root)
+# GUI("Standard", root)
 
-root.mainloop()
+# root.mainloop()
