@@ -6,12 +6,13 @@ from user_interface.menu_items import menu_item
 class HomeMenuItem(menu_item.MenuItem):
     """This class is used to create a button that will bring the user to the Home menu.
     """
-    def __init__(self, main_menu):
-        menu_item.MenuItem.__init__(self, main_menu)
+    def __init__(self, main_menu, frame):
+        menu_item.MenuItem.__init__(self, main_menu, frame)
         """
         Args:
             main_menu ([]): this class must know about the main menu because it knows about the GUI, and we need to alter the GUI's active window
         """
+        self.frame = frame
 
         self.create_button()
 

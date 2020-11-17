@@ -6,11 +6,11 @@ class MenuItem(object):
     MenuItem also provides each menu item with 'place_on_menu' which allows each item to be placed on the menu.
 
     """
-    def __init__(self, main_menu):
+    def __init__(self, main_menu, frame):
         self.gui = main_menu.gui
         self.main_menu = main_menu
 
-        self.frame = tk.Frame(self.main_menu.frame)
+        self.frame = frame
 
     def place_on_menu(self, row, column):
         """Place the item on the menu at the specified row and column.

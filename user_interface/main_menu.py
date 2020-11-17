@@ -36,32 +36,45 @@ class MainMenu(object):
 
         self.frame = tk.LabelFrame()
 
+        
+        self.frame_top = tk.LabelFrame()
+        self.frame_bottom = tk.LabelFrame()
+
+        self.frame_top.pack(side=tk.TOP)
+        self.frame_bottom.pack(side=tk.BOTTOM)
+
         self.make_common_menu_items()
         self.create_standard_panel()
 
 
+
     def make_common_menu_items(self):
 
-        self.new_challenge_menu_item = new_challenge_menu_item.NewChallengeMenuItem(self)
+        self.new_challenge_menu_item = new_challenge_menu_item.NewChallengeMenuItem(self,self.frame_top)
 
-        self.home_menu_item = home_menu_item.HomeMenuItem(self)
+        self.home_menu_item = home_menu_item.HomeMenuItem(self, self.frame_bottom)
 
     def create_standard_panel(self):
         """This function is used to create the items that are displayed on a standard user's main menu
         """
-        #newchallenge, myhistory
+        #newchallenge, assigned challenges, myhistory
         self.new_challenge_menu_item.place_on_menu(0, 1)
 
         self.home_menu_item.place_on_menu(1, 1)
 
-        self.my_profile_menu_item = my_profile_menu_item.MyProfileMenuItem(self)
+        self.my_profile_menu_item = my_profile_menu_item.MyProfileMenuItem(self,self.frame_top)
         self.my_profile_menu_item.place_on_menu(2, 1)
+
+        
+        
+
+
     # //TODO Create the admin panel
     def create_admin_panel(self):
         """This function is used to create the items that are displayed on a admin's main menu
         """
         #classroom, user, report, newchallenge, myhistory
-        pass
+        self
         
     # //TODO Create the super admin panel
     def create_super_admin_panel(self):
