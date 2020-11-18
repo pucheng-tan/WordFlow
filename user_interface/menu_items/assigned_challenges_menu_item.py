@@ -17,7 +17,7 @@ class AssignedChallengesMenuItem(menu_item.MenuItem):
     def create_button(self):
         """Creates and places the Assigned Challenges button
         """
-        self.button = tk.Button(self.frame, text="Assigned Challenges")
+        self.button = tk.Button(self.frame, text="Assigned Challenges", font=("Helvetica", 15))
         self.button["command"] = self.get_assigned_challenges_window
 
         # self.button.grid(row=0, column=0)

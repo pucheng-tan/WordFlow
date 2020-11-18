@@ -17,7 +17,7 @@ class UserManagementMenuItem(menu_item.MenuItem):
     def create_button(self):
         """Creates and places the button for the user management menu item."""
 
-        self.button = tk.Button(self.frame, text="User Management")
+        self.button = tk.Button(self.frame, text="User Management", font=("Helvetica", 15))
         self.button["command"] = self.get_user_management_window
 
         # self.button.grid(row=0, column=0)

@@ -17,7 +17,7 @@ class Classroom_Management_MenuItem(menu_item.MenuItem):
     def create_button(self):
         """Creates and places the classroom management button"""
 
-        self.button = tk.Button(self.frame, text="Classroom Management")
+        self.button = tk.Button(self.frame, text="Classroom Management", font=("Helvetica", 15))
         self.button["command"] = self.get_classroom_challenge_window
 
         # self.button.grid(row=0, column=0)

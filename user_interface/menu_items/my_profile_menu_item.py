@@ -17,7 +17,7 @@ class MyProfileMenuItem(menu_item.MenuItem):
     def create_button(self):
         """Creates and places the button the for the my profile menu item."""
 
-        self.button = tk.Button(self.frame, text="My Profile")
+        self.button = tk.Button(self.frame, text="My Profile", font=("Helvetica", 15))
         self.button["command"] = self.get_my_profile_window
 
         # self.button.grid(row=0, column=0)

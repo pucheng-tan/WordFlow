@@ -18,7 +18,7 @@ class HomeMenuItem(menu_item.MenuItem):
     def create_button(self):
         """Creates and places the button for the home menu item."""
 
-        self.button = tk.Button(self.frame, text="Home")
+        self.button = tk.Button(self.frame, text="Home", font=("Helvetica", 15))
         self.button["command"] = self.get_home_window
 
         # self.button.grid(row=0, column=0, sticky="we")

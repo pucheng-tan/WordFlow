@@ -8,5 +8,5 @@ class HomeWindow(active_window.ActiveWindow):
         self.welcome()
 
     def welcome(self):
-        self.welcome_label = tk.Label(self.frame, text="Welcome!")
+        self.welcome_label = tk.Label(self.frame, text="Welcome!", font=("Helvetica", 20))
         self.welcome_label.pack()

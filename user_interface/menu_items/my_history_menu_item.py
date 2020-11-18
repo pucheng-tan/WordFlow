@@ -17,7 +17,7 @@ class MyHistoryMenuItem(menu_item.MenuItem):
     def create_button(self):
         """Creates and places the button for the my history main menu item."""
 
-        self.button = tk.Button(self.frame, text="My History")
+        self.button = tk.Button(self.frame, text="My History", font=("Helvetica", 15))
         self.button["command"] = self.get_my_history_window
 
         # self.button.grid(row=0, column=0)

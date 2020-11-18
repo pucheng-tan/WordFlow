@@ -17,7 +17,7 @@ class ReportsMenuItem(menu_item.MenuItem):
     def create_button(self):
         """Creates and places the button for the reports menu item."""
 
-        self.button = tk.Button(self.frame, text="Reports")
+        self.button = tk.Button(self.frame, text="Reports", font=("Helvetica", 15))
         self.button["command"] = self.get_reports_window
 
         # self.button.grid(row=0, column=0)
