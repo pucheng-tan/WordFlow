@@ -5,16 +5,18 @@ from user_interface.menu_items import menu_item
 class SchoolManagementMenuItem(menu_item.MenuItem):
     """This class is used to create a button that will bring the user to the school management menu.
     """
-    def __init__(self, main_menu):
+    def __init__(self, main_menu, frame):
         """
         Args:
             main_menu ([]): this class must know about the main menu because it knows about the GUI, and we need to alter the GUI's active window
         """
-        menu_item.MenuItem.__init__(self, main_menu)
+        menu_item.MenuItem.__init__(self, main_menu, frame)
 
         self.create_button()
 
     def create_button(self):
+        """Creates and places the button for the school management menu item."""
+
         self.button = tk.Button(self.frame, text="School Management")
         self.button["command"] = self.get_school_management_window
 

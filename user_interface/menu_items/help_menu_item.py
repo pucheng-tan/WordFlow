@@ -12,10 +12,11 @@ class HelpMenuItem(menu_item.MenuItem):
         """
         menu_item.MenuItem.__init__(self, main_menu, frame)
 
-
         self.create_button()
 
     def create_button(self):
+        """Creates and places the button for the help menu"""
+
         self.button = tk.Button(self.frame, text="Help")
         self.button["command"] = self.get_help_window
 

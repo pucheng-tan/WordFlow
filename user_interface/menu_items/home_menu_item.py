@@ -12,11 +12,12 @@ class HomeMenuItem(menu_item.MenuItem):
         Args:
             main_menu ([]): this class must know about the main menu because it knows about the GUI, and we need to alter the GUI's active window
         """
-        # self.frame = frame
 
         self.create_button()
 
     def create_button(self):
+        """Creates and places the button for the home menu item."""
+
         self.button = tk.Button(self.frame, text="Home")
         self.button["command"] = self.get_home_window
 

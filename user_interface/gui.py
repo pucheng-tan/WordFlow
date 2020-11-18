@@ -23,8 +23,8 @@ class GUI(object):
         self.privilege = privilege # Will probably be a context manager
         self.master = master
 
-        self.master.state("zoomed")
-        self.master.resizable(False, False)
+        # self.master.state("zoomed")
+        # self.master.resizable(False, False)
 
         self.main_menu = main_menu.MainMenu(privilege, self)  # Create a main menu
         self.active_window = home_window.HomeWindow(self)  # Create an active window (currently, the active window will dispay the home window)

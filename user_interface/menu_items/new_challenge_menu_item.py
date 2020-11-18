@@ -16,6 +16,8 @@ class NewChallengeMenuItem(menu_item.MenuItem):
         self.create_button()
 
     def create_button(self):
+        """Creates and places the button for the new challenge menu item."""
+
         self.button = tk.Button(self.frame, text="New Challenge")
         self.button["command"] = self.get_new_challenge_window
 
