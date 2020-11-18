@@ -70,14 +70,16 @@ class MainMenu(object):
     def make_common_menu_items(self):
 
         self.new_challenge_menu_item = new_challenge_menu_item.NewChallengeMenuItem(self, self.frame_top)
+        self.my_history_menu_item = my_history_menu_item.MyHistoryMenuItem(self, self.frame_top)
 
         self.home_menu_item = home_menu_item.HomeMenuItem(self, self.frame_bottom)
         self.my_profile_menu_item = my_profile_menu_item.MyProfileMenuItem(self, self.frame_bottom)
         self.help_menu_item = help_menu_item.HelpMenuItem(self, self.frame_bottom)
 
     def create_bottom_panel(self):
-        self.home_menu_item.place_on_menu(0, 1)
-        self.my_profile_menu_item.place_on_menu(1, 1)
+        self.home_menu_item.place_on_menu(0, 0)
+        self.my_profile_menu_item.place_on_menu(1, 0)
+        self.help_menu_item.place_on_menu(2, 0)
 
     def make_standard_menu_items(self):
 
@@ -89,8 +91,9 @@ class MainMenu(object):
         """
         # Assigned Challenges, New Challenge, My History
 
-        self.assigned_challenges_menu_item.place_on_menu(0, 1)
-        self.new_challenge_menu_item.place_on_menu(1, 1)
+        self.assigned_challenges_menu_item.place_on_menu(0, 0)
+        self.new_challenge_menu_item.place_on_menu(1, 0)
+        self.my_history_menu_item.place_on_menu(2, 0)
 
 
     # //TODO Create the admin panel
