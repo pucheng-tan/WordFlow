@@ -20,7 +20,8 @@ class AssignedChallengesMenuItem(menu_item.MenuItem):
         self.button = tk.Button(self.frame, text="Assigned Challenges")
         self.button["command"] = self.get_assigned_challenges_window
 
-        self.button.grid(row=0, column=0)
+        # self.button.grid(row=0, column=0)
+        self.button.pack(fill=tk.X)
 
     def get_assigned_challenges_window(self):
         """This function will hide everything on the active window and display the assigned challenges window

@@ -19,4 +19,5 @@ class MenuItem(object):
             row ([int]): row number to place menu item at
             column ([int]): column number to place menu item at
         """
-        self.frame.grid(row=row, column=column)
+        # self.frame.grid(row=row, column=column)
+        self.frame.pack(fill=tk.X)

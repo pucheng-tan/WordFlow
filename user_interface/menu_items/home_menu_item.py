@@ -21,7 +21,8 @@ class HomeMenuItem(menu_item.MenuItem):
         self.button = tk.Button(self.frame, text="Home")
         self.button["command"] = self.get_home_window
 
-        self.button.grid(row=0, column=0)
+        # self.button.grid(row=0, column=0, sticky="we")
+        self.button.pack(fill=tk.X)
 
     def get_home_window(self):
         """This function will hide everything on the active window and display the home window

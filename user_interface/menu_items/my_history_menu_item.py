@@ -20,7 +20,8 @@ class MyHistoryMenuItem(menu_item.MenuItem):
         self.button = tk.Button(self.frame, text="My History")
         self.button["command"] = self.get_my_history_window
 
-        self.button.grid(row=0, column=0)
+        # self.button.grid(row=0, column=0)
+        self.button.pack(fill=tk.X)
 
     def get_my_history_window(self):
         """This function will hide everything on the active window and display the my history window
