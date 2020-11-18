@@ -34,18 +34,14 @@ class MainMenu(object):
         self.gui = gui
         self.master = gui.master
 
-        # The window will always open up in full size and is not resizable.
-        # self.master.state('zoomed')
-        # self.master.resizable(False, False)
-
         # The main menu frame
-        self.frame = tk.LabelFrame(self.master)
+        self.frame = tk.LabelFrame(self.master, height=1000)
 
         self.frame_top = tk.LabelFrame(self.frame)
+        # self.frame_middle = tk.LabelFrame(self.frame)
         self.frame_bottom = tk.LabelFrame(self.frame)
-
-        self.frame_top.pack(side=tk.TOP)
-        self.frame_bottom.pack(side=tk.BOTTOM)
+        self.frame_top.pack(side=tk.TOP, fill=tk.X)
+        self.frame_bottom.pack(side=tk.BOTTOM, fill=tk.X)
 
         self.make_common_menu_items()
 
@@ -57,11 +53,19 @@ class MainMenu(object):
 
     def place_main_menu(self):
 
-        self.master.grid_rowconfigure(0, weight=1)
-        self.master.grid_rowconfigure(2, weight=1)
-        self.master.grid_columnconfigure(1, weight=1)
+        # self.master.grid_rowconfigure(0, weight=1)
+        # self.master.grid_rowconfigure(2, weight=1)
+        # self.master.grid_columnconfigure(1, weight=1)
 
-        self.frame.grid(row=1, column=0) # Display the main menu on the left of the screen
+        # self.frame.grid(row=0, column=0, sticky="ns") # Display the main menu on the left of the screen
+        # tk.LabelFrame(text="Test").grid(row=1, column=0)
+
+        # self.frame.grid_rowconfigure(1, weight=2)
+        # self.frame.grid_rowconfigure(2, weight=1)
+        # self.frame_top.grid(row=1, column=0, sticky=tk.N)
+        # self.frame_middle.grid(row=1, column=0, rowspan=2)
+        # elf.frame_bottom.grid(row=3, column=0, sticky=tk.S)
+        self.frame.pack(side=tk.LEFT, fill=tk.Y)
 
     def make_common_menu_items(self):
 
