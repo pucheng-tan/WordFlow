@@ -8,15 +8,38 @@ class NewChallengeWindow(active_window.ActiveWindow):
         # // TODO Make the New Challenge Window
         self.label = tk.Label(self.frame, text="New Challenge")
         self.label.pack()
+        self.choose_a_typing_challenge()
 
-        #This is just for testing purposes, this it to be changed.
+
+    def choose_a_typing_challenge(self):
+        self.label['text'] = "Choose a typing challenge!"
+        
+        #This variable will be set the the type of test the user wants
+        self.challenge_type = tk.StringVar(self.frame)
+        self.challenge_type.set("Standard")  #default will be standard
+
+        #Create the option menu
+        choose_challenge_dropdown = tk.OptionMenu(self.frame, self.challenge_type, "Standard", "Programming Test", "Dictation Test")
+        choose_challenge_dropdown.pack()
+    
+        submitButton = tk.Button(self.frame, text="Start",command=self._loadTypingChallenge)
+        submitButton.pack()
+
+    def _loadTypingChallenge(self):
+        
+        # delete all the current widges except for our label
+        for item in self.frame.pack_slaves():
+            if (item != self.label):
+                item.destroy()
+        # TODO: put an if statement here that starts a test depending on the value of self.challenge_type
         random_text = "She was in a hurry. Not the standard hurry when you're in a rush to get someplace, but a frantic hurry. The type of hurry where a few seconds could mean life or death. She raced down the road ignoring speed limits and weaving between cars. She was only a few minutes away when traffic came to a dead standstill on the road ahead."
-
         self.display_standard_challenge(random_text)
 
 
 
     def display_standard_challenge(self, text_content):
+
+        self.label["text"] = self.challenge_type.get()
         
         self.text_content = text_content
         self.list_of_words = self.text_content.split(' ')
