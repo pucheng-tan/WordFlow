@@ -21,6 +21,8 @@ keys = Key_row1 + Key_row2 + Key_row3 + Key_row4 + Key_row5
 default_color = "powder blue"
 keypressed_color = "red"
 
+# labels = {}
+
 
 
 def map_to_dictionary(keys):
@@ -37,16 +39,31 @@ keys_dict = map_to_dictionary(keys)
 
 
 def key_pressed_new(event):
+    # global labels
+
     index = keys.index(event.char)
-    keys_dict[index].configure(bg=keypressed_color)
+    # list_of_keys = keys_dict.values()
+    list_of_keys = [] 
+    for key in keys_dict.keys(): 
+        list_of_keys.append(key) 
+
+    labels[list_of_keys[index]].configure(bg=keypressed_color)
         
 def key_released_new(event):
+    # global labels
+
     index = keys.index(event.char)
-    keys_dict[index].configure(bg=default_color)
+    # list_of_keys = keys_dict.values()
+    list_of_keys = [] 
+    for key in keys_dict.keys(): 
+        list_of_keys.append(key) 
+
+    labels[list_of_keys[index]].configure(bg=default_color)
     
 
 window.bind("<KeyPress>", key_pressed_new)
 window.bind("<KeyRelease>", key_released_new)
+
 
 
 def create_labels():
@@ -59,12 +76,19 @@ def create_labels():
     startingcoordinateX = 25
     startingCoordinateY = 100
     counter = 0
+
+    global labels
+    labels = {}
+
     for i in range(len(key_of_keys)):
         for j in range(len(key_of_keys[i])):
 
             key = "L" + str(counter)
-            key = tk.Label(window, text=keys[i][j], bg=default_color, font=('Arial', 12), width=5, height=2)
-            key.place(x=startingcoordinateX + (j*50), y=startingCoordinateY + (i*50))
+            labels[key] = tk.Label(window, text=key_of_keys[i][j], bg=default_color, font=('Arial', 12), width=5, height=2)
+            
+            labels[key].place(x=startingcoordinateX + (j*50), y=startingCoordinateY + (i*50))
+
+        
             counter += 1
 
 
