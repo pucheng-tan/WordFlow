@@ -20,7 +20,6 @@ class HelpMenuItem(menu_item.MenuItem):
         self.button = tk.Button(self.frame, text="Help", font=("Helvetica", 15))
         self.button["command"] = self.get_help_window
 
-        # self.button.grid(row=0, column=0)
         self.button.pack(fill=tk.X)
 
     def get_help_window(self):

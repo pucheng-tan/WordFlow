@@ -1,7 +1,7 @@
 import tkinter as tk
 
 # In order to create a window in our GUI, create a new window that extends active window, or use one of our already created windows.
-# Next, created widgets and display them in the self.frame of the window being created
+# Next, create widgets and display them in the self.frame of the window being created
 
 # Note: When creating a new window, make sure that you give it a new menu item, and display that item on the main menu
 
@@ -22,10 +22,8 @@ class ActiveWindow(object):
         """Show the active window
         """
         self.frame.pack(expand=True)
-        # self.frame.grid(row=1, column=1)
 
     def hide(self):
         """Hide the active window
         """
         self.frame.pack_forget()
-        # self.frame.grid_remove()

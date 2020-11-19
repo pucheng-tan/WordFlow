@@ -21,7 +21,6 @@ class HomeMenuItem(menu_item.MenuItem):
         self.button = tk.Button(self.frame, text="Home", font=("Helvetica", 15))
         self.button["command"] = self.get_home_window
 
-        # self.button.grid(row=0, column=0, sticky="we")
         self.button.pack(fill=tk.X)
 
     def get_home_window(self):

@@ -20,7 +20,6 @@ class ReportsMenuItem(menu_item.MenuItem):
         self.button = tk.Button(self.frame, text="Reports", font=("Helvetica", 15))
         self.button["command"] = self.get_reports_window
 
-        # self.button.grid(row=0, column=0)
         self.button.pack(fill=tk.X)
 
     def get_reports_window(self):
