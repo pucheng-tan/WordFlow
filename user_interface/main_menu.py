@@ -57,10 +57,10 @@ class MainMenu(object):
 
         self.create_common_menu_items()
 
-        if privilege == "Standard":
+        if privilege == 2:
             self.create_standard_menu_items()
             self.create_standard_panel()
-        elif privilege == "Super-Admin":
+        elif privilege == 0:
             self.create_super_admin_menu_items()
             self.create_super_admin_panel()
 

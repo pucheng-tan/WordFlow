@@ -9,6 +9,8 @@ import tkinter as tk
 from GUI_Authentication import screen_handler
 from managements import user_management
 
+from user_interface import gui
+
 
 class Authentication(tk.Frame):
     """Creates the authentication window.
@@ -150,13 +152,16 @@ class Authentication(tk.Frame):
     def sign_in_response(self):
         """Responds to the sign in button being clicked."""
 
-        bad_entries, response = self.check_entries()
+        invalid_entries, response = self.check_entries()
 
         # TODO: Connect to gui.py to open up welcome screen of user or maybe
         # return True to main.py and main.py will open it up
-        if not bad_entries:
+        if not invalid_entries:
             print("Yes")
             print(response)
+            self.master.destroy()
+            new_root = tk.Tk()
+            gui.GUI(new_root)
         else:
             print("No")
             print(response)
