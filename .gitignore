@@ -1,9 +1,8 @@
 sarah's
 .pytest_cache
 __pycache__
+.idea/
 env
 .vscode
 .vs
-.idea/
-
 
