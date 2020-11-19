@@ -1,4 +1,5 @@
 import tkinter as tk
+import tkinter.font
 from user_interface.active_windows import active_window
 
 class NewChallengeWindow(active_window.ActiveWindow):
@@ -48,6 +49,9 @@ class NewChallengeWindow(active_window.ActiveWindow):
 
 
         self.display_text_box = tk.Text(self.frame)
+        self.display_text_box_font = tkinter.font.Font(family="Times New Roman", size=21)
+        self.display_text_box.configure(font=self.display_text_box_font)
+
         self.display_text_box.pack()
         self.display_text_box.insert('end', self.text_content)
         
