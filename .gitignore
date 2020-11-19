@@ -1,5 +1,9 @@
 .pytest_cache
 __pycache__
+<<<<<<< HEAD
 env
 .vscode
 .vs
+=======
+.idea/workspace.xml
+>>>>>>> main_menu
