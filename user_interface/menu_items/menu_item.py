@@ -12,7 +12,7 @@ class MenuItem(object):
 
         self.frame = tk.Frame(frame)
 
-    def place_on_menu(self, row, column):
+    def place_on_menu(self):
         """Place the item on the menu at the specified row and column.
 
         Args:

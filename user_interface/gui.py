@@ -20,7 +20,7 @@ class GUI(object):
             master ([tkinter window]): master is the tkinter window which we want to display the GUI on.
         """
 
-        self.privilege = privilege # Will probably be a context manager
+        self.privilege = privilege  # Will probably be a context manager
         self.master = master
 
         # self.master.state("zoomed")
