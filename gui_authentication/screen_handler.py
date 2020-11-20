@@ -4,9 +4,9 @@ Typical Usage Example:
     screen_handler.run_login_screen()
 """
 
-from GUI_Authentication import login
-from GUI_Authentication import signup
-from GUI_Authentication import create_school
+from gui_authentication import login
+from gui_authentication import signup
+from gui_authentication import create_school
 
 
 def run_login_screen(master):
