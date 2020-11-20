@@ -26,12 +26,16 @@ class GUI(object):
         # self.master.state("zoomed")
         # self.master.resizable(False, False)
 
+        # Create a main menu
         self.main_menu = main_menu.MainMenu(self.context_service.get_user_privilege(), self)  # Create a main menu
-        self.active_window = home_window.HomeWindow(self)  # Create an active window (currently, the active window will dispay the home window)
+        # Create an active window (currently, the active window will display the
+        # home window, since it is the first window viewed when logging in
+        self.active_window = home_window.HomeWindow(self)
 
-        self.main_menu.place_main_menu() # Display the main menu on the left of the screen
-
-        self.active_window.show() # show the active window
+        # Display the main menu
+        self.main_menu.show_main_menu()
+        # Display the active window
+        self.active_window.show()
 
 # root = tk.Tk()
 

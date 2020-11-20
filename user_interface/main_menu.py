@@ -57,16 +57,23 @@ class MainMenu(object):
 
         self.create_common_menu_items()
 
+        # Standard user
         if privilege == 2:
             self.create_standard_menu_items()
             self.create_standard_panel()
+        # Admin user
+        elif privilege == 1:
+            self.create_admin_menu_items()
+            self.create_admin_panel()
+        # Super-admin user
         elif privilege == 0:
+            self.create_admin_menu_items()
             self.create_super_admin_menu_items()
             self.create_super_admin_panel()
 
         self.create_bottom_panel()
 
-    def place_main_menu(self):
+    def show_main_menu(self):
         """Places the main menu on the left side of the GUI frame."""
 
         # Display the main menu on the left of the screen
@@ -89,14 +96,18 @@ class MainMenu(object):
 
         self.assigned_challenges_menu_item = assigned_challenges_menu_item.AssignedChallengesMenuItem(self, self.frame_top)
 
+    def create_admin_menu_items(self):
+        """Makes the main menu items that administrative users have."""
+
+        self.classroom_management_menu_item = classroom_management_menu_item.ClassroomManagementMenuItem(self, self.frame_top)
+        self.user_management_menu_item = user_management_menu_item.UserManagementMenuItem(self, self.frame_top)
+        self.reports_menu_item = reports_menu_item.ReportsMenuItem(self, self.frame_top)
+
     def create_super_admin_menu_items(self):
         """Makes the menu items that only super-administrative users have on
         their main menus."""
 
         self.school_management_menu_item = school_management_menu_item.SchoolManagementMenuItem(self, self.frame_top)
-        self.classroom_management_menu_item = classroom_management_menu_item.ClassroomManagementMenuItem(self, self.frame_top)
-        self.user_management_menu_item = user_management_menu_item.UserManagementMenuItem(self, self.frame_top)
-        self.reports_menu_item = reports_menu_item.ReportsMenuItem(self, self.frame_top)
 
     def create_standard_panel(self):
         """This function is used to create the top frame that is displayed on a standard user's main menu.
@@ -110,7 +121,13 @@ class MainMenu(object):
     def create_admin_panel(self):
         """This function is used to create the top frame that is displayed on an admin's main menu.
         """
-        # School Management, Classroom Management, User Management, Reports, New Challenge, My History
+        # Classroom Management, User Management, Reports, New Challenge, My History
+        self.classroom_management_menu_item.place_on_menu()
+        self.user_management_menu_item.place_on_menu()
+        self.reports_menu_item.place_on_menu()
+
+        self.new_challenge_menu_item.place_on_menu()
+        self.my_history_menu_item.place_on_menu()
 
     def create_super_admin_panel(self):
         """This function is used to create the top frame that is displayed on a super admin's main menu.
