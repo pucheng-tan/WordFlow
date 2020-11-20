@@ -152,10 +152,10 @@ class CreateSchool(tk.Frame):
     def create_school_response(self):
         """Responds to the create school button being clicked."""
 
-        self.school = self.school_entry.get()
-        self.email = self.email_entry.get()
-        self.password = self.password_entry.get()
-        self.verify_password = self.verify_password_entry.get()
+        self.school = self.school_entry.get().strip()
+        self.email = self.email_entry.get().strip()
+        self.password = self.password_entry.get().strip()
+        self.verify_password = self.verify_password_entry.get().strip()
 
         print(self.school, self.email, self.password, self.verify_password)
 

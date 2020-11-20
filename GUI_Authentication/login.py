@@ -176,9 +176,9 @@ class Authentication(tk.Frame):
         display_temporary_label = False
         response = None
 
-        school_id = self.school_entry.get()
-        email = self.email_entry.get()
-        password = self.password_entry.get()
+        school_id = self.school_entry.get().strip()
+        email = self.email_entry.get().strip()
+        password = self.password_entry.get().strip()
 
         if self.temporary_label:
             self.forget_temporary_label()

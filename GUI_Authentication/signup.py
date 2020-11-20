@@ -144,11 +144,11 @@ class CreateUser(tk.Frame):
     def create_account_response(self):
         """Responds to the create account button being clicked."""
 
-        self.school = self.school_entry.get()
-        self.email = self.email_entry.get()
-        self.invite_code = self.invite_code_entry.get()
-        self.password = self.password_entry.get()
-        self.verify_password = self.verify_password_entry.get()
+        self.school = self.school_entry.get().strip()
+        self.email = self.email_entry.get().strip()
+        self.invite_code = self.invite_code_entry.get().strip()
+        self.password = self.password_entry.get().strip()
+        self.verify_password = self.verify_password_entry.get().strip()
 
         valid_entries = self.check_entries()
 
