@@ -27,7 +27,7 @@ class GUI(object):
         # self.master.resizable(False, False)
 
         # Create a main menu
-        self.main_menu = main_menu.MainMenu(self.context_service.get_user_privilege(), self)  # Create a main menu
+        self.main_menu = main_menu.MainMenu(self.context_service.get_user_privilege(), self)
         # Create an active window (currently, the active window will display the
         # home window, since it is the first window viewed when logging in
         self.active_window = home_window.HomeWindow(self)
