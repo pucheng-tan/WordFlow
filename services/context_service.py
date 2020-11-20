@@ -33,7 +33,7 @@ class ContextService:
         return self.__email
 
     #when the user authenticates, we need their user id, their privilege, and their school.
-    def set_user(self, privilege_level, user_uid, school_id, email, token=None):
+    def set_user(self, privilege_level, user_uid, school_id, email=None, token=None):
         self._user_privilege = privilege_level
         self._user_uid = user_uid
         self._school_id = school_id
@@ -44,4 +44,5 @@ class ContextService:
         self._user_privilege = None
         self._user_uid = None
         self._school_id = None
+        self.__email = None
         self._token = None
