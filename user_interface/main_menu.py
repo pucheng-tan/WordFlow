@@ -117,7 +117,6 @@ class MainMenu(object):
         self.new_challenge_menu_item.place_on_menu()
         self.my_history_menu_item.place_on_menu()
 
-    # //TODO Create the admin panel
     def create_admin_panel(self):
         """This function is used to create the top frame that is displayed on an admin's main menu.
         """
