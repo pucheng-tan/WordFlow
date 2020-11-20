@@ -22,7 +22,6 @@ class GUI(object):
 
         self.master = master
         self.context_service = context_service.ContextService.get_instance()
-        print(self.context_service.get_user_privilege())
 
         # self.master.state("zoomed")
         # self.master.resizable(False, False)
