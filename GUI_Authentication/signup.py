@@ -86,6 +86,11 @@ class CreateUser(tk.Frame):
         self.different_passwords_label = tk.Label(
             self.frame, text="The passwords do not match!", fg="red")
 
+        self.success_label = tk.Label(
+            self.frame,
+            text="Account successfully created! Sign in to get started!",
+            fg="green")
+
     def create_entries(self):
         """Creates and places the entry fields for the CreateUser frame."""
 
@@ -145,10 +150,10 @@ class CreateUser(tk.Frame):
         self.password = self.password_entry.get()
         self.verify_password = self.verify_password_entry.get()
 
-        invalid_entries = self.check_entries()
+        valid_entries = self.check_entries()
 
         # TODO: Connect so that a user is signed up.
-        if not invalid_entries:
+        if valid_entries:
             print("Good entries")
         else:
             print("Bad entries")
@@ -158,30 +163,33 @@ class CreateUser(tk.Frame):
         Checks whether the entries are valid.
 
         Return:
-             Returns a boolean value which is whether a temporary label is
-             displayed. It is True if the entries are invalid.
+             Returns a boolean value on whether the values entered in the
+             entry fields are valid. It is True if the entries are valid and
+             False if they are not.
         """
 
-        display_temporary_label = False
+        valid_entries = False
 
         if self.temporary_label:
             self.forget_temporary_label()
 
+        # Empty entry field
         if (not self.school or not self.email or not self.invite_code
                 or not self.password or not self.verify_password):
             self.temporary_label = self.forget_field_label
-            display_temporary_label = True
+        # Password and Verify Password don't match
         elif self.password != self.verify_password:
             self.temporary_label = self.different_passwords_label
-            display_temporary_label = True
+        else:
+            self.temporary_label = self.success_label
+            valid_entries = True
 
-        if display_temporary_label:
-            self.temporary_label.grid(row=14)
+        self.temporary_label.grid(row=14)
 
         print(self.school, self.email, self.invite_code, self.password,
               self.verify_password)
 
-        return display_temporary_label
+        return valid_entries
 
     def forget_temporary_label(self):
         """Removes the temporary label."""
