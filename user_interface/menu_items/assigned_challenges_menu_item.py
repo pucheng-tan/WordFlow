@@ -12,15 +12,8 @@ class AssignedChallengesMenuItem(menu_item.MenuItem):
         """
         menu_item.MenuItem.__init__(self, main_menu, frame)
 
-        self.create_button()
-
-    def create_button(self):
-        """Creates and places the Assigned Challenges button
-        """
-        self.button = tk.Button(self.frame, text="Assigned Challenges", font=("Helvetica", 15))
-        self.button["command"] = self.get_assigned_challenges_window
-
-        self.button.pack(fill=tk.X)
+        self.create_menu_item_button("Assigned Challenges")
+        self.menu_item_button["command"] = self.get_assigned_challenges_window
 
     def get_assigned_challenges_window(self):
         """This function will hide everything on the active window and display the assigned challenges window
