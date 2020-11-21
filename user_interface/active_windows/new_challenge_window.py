@@ -86,6 +86,11 @@ class NewChallengeWindow(active_window.ActiveWindow):
     def display_standard_challenge(self, text_content):
 
         self.label["text"] = self.challenge_type.get()
+
+        time_left = int(self.challenge_duration[1]) * 60
+
+        self.time_remaining = tk.Label(self.frame,text=self.challenge_duration,font=("TkDefaultFont", 30))
+        self.time_remaining.pack()
         
         self.text_content = text_content
         self.list_of_words = self.text_content.split(' ')
