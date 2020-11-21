@@ -1,6 +1,8 @@
 import tkinter as tk
 import tkinter.font
 from user_interface.active_windows import active_window
+import asyncio
+import threading
 
 class NewChallengeWindow(active_window.ActiveWindow):
     def __init__(self, gui):
@@ -87,7 +89,7 @@ class NewChallengeWindow(active_window.ActiveWindow):
 
         self.label["text"] = self.challenge_type.get()
 
-        time_left = int(self.challenge_duration[1]) * 60
+        self.time_left = int(self.challenge_duration[1]) * 60
 
         self.time_remaining = tk.Label(self.frame,text=self.challenge_duration,font=("TkDefaultFont", 30))
         self.time_remaining.pack()
@@ -116,7 +118,33 @@ class NewChallengeWindow(active_window.ActiveWindow):
         self.answer_box = tk.Entry(self.frame,width=35,borderwidth=5)
         self.answer_box.pack()
 
-        self._highlight_progress()
+        def timer_countdown(challenge_window):
+            while challenge_window.time_left >= 0:
+                mins, secs = divmod(challenge_window.time_left, 60)
+                timer = '{:02d}:{:02d}'.format(mins, secs)
+                # print(timer, end="\n")
+
+                challenge_window.time_remaining.configure(text=timer)
+                challenge_window.frame.after(1000, challenge_window.frame.update())
+
+                # time.sleep(1)
+
+                challenge_window.time_left = challenge_window.time_left - 1
+        
+        #asyncio.run(timer_countdown())
+
+        timer_thread = threading.Thread(target=timer_countdown,args=(self,))
+
+        #timer_thread.start()
+
+        highlight_thread = threading.Thread(target=(lambda: self._highlight_progress()))
+
+        #self._highlight_progress()
+        highlight_thread.start()
+
+        
+
+        
 
     
     def _highlight_progress(self):
