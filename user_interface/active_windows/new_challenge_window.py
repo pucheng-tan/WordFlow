@@ -3,6 +3,7 @@ import tkinter.font
 from user_interface.active_windows import active_window
 import asyncio
 import threading
+import time
 
 class NewChallengeWindow(active_window.ActiveWindow):
     def __init__(self, gui):
@@ -125,22 +126,26 @@ class NewChallengeWindow(active_window.ActiveWindow):
                 # print(timer, end="\n")
 
                 challenge_window.time_remaining.configure(text=timer)
-                challenge_window.frame.after(1000, challenge_window.frame.update())
+                time.sleep(1)
+                challenge_window.frame.update()
+
+                #challenge_window.frame.after(1000, challenge_window.frame.update())
 
                 # time.sleep(1)
 
                 challenge_window.time_left = challenge_window.time_left - 1
         
-        #asyncio.run(timer_countdown())
-
+        #asyncio.run(timer_countdown(self))
+        #TODO start this timer when the first button is pressed
         timer_thread = threading.Thread(target=timer_countdown,args=(self,))
-
-        #timer_thread.start()
+        timer_thread.start()
 
         highlight_thread = threading.Thread(target=(lambda: self._highlight_progress()))
-
-        #self._highlight_progress()
         highlight_thread.start()
+
+
+
+        # TODO: await for the timer to finish, then send results to challenge management
 
         
 
