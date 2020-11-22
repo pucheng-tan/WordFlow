@@ -12,7 +12,9 @@ class ChallengeService:
         """ Saves the challenge results belonging to the specific school/user.
         Does not do any kind of validation on the challenge, that should be completed before getting to this point.
         """
-        path = "Schools/" + school_id + "/UserProfiles/" + user_id + "/History"
+        challenge["user_profile"] = "Schools/" + school_id + "/UserProfiles/" + user_id
+        path = challenge["user_profile"] + "/History"
+        
         response = ChallengeService.api.post(path=path, data=challenge)
         return response["document"]
 

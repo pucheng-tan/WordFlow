@@ -2,14 +2,6 @@ import pytest
 from pytest_jsonreport.plugin import JSONReport, json_metadata
 
 from managements.user_management import UserManagement
-from managements.challenge_management import ChallengeManagement
-from datetime import datetime, timezone
-
-management = ChallengeManagement()
-
-def test_challenge_management():
-    result = management.get_random_challenge_content(0)
-    assert result == ""
 
 # @pytest.mark.xfail
 @pytest.mark.parametrize("user, result", [

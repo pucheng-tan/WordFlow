@@ -9,7 +9,7 @@ class ChallengeManagement(ApplicationManagement):
     def save_challenge_results(self, challenge):
         # get context data
         school_id = ChallengeManagement._context.get_school_id()
-        user_id = ChallengeManagement._context.get_user_id()
+        user_id = ChallengeManagement._context.get_user_uid()
 
         # TODO: Validate the challenge results in any way? Not sure if necessary as no user input
 
