@@ -20,3 +20,13 @@ class MenuItem(object):
             column ([int]): column number to place menu item at
         """
         self.frame.pack(fill=tk.X)
+
+    def create_menu_item_button(self, button_text):
+        """Creates and places a button on the menu item.
+        Args:
+            button_text: The text that should be on the button of the menu item.
+        """
+        self.menu_item_button = tk.Button(self.frame, text=button_text)
+        self.menu_item_button["font"] = ("Helvetica", 15)
+
+        self.menu_item_button.pack(fill=tk.X)

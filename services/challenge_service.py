@@ -22,11 +22,11 @@ class ChallengeService:
         Just finds the document with the highest index and returns the index.
         Index is 0-based, so it's technically the count - 1.
         """
-        path = "Challenge/Content/Modes/" + str(mode)
+        path = "ChallengeContent/Modes/" + str(mode)
         order_by = [{"index": False}]
         limit = 1
         result = ChallengeService.api.get(path=path, order_by=order_by, limit=limit)
-        return result["index"]
+        return list(result.values())[0]["index"]
 
     def get_challenge_content(self, mode, request_index):
         """Returns a specific challenge's text content for typing.
@@ -34,4 +34,5 @@ class ChallengeService:
         path = "ChallengeContent/Modes/" + str(mode)
         where_clause = [["index", "==", request_index]]
         result = ChallengeService.api.get(path=path, where_clauses=where_clause)
-        return result["text_content"]
+        text_content = list(result.values())[0]["text_content"]
+        return text_content

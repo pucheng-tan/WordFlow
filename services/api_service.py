@@ -68,16 +68,17 @@ class API:
         #     })
         # API._db = firestore.client()
 
-        if (API._db is not None):
+        if API.__instance != None:
             raise Exception("This class is a singleton! Call static get_instance() instead of constructor")
         else:
             # TODO: This is not how credentials should be setup.
             # If this is ever called more than once, the initialize_app gives an error because it is only ever meant to be called once!
             # The JSON is credentials for a service account that's actually not supposed to go into a public repository.
-            cred = credentials.Certificate(
-                './cmpt370-group2-firebase-adminsdk-lno8j-3910eb45cf.json'
-            )
-            firebase_admin.initialize_app(cred)
+            if not firebase_admin._apps:
+                cred = credentials.Certificate(
+                    './cmpt370-group2-firebase-adminsdk-lno8j-3910eb45cf.json'
+                )
+                firebase_admin.initialize_app(cred)
             API._db = firestore.client()
             API.__instance = self
 
@@ -297,9 +298,12 @@ class API:
         # if path doesn't lead to a document, it's time to create one
         if "DocumentReference" not in str(type(query)):
             # either use the id from the document, or auto a new one
-            doc_id = None if not "id" in data else data["id"]
+            doc_id = "" if not "id" in data else data["id"]
             API._last_statement += ".document(" + doc_id + ")"
-            query = query.document(doc_id)
+            if doc_id:
+                query = query.document(doc_id)
+            else:
+                query = query.document()
 
         API._last_statement += ".set(" + str(data) + ", merge=" + str(merge) + ")"
         result = query.set(data, merge=merge) 
@@ -335,7 +339,7 @@ class API:
             doc_id = data.id
             data = data.to_dict()
             data["id"] = doc_id
-        if "CollectionReference" in doc_type or "Query" in doc_type:
+        if "CollectionReference" in doc_type or "Query" in doc_type or "CollectionGroup" in doc_type:
             data = query.stream()
             data = {doc.id: doc.to_dict() for doc in data}
         # this shouldn't ever happen, but just in case...
