@@ -145,6 +145,10 @@ class StandardTypingChallenge(object):
         self.answer_box = tk.Entry(self.frame,width=35,borderwidth=5)
         self.answer_box.pack()
 
+        self._highlight_progress()
+
+        
+
         def timer_countdown(challenge_window):
             while challenge_window.time_left >= 0:
                 mins, secs = divmod(challenge_window.time_left, 60)
@@ -161,13 +165,14 @@ class StandardTypingChallenge(object):
 
                 challenge_window.time_left = challenge_window.time_left - 1
         
+        
         #asyncio.run(timer_countdown(self))
         #TODO start this timer when the first button is pressed
         timer_thread = threading.Thread(target=timer_countdown,args=(self,))
         timer_thread.start()
 
-        highlight_thread = threading.Thread(target=(lambda: self._highlight_progress()))
-        highlight_thread.start()
+        # highlight_thread = threading.Thread(target=(lambda: self._highlight_progress()))
+        # highlight_thread.start()
 
 
 
