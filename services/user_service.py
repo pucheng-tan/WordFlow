@@ -28,6 +28,11 @@ class UserService:
         except auth.EmailAlreadyExistsError:
             # TODO: This ain't right
             user_result = auth.get_user_by_email(email)
+        except ValueError as e:
+            if "email" in str(e):
+                user_result = {"error": "Invalid email format"}
+            elif "password" in str(e):
+                user_result = {"error": "Password must be at least 6 characters long"}
 
         return user_result
 

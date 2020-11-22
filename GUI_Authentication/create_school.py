@@ -7,7 +7,7 @@ Typical usage example:
 
 import tkinter as tk
 # from GUI_Authentication import login
-from GUI_Authentication import screen_handler
+from gui_authentication import screen_handler
 
 from managements import school_management, user_management
 
