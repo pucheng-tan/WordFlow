@@ -21,52 +21,52 @@ class NewChallengeWindow(active_window.ActiveWindow):
 
         self._loadTypingChallenge()
 
-    #     self.choose_a_typing_challenge()
-    #
-    #
+        
+    
+    
     # def choose_a_typing_challenge(self):
-    #     self.label['text'] = "Choose a typing challenge!"
-    #
+    #     self.challenge_label['text'] = "Choose a typing challenge!"
+    
     #     self.create_timer()
-    #
-    #
+    
+    
     #     #This variable will be set the the type of test the user wants
     #     self.challenge_type = tk.StringVar(self.frame)
     #     self.challenge_type.set("Standard")  #default will be standard
-    #
+    
     #     #Create the option menu
     #     choose_challenge_dropdown = tk.OptionMenu(self.frame, self.challenge_type, "Standard", "Programming Test", "Dictation Test")
     #     choose_challenge_dropdown.pack()
-    #
+    
     #     submitButton = tk.Button(self.frame, text="Start",command=self._loadTypingChallenge)
     #     submitButton.pack()
-    #
+    
     # def create_timer(self):
     #     """Creates the labels for the timer frame.
     #     Creates both the permanent labels that do not change and the labels the
     #     labels that do change when a button is pressed.
     #     """
     #     self.challenge_duration = "02:00"
-    #
+    
     #     #create timer labels (time_label displays time)
     #     self.timer_frame = tk.LabelFrame(self.frame, borderwidth=0)
     #     self.timer_frame.pack()
     #     self.duration_label = tk.Label(self.timer_frame, text="Duration:")
     #     self.time_label = tk.Label(self.timer_frame, text=self.challenge_duration, font=("TkDefaultFont", 15), borderwidth=3, relief="sunken")
-    #
+    
     #     self.duration_label.grid(row=1, column=0,rowspan=2)
     #     self.time_label.grid(row=1, column=1, rowspan=2)
     #     #display buttons
     #     self.up_button = tk.Button(self.timer_frame, text="\u25b2", fg="blue", bg="white")
     #     self.down_button = tk.Button(self.timer_frame, text="\u25bc", fg="blue", bg="white")
-    #
+    
     #     self.up_button["command"] = self._up_button_response
     #     self.down_button["command"] = self._down_button_response
-    #
+    
     #     self.up_button.grid(row=1, column=2)
     #     self.down_button.grid(row=2, column=2)
-    #
-    #
+    
+    
     # def _up_button_response(self):
     #     """Increases the amount of time."""
     #     total_time = int(self.challenge_duration[1]) + 1
@@ -85,26 +85,43 @@ class NewChallengeWindow(active_window.ActiveWindow):
 
     def _loadTypingChallenge(self):
 
-        # delete all the current widges except for our label
-        # for item in self.frame.pack_slaves():
-        #     if (item != self.label):
-        #         item.destroy()
+        #delete all the current widgets
+        for item in self.frame.pack_slaves():
+            item.destroy()
+
         # TODO: put an if statement here that starts a test depending on the value of self.challenge_type
         random_text = "She was in a hurry. Not the standard hurry when you're in a rush to get someplace, but a frantic hurry. The type of hurry where a few seconds could mean life or death. She raced down the road ignoring speed limits and weaving between cars. She was only a few minutes away when traffic came to a dead standstill on the road ahead."
-        self.display_standard_challenge(random_text)
+        StandardTypingChallenge(self.frame,random_text,self.challenge_duration)
+
+#TODO create class for programming challenge and dictation challenge
+
+class StandardTypingChallenge(object):
+    """Creates a standard typing challenge
+
+    Args:
+        object ([type]): [description]
+    """
+    def __init__(self, master, text_content, challenge_duration): #Eventually we can get rid of the text_content argument
+        self.frame = master
+        self.text_content = text_content
+        self.challenge_duration = challenge_duration
+
+        self.challenge_label = tk.Label(self.frame)
+        self.challenge_label.pack()
+        
+        self.display_standard_challenge()
 
 
+    def display_standard_challenge(self):
 
-    def display_standard_challenge(self, text_content):
-
-        self.challenge_label["text"] = self.challenge_type
+        self.challenge_label["text"] = "Standard Challenge"
 
         self.time_left = int(self.challenge_duration[1]) * 60
 
         self.time_remaining = tk.Label(self.frame,text=self.challenge_duration,font=("TkDefaultFont", 30))
         self.time_remaining.pack()
 
-        self.text_content = text_content
+        
         self.list_of_words = self.text_content.split(' ')
         self.list_of_word_lengths = [len(word) for word in self.list_of_words]
         
