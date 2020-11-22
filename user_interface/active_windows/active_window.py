@@ -16,7 +16,8 @@ class ActiveWindow(object):
         object ([type]): [description]
     """
     def __init__(self, gui):
-        self.frame = tk.Frame(gui.master)
+        self.gui = gui
+        self.frame = tk.Frame(self.gui.master)
 
     def show(self):
         """Show the active window
