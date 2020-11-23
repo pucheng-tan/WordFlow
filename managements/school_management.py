@@ -8,6 +8,12 @@ class SchoolManagement(ApplicationManagement):
     def create_school(self, school_name, owner_uid):
         """Creates the school. Needs an owner in order to be created.
         """
+        # check that the school is not a duplicate
+        school_exists = self._service.check_school_exists(school_name)
+
+        if school_exists:
+            return {"error": "School already exists!"}
+
         # make school object
         school = {
             "name": school_name,
