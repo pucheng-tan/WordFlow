@@ -182,6 +182,14 @@ class StandardTypingChallenge(object):
             
             test_finished_label = tk.Label(challenge_window.frame,text="Test Finished!",font=("TkDefaultFont", 50))
             test_finished_label.pack()
+            display_stats = tk.Text(challenge_window.frame,font=("TkDefaultFont", 23))
+            display_stats.pack()
+            display_stats.insert('end',"Test Summary")
+            display_stats.insert('end',"Correct Words: "+str(challenge_window.correct_words)+"\n")
+            display_stats.insert('end', "Incorrect Words: "+str(challenge_window.incorrect_words)+"\n")
+            display_stats.insert('end', "Total words completed: "+str(challenge_window.total_words_completed)+"\n")
+            display_stats.insert('end',"WPM: "+str(challenge_window.correct_words/int(challenge_window.challenge_duration[1]))+"\n")
+            display_stats.insert('end',"Accuracy: "+str((challenge_window.correct_words/challenge_window.total_words_completed)*100)+"%")
             
 
         self.timer_thread = threading.Thread(target=timer_countdown,args=(self,))
@@ -250,9 +258,11 @@ class StandardTypingChallenge(object):
             if(user_input == self.list_of_words[self.progress_counter]):
                 self.display_text_box.tag_add("correct", self.start_index, self.end_index)
                 self.correct_words+=1
+                self.total_words_completed+=1
             else:
                 self.display_text_box.tag_add("false", self.start_index, self.end_index)
-                self.incorrect_words8+=1
+                self.incorrect_words+=1
+                self.total_words_completed+=1
 
             _update_start_and_end_index(self)
             #self.displayInput.configure(state='disabled')
