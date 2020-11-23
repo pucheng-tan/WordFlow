@@ -336,9 +336,12 @@ class API:
         data = None
         if "DocumentReference" in doc_type:
             data = query.get()
-            doc_id = data.id
-            data = data.to_dict()
-            data["id"] = doc_id
+            if data.id:
+                doc_id = data.id
+                data = data.to_dict()
+                data["id"] = doc_id
+            else:
+                data = {}
         if "CollectionReference" in doc_type or "Query" in doc_type:
             data = query.stream()
             data = {doc.id: doc.to_dict() for doc in data}

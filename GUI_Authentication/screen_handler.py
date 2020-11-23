@@ -1,6 +1,6 @@
-from GUI_Authentication import login
-from GUI_Authentication import signup
-from GUI_Authentication import create_school
+from gui_authentication import login
+from gui_authentication import signup
+from gui_authentication import create_school
 
 class ScreenHandler(object):
     def __init__(self):

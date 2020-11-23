@@ -10,11 +10,11 @@ class SchoolManagement(ApplicationManagement):
         """
         # make school object
         school = {
-            "name": school_name
+            "name": school_name,
+            "id": school_name
         }
         # the owner attribute needs the school id to be set
         create_result = self._service.create_school(school)
-        school["id"] = create_result["id"]
         # then update the school
         school = self.update_school_owner(school, owner_uid)
 

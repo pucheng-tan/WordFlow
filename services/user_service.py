@@ -24,10 +24,10 @@ class UserService:
         display_name = user["display_name"]
 
         try:
-            user_result = auth.create_user(display_name=display_name, email=email, password=password)
+            auth_result = auth.create_user(display_name=display_name, email=email, password=password)
+            user_result = {"uid": auth_result.uid}
         except auth.EmailAlreadyExistsError:
-            # TODO: This ain't right
-            user_result = auth.get_user_by_email(email)
+            user_result = self.__login(email, password)
 
         return user_result
 
@@ -40,7 +40,10 @@ class UserService:
         result = UserService._api.post(path, user) 
         return result["document"]
 
-    def login(self, email, password, school_id):
+    def __login(self, email, password):
+        """ Authenticates the user.
+        Should not be used outside of this module as most logins should be with a school.
+        """
         # https://firebase.google.com/docs/reference/rest/auth
         url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDg_L6PD2cbSSFUTEpET56VOVKJaGWm5Nc"
         result_json = requests.post(
@@ -52,7 +55,7 @@ class UserService:
         # error will be received if bad password, account not found... probably more
         if "error" in result:
             login_result = {"error": "Failed to authenticate"}
-        # otherwise, there should be the information that we want in the result
+        
         else: 
             # this is the user's UID
             uid = result["localId"]
@@ -62,13 +65,23 @@ class UserService:
                 "refreshToken": result["refreshToken"],
                 "expiresIn": result["expiresIn"]
             }
-            # then check to make sure that the user belongs to the school
-            path = "Schools/" + school_id + "/UserProfiles/" + uid
-            user_profile = UserService._api.get(path)
-            if user_profile:
-                login_result = {"user": user_profile, "token": token}
-            else:
-                login_result = {"error": "No user at school"}
+            login_result = {"uid": uid, "token": token}
+        
+        return login_result
+
+    def login(self, email, password, school_id):
+        # authenticate the user, get their uid and login token
+        login = self.__login(email, password)
+        uid = login["uid"]
+        token = login["token"]
+
+        # then check to make sure that the user belongs to the school
+        path = "Schools/" + school_id + "/UserProfiles/" + uid
+        user_profile = UserService._api.get(path)
+        if user_profile:
+            login_result = {"user": user_profile, "token": token}
+        else:
+            login_result = {"error": "No user at school"}
         return login_result
     
     def logout(self, email):

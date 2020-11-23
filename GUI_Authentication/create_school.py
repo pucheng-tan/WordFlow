@@ -7,7 +7,7 @@ Typical usage example:
 
 import tkinter as tk
 # from GUI_Authentication import login
-from GUI_Authentication import screen_handler
+from gui_authentication import screen_handler
 
 from managements import school_management, user_management
 
@@ -160,10 +160,15 @@ class CreateSchool(tk.Frame):
 
             # Creating super-admin and school
             user = self.user_management.create_auth_user(email, password)
-            school = self.school_management.create_school(school, user["id"])
-            school_user = self.user_management.create_user_profile(email, user["id"], 0)
-
-            print(school, email, password, verify_password)
+            
+            # test that the user was successfully created:
+            if "id" in user:            
+                school = self.school_management.create_school(school, user["id"])
+                school_user = self.user_management.create_user_profile(email, user["id"], 0)
+                print(school, email, password, verify_password)
+            else:
+                print(user["error"])
+            
 
 
 # root = tk.Tk()
