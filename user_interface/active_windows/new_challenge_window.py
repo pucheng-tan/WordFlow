@@ -1,7 +1,6 @@
 import tkinter as tk
 import tkinter.font
 from user_interface.active_windows import active_window
-import asyncio
 import threading
 import time
 
@@ -90,8 +89,7 @@ class NewChallengeWindow(active_window.ActiveWindow):
             item.destroy()
 
         # TODO: put an if statement here that starts a test depending on the value of self.challenge_type
-        random_text = "She was in a hurry. Not the standard hurry when you're in a rush to get someplace, but a frantic hurry. The type of hurry where a few seconds could mean life or death. She raced down the road ignoring speed limits and weaving between cars. She was only a few minutes away when traffic came to a dead standstill on the road ahead."
-        StandardTypingChallenge(self.frame,random_text,self.challenge_duration)
+        StandardTypingChallenge(self.frame,self.challenge_duration)
 
 #TODO create class for programming challenge and dictation challenge
 
@@ -101,9 +99,11 @@ class StandardTypingChallenge(object):
     Args:
         object ([type]): [description]
     """
-    def __init__(self, master, text_content, challenge_duration): #Eventually we can get rid of the text_content argument
+    def __init__(self, master, challenge_duration): #Eventually we can get rid of the text_content argument
         self.frame = master
-        self.text_content = text_content
+        #This it so be swapped a random challenge from firebase
+        self.text_content = "She was in a hurry. Not the standard hurry when you're in a rush to get someplace, but a frantic hurry. The type of hurry where a few seconds could mean life or death. She raced down the road ignoring speed limits and weaving between cars. She was only a few minutes away when traffic came to a dead standstill on the road ahead."
+
         self.challenge_duration = challenge_duration
 
         self.challenge_label = tk.Label(self.frame)
@@ -111,11 +111,19 @@ class StandardTypingChallenge(object):
         
         self.display_standard_challenge()
 
+        self.correct_words = 0
+        self.incorrect_words = 0
+        self.total_words_completed = 0
+
 
     def display_standard_challenge(self):
+        """Creates the standard typing challenge
+        """
 
-        self.challenge_label["text"] = "Standard Challenge"
+        self.challenge_label["text"] = "Standard Challenge - Type anything to begin!"
 
+
+        
         self.time_left = int(self.challenge_duration[1]) * 60
 
         self.time_remaining = tk.Label(self.frame,text=self.challenge_duration,font=("TkDefaultFont", 30))
@@ -127,7 +135,7 @@ class StandardTypingChallenge(object):
         
 
 
-        self.display_text_box = tk.Text(self.frame)
+        self.display_text_box = tk.Text(self.frame,height=20)
         self.display_text_box_font = tkinter.font.Font(family="Times New Roman", size=21)
         self.display_text_box.configure(font=self.display_text_box_font)
 
@@ -142,14 +150,15 @@ class StandardTypingChallenge(object):
 
         
 
-        self.answer_box = tk.Entry(self.frame,width=35,borderwidth=5)
+        self.answer_box = tk.Entry(self.frame,width=10,font=("TkDefaultFont", 50))
         self.answer_box.pack()
 
-        self._highlight_progress()
-
-        
-
         def timer_countdown(challenge_window):
+            """This is the function that makes the timer tick. It will be executed in athread so it does not impact the performance of our program.
+
+            Args:
+                challenge_window ([type]): this is an instance of the new_challenge_window class (just give this function self as an argument)
+            """
             while challenge_window.time_left >= 0:
                 mins, secs = divmod(challenge_window.time_left, 60)
                 timer = '{:02d}:{:02d}'.format(mins, secs)
@@ -164,19 +173,47 @@ class StandardTypingChallenge(object):
                 # time.sleep(1)
 
                 challenge_window.time_left = challenge_window.time_left - 1
-        
-        
-        #asyncio.run(timer_countdown(self))
-        #TODO start this timer when the first button is pressed
-        timer_thread = threading.Thread(target=timer_countdown,args=(self,))
-        timer_thread.start()
-
-        # highlight_thread = threading.Thread(target=(lambda: self._highlight_progress()))
-        # highlight_thread.start()
 
 
+            #Put stuff that happends after timer here.
 
-        # TODO: await for the timer to finish, then send results to challenge management
+            for item in challenge_window.frame.pack_slaves():
+                item.destroy()
+            
+            test_finished_label = tk.Label(challenge_window.frame,text="Test Finished!",font=("TkDefaultFont", 50))
+            test_finished_label.pack()
+            
+
+        self.timer_thread = threading.Thread(target=timer_countdown,args=(self,))
+
+        def on_button_press(challenge_window):
+            """This function is to execute on the very first button press of the test. It will start the test.
+
+            Args:
+                challenge_window ([type]): this is an instance of the new_challenge_window class.
+            """
+            challenge_window.challenge_label["text"] = "Standard Challenge" #get rid of "Press any key to start the test" in the title
+
+            #start the timer - important to put it in a thread so that performance of the test is not affected
+            challenge_window.timer_thread.start()
+            challenge_window._highlight_progress()
+            #unmap the any key to this function
+            challenge_window.answer_box.unbind('<Key>')
+            
+            #this line should wait for the timer to finish, however, it crashes our program.
+            #thus, I put anycode that needs to be executed after the timer finished after the timer in the thread function.
+            #challenge_window.timer_thread.join()
+            
+            
+
+        self.answer_box.bind('<Key>',lambda a = self: on_button_press(self))
+
+
+
+        # TODO: await for the timer to finish, then send results to challenge management #### Put this in the bottom of timer_countdown
+
+        # timer_thread.join()
+
 
         
 
@@ -204,15 +241,18 @@ class StandardTypingChallenge(object):
 
 
 
-
+        # TODO What should we do when there is nothing left in list of words? right now there is an error once the user gets to the end of the text
+        # we should probally handle that somehow
         def _on_space_key_pressed(self):
             user_input = self.answer_box.get().strip(' ')
             self.answer_box.delete(0,'end')
 
             if(user_input == self.list_of_words[self.progress_counter]):
                 self.display_text_box.tag_add("correct", self.start_index, self.end_index)
+                self.correct_words+=1
             else:
                 self.display_text_box.tag_add("false", self.start_index, self.end_index)
+                self.incorrect_words8+=1
 
             _update_start_and_end_index(self)
             #self.displayInput.configure(state='disabled')
