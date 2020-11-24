@@ -1,5 +1,11 @@
 requests
 firebase-admin
+firebase
+# google-api-core==1.22.1
+# google-cloud-firestore==1.7.0
+# google-cloud-storage==1.18.0
+# grpcio==1.13.0rc3
+# google-api-core==1.22.1
 pyttsx3
 pytest
 pytest-json-report
