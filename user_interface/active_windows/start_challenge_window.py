@@ -70,10 +70,9 @@ class StartChallengeWindow(active_window.ActiveWindow):
 
     def _load_typing_challenge(self):
 
-        # delete all the current widges except for our label
+        # delete all the current widges
         for item in self.frame.pack_slaves():
-            if (item != self.label):
-                item.destroy()
+            item.destroy()
 
     def create_radio_buttons(self):
 

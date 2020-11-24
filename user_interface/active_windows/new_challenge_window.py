@@ -6,19 +6,26 @@ import time
 
 class NewChallengeWindow(active_window.ActiveWindow):
     def __init__(self, gui, selections):
-        active_window.ActiveWindow.__init__(self, gui)
+        """Creates the challenge window given the type of challenge, the challenge duration
 
-        # // TODO Make the New Challenge Window
+        Args:
+            gui ([type]): [the gui that this window is attached too]
+            selections ([type]): [this is a list that contains the test perameters]
+
+            selections is a list with challenge type at index 0 (challenge type = {"Standard","Programmer","Dictation"}),
+            the language at index 1 (None if challenge type is not programmer), and the duration at index 2 as a int
+        """
+
+        active_window.ActiveWindow.__init__(self, gui)
         self.challenge_label = tk.Label(self.frame)
         self.challenge_label.pack()
 
-        print(selections)
-
         self.challenge_type = selections[0]
-        self.challenge_language = selections[1]
+        self.challenge_language = selections[1] # if challenge_type is not "Programmer, this should be None"
         self.challenge_duration = selections[2]
 
-        self._loadTypingChallenge()
+        
+        self._load_new_challenge()
 
         
     
@@ -82,79 +89,78 @@ class NewChallengeWindow(active_window.ActiveWindow):
     #         self.timer_frame.update()
 
 
-    def _loadTypingChallenge(self):
+    
 
-        #delete all the current widgets
-        for item in self.frame.pack_slaves():
-            item.destroy()
 
-        # TODO: put an if statement here that starts a test depending on the value of self.challenge_type
-        StandardTypingChallenge(self.frame,self.challenge_duration)
+    def _load_new_challenge(self):
+        """Creates a typing test based on the challenge type
+        """
+        if(self.challenge_type=="Standard"):
+            StandardTypingChallenge(self.frame,self.challenge_duration)
+        elif(self.challenge_type=="Programming"):
+            ProgrammingTypingChallenge(self.frame,self.challenge_duration,self.challenge_language)
+        elif(self.challenge_type=="Dictation"):
+            DictationTypingChallenge(self.frame,self.challenge_duration)
+        else:
+            #should never get here
+            print("ljsdjflkdsjflks")
 
-#TODO create class for programming challenge and dictation challenge
+
 
 class StandardTypingChallenge(object):
     """Creates a standard typing challenge
-
-    Args:
-        object ([type]): [description]
     """
-    def __init__(self, master, challenge_duration): #Eventually we can get rid of the text_content argument
+    def __init__(self, master, challenge_duration): 
         self.frame = master
         #This it so be swapped a random challenge from firebase
         self.text_content = "She was in a hurry. Not the standard hurry when you're in a rush to get someplace, but a frantic hurry. The type of hurry where a few seconds could mean life or death. She raced down the road ignoring speed limits and weaving between cars. She was only a few minutes away when traffic came to a dead standstill on the road ahead."
-
         self.challenge_duration = challenge_duration
-
-        self.challenge_label = tk.Label(self.frame)
-        self.challenge_label.pack()
-        
-        self.display_standard_challenge()
 
         self.correct_words = 0
         self.incorrect_words = 0
         self.total_words_completed = 0
 
+        self.display_standard_challenge()
 
     def display_standard_challenge(self):
         """Creates the standard typing challenge
         """
 
+        #Title label
+        self.challenge_label = tk.Label(self.frame)
+        self.challenge_label.pack()
         self.challenge_label["text"] = "Standard Challenge - Type anything to begin!"
 
 
-        
         self.time_left = int(self.challenge_duration[1]) * 60
 
         self.time_remaining = tk.Label(self.frame,text=self.challenge_duration,font=("TkDefaultFont", 30))
         self.time_remaining.pack()
 
-        
+        #List of each word in the text content
         self.list_of_words = self.text_content.split(' ')
+
+        #List of the length of each word, in the order of the words
         self.list_of_word_lengths = [len(word) for word in self.list_of_words]
         
 
 
-        self.display_text_box = tk.Text(self.frame,height=20)
-        self.display_text_box_font = tkinter.font.Font(family="Times New Roman", size=21)
-        self.display_text_box.configure(font=self.display_text_box_font)
+        self.display_text_box = tk.Text(self.frame,height=20,font=("Times New Roman", 21))
+        # self.display_text_box_font = tkinter.font.Font(family="Times New Roman", size=21)
+        # self.display_text_box.configure(font=self.display_text_box_font)
 
         self.display_text_box.pack()
         self.display_text_box.insert('end', self.text_content)
         
-
+        #Create tags
         self.display_text_box.tag_configure("correct",background="blue",foreground="white")
         self.display_text_box.tag_configure("false",background="red",foreground="white")
-
-         
-
-        
 
         self.answer_box = tk.Entry(self.frame,width=10,font=("TkDefaultFont", 50))
         self.answer_box.pack()
 
         def timer_countdown(challenge_window):
-            """This is the function that makes the timer tick. It will be executed in athread so it does not impact the performance of our program.
+            """This is the function that makes the timer tick. It will be executed in a thread so it does not impact the performance of our program.
 
             Args:
                 challenge_window ([type]): this is an instance of the new_challenge_window class (just give this function self as an argument)
@@ -170,13 +176,12 @@ class StandardTypingChallenge(object):
 
                 #challenge_window.frame.after(1000, challenge_window.frame.update())
 
-                # time.sleep(1)
-
                 challenge_window.time_left = challenge_window.time_left - 1
 
 
-            #Put stuff that happends after timer here.
+            #Put stuff that happends after timer here - This might be temporary
 
+            #Clean the screen
             for item in challenge_window.frame.pack_slaves():
                 item.destroy()
             
@@ -269,4 +274,22 @@ class StandardTypingChallenge(object):
 
 
         self.answer_box.bind('<space>',lambda a = self: _on_space_key_pressed(self) )
+
+
+
+#TODO implement the programming typing challenge here
+class ProgrammingTypingChallenge(object):
+    def __init__(self, master, challenge_duration, challenge_language):
+        self.frame = master
+        self.challenge_duration = challenge_duration
+        self.challenge_language = challenge_language
+
+
+
+#TODO implement the dictation typing challenge here
+class DictationTypingChallenge(object):
+    def __init__(self, master, challenge_duration):
+        self.frame = master
+        self.challenge_duration = challenge_duration
+    
 
