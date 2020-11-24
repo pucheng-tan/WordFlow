@@ -20,7 +20,7 @@ class SchoolManagementMenuItem(menu_item.MenuItem):
         """
         self.gui.active_window.hide()
 
-        self.associated_window = school_management_window.SchoolManagementWindow(self.gui.master)
+        self.associated_window = school_management_window.SchoolManagementWindow(self.gui)
         self.gui.active_window = self.associated_window
 
         self.gui.active_window.show()

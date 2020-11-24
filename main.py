@@ -8,7 +8,7 @@ def main():
     """Runs the authentication screen."""
 
     root = tk.Tk()
-    app = login.Authentication(master=root)
+    app = login.Authentication(root)
     app.mainloop()
 
 

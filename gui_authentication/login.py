@@ -162,6 +162,7 @@ class Authentication(tk.Frame):
             self.master.destroy()
             new_root = tk.Tk()
             gui.GUI(new_root)
+            new_root.mainloop()
         else:
             print("No")
             print(response)
