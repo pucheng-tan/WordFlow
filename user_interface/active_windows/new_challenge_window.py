@@ -3,6 +3,7 @@ import tkinter.font
 from user_interface.active_windows import active_window
 import threading
 import time
+import datetime
 
 class NewChallengeWindow(active_window.ActiveWindow):
     def __init__(self, gui, selections):
@@ -134,6 +135,9 @@ class StandardTypingChallenge(object):
 
         self.time_left = int(self.challenge_duration[1]) * 60
 
+        #remember to send to db
+        self.total_time_in_seconds = time_left
+
         self.time_remaining = tk.Label(self.frame,text=self.challenge_duration,font=("TkDefaultFont", 30))
         self.time_remaining.pack()
 
@@ -189,12 +193,26 @@ class StandardTypingChallenge(object):
             test_finished_label.pack()
             display_stats = tk.Text(challenge_window.frame,font=("TkDefaultFont", 23))
             display_stats.pack()
+
+            wpm = challenge_window.correct_words/int(challenge_window.challenge_duration[1])
+            accuracy = (challenge_window.correct_words/challenge_window.total_words_completed)*100
+
             display_stats.insert('end',"Test Summary")
             display_stats.insert('end',"Correct Words: "+str(challenge_window.correct_words)+"\n")
             display_stats.insert('end', "Incorrect Words: "+str(challenge_window.incorrect_words)+"\n")
             display_stats.insert('end', "Total words completed: "+str(challenge_window.total_words_completed)+"\n")
-            display_stats.insert('end',"WPM: "+str(challenge_window.correct_words/int(challenge_window.challenge_duration[1]))+"\n")
-            display_stats.insert('end',"Accuracy: "+str((challenge_window.correct_words/challenge_window.total_words_completed)*100)+"%")
+            display_stats.insert('end',"WPM: "+str(wpm)+"\n")
+            display_stats.insert('end',"Accuracy: "+str(accuracy)+"%")
+
+            challenge = {
+                "accuracy":accuracy,
+                "date_completed":datetime.datetime.utcnow(),
+                "duration": challenge_window.total_time_in_seconds,
+                "mode":0,
+                "wpm":wpm
+            }
+
+            #send this challenge to the db
             
 
         self.timer_thread = threading.Thread(target=timer_countdown,args=(self,))
