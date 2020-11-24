@@ -4,9 +4,14 @@ from user_interface import main_menu
 from user_interface.active_windows import home_window
 
 
-from services import context_service
-
-class GUI(object):
+class ContextServiceTest(object):
+    def get_instance(self):
+        return self
+    def get_user_privilege(self):
+        return 2
+    def get_user_email(self):
+        return "Test User 123"
+class TESTGUI(object):
     """GUI class will create a main menu and an active window, which together will make up the GUI.
 
     In order to run the GUI, you can run this class.
@@ -24,7 +29,7 @@ class GUI(object):
         self.master = master
 
         
-        self.context_service = context_service.ContextService.get_instance()
+        self.context_service = ContextServiceTest()
 
         # self.master.state("zoomed")
         # self.master.resizable(False, False)
@@ -44,8 +49,3 @@ class GUI(object):
         # Display the active window
         self.active_window.show()
 
-# root = tk.Tk()
-
-# GUI("Standard", root)
-
-# root.mainloop()

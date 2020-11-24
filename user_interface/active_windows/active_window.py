@@ -20,7 +20,8 @@ class ActiveWindow(object):
         self.gui = gui
         self.frame = tk.Frame(self.gui.master)
 
-        self.context_service = context_service.ContextService.get_instance()
+        #self.context_service = context_service.ContextService.get_instance()
+        self.context_service = gui.context_service
 
     def show(self):
         """Show the active window
