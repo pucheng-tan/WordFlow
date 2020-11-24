@@ -65,7 +65,7 @@ class UserManagementWindow(active_window.ActiveWindow):
         self.tree_view_frame = tk.Frame(self.standard_frame)
         self.tree_scroll = tk.Scrollbar(self.tree_view_frame)
         self.tree_scroll.pack(side=tk.RIGHT, fill=tk.Y)
-        mytree = ttk.Treeview(self.tree_view_frame, yscrollcommand=self.tree_scroll.set, selectmode="browse")
+        mytree = ttk.Treeview(self.tree_view_frame, yscrollcommand=self.tree_scroll.set, selectmode="browse", style="Custom.Treeview")
 
         self.tree_scroll.config(command=mytree.yview)
         self.tree_view_frame.pack()
@@ -79,7 +79,7 @@ class UserManagementWindow(active_window.ActiveWindow):
         mytree.column("Last Sign In", anchor=tk.CENTER)
 
         # Creating Headings
-        mytree.heading("#0", text="", anchor=tk.W)
+        mytree.heading("#0", text="", anchor=tk.W, font="red")
         mytree.heading("Name", text="Name", anchor=tk.CENTER)
         mytree.heading("Email", text="Email", anchor=tk.W)
         mytree.heading("Date Created", text="Date Created", anchor=tk.CENTER)
@@ -97,6 +97,8 @@ class UserManagementWindow(active_window.ActiveWindow):
         
         # Should be working but....
         mytree.tag_configure("odd", background="light gray")
+        
+        # Todo: Figure out how to configure heading...
         
 
 
