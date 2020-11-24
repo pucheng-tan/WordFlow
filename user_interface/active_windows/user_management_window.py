@@ -96,7 +96,7 @@ class UserManagementWindow(active_window.ActiveWindow):
             count+= 1
         
         # Should be working but....
-        mytree.tag_configure("odd", background="blue")
+        mytree.tag_configure("odd", background="light gray")
         
 
 
