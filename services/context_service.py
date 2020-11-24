@@ -1,34 +1,48 @@
-class ContextManager:
+class ContextService:
 
     __instance = None
 
 
-    _user_privilege = None # super-admin
+    _user_privilege = None 
     _user_uid = None
-    _school_id = "o2lTSAI6X4yGdIZ0huB9"
+    _school_id = None
+    _token = None
 
-    # Make sure this gets made at a singleton
     def __init__(self):
-        if ContextManager.__instance != None:
+        if ContextService.__instance != None:
             raise Exception("This class is a singleton! Call static get_instance() instead of constructor")
         else: 
-            ContextManager.__instance = self
+            ContextService.__instance = self
 
     @staticmethod
     def get_instance():
-        if ContextManager.__instance != None:
-            ContextManager()
-        return ContextManager.__instance
+        if ContextService.__instance == None:
+            ContextService()
+        return ContextService.__instance
 
-    def get_school(self):
+    def get_school_id(self):
         return self._school_id
 
     def get_user_privilege(self):
         return self._user_privilege 
 
+    def get_user_uid(self):
+        return self._user_uid
+
+    def get_user_email(self):
+        return self.__email
+
     #when the user authenticates, we need their user id, their privilege, and their school.
-    def set_user(self, privilege_level, user_uid, school_id):
-        # check to make sure that it is valid first. Can be 0: super-admin, 1: admin, 2: standard user
+    def set_user(self, privilege_level, user_uid, school_id, email=None, token=None):
         self._user_privilege = privilege_level
         self._user_uid = user_uid
         self._school_id = school_id
+        self.__email = email
+        self._token = token
+
+    def reset_context(self):
+        self._user_privilege = None
+        self._user_uid = None
+        self._school_id = None
+        self.__email = None
+        self._token = None

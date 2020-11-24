@@ -13,15 +13,8 @@ class NewChallengeMenuItem(menu_item.MenuItem):
         """
         menu_item.MenuItem.__init__(self, main_menu, frame)
 
-        self.create_button()
-
-    def create_button(self):
-        """Creates and places the button for the new challenge menu item."""
-
-        self.button = tk.Button(self.frame, text="New Challenge", font=("Helvetica", 15))
-        self.button["command"] = self.get_new_challenge_window
-
-        self.button.pack(fill=tk.X)
+        self.create_menu_item_button("New Challenge")
+        self.menu_item_button["command"] = self.get_new_challenge_window
 
     def get_new_challenge_window(self):
         """This function will hide everything on the active window and display the new challenges window
