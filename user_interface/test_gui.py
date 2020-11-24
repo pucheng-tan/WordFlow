@@ -3,7 +3,9 @@ import tkinter as tk
 from user_interface import main_menu
 from user_interface.active_windows import home_window
 
+#THE PURPOSE OF TEST GUI IS A GUI THAT DOES NOT DEPEND ON THE LOGIN SCREEN -> PERFECT FOR MAKING QUICK ADJUSTMENTS TO THE GUI
 
+#This is just a mock context service that I can use to give test gui dummy values - we can use the same gui as the real one, without changing the code
 class ContextServiceTest(object):
     def get_instance(self):
         return self
