@@ -17,6 +17,8 @@ class ActiveWindow(object):
         object ([type]): [description]
     """
     def __init__(self, gui):
+        self.gui = gui
+
         self.frame = tk.Frame(gui.master)
 
         self.context_service = context_service.ContextService.get_instance()

@@ -8,6 +8,6 @@ class HomeWindow(active_window.ActiveWindow):
         self.welcome()
 
     def welcome(self):
-        home_text = "Welcome " + self.context_service.get_user_email()+"!"
+        home_text = "Welcome" + "!"
         self.welcome_label = tk.Label(self.frame, text=home_text, font=("Helvetica", 20))
         self.welcome_label.pack()
