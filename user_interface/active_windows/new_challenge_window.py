@@ -136,7 +136,7 @@ class StandardTypingChallenge(object):
         self.time_left = int(self.challenge_duration[1]) * 60
 
         #remember to send to db
-        self.total_time_in_seconds = time_left
+        self.total_time_in_seconds = self.time_left
 
         self.time_remaining = tk.Label(self.frame,text=self.challenge_duration,font=("TkDefaultFont", 30))
         self.time_remaining.pack()
@@ -212,7 +212,7 @@ class StandardTypingChallenge(object):
                 "wpm":wpm
             }
 
-            #send this challenge to the db
+            #TODO send this challenge to the db
             
 
         self.timer_thread = threading.Thread(target=timer_countdown,args=(self,))

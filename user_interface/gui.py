@@ -3,7 +3,8 @@ import tkinter as tk
 from user_interface import main_menu
 from user_interface.active_windows import home_window
 
-from services import context_service
+#Was getting error when I included this and ran the gui
+#from services import context_service
 
 class GUI(object):
     """GUI class will create a main menu and an active window, which together will make up the GUI.
@@ -21,13 +22,21 @@ class GUI(object):
         """
 
         self.master = master
-        self.context_service = context_service.ContextService.get_instance()
+
+        #took out this line for testing
+        #self.context_service = context_service.ContextService.get_instance()
 
         # self.master.state("zoomed")
         # self.master.resizable(False, False)
 
         # Create a main menu
-        self.main_menu = main_menu.MainMenu(self.context_service.get_user_privilege(), self)
+
+        self.main_menu = main_menu.MainMenu(2, self)
+
+
+        #self.main_menu = main_menu.MainMenu(self.context_service.get_user_privilege(), self)
+        #Just took this line out so I could test
+
         # Create an active window (currently, the active window will display the
         # home window, since it is the first window viewed when logging in
         self.active_window = home_window.HomeWindow(self)
