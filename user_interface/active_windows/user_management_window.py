@@ -61,6 +61,45 @@ class UserManagementWindow(active_window.ActiveWindow):
         users = ["Name", "One", "Two", "Three"]
         emails = ["Email", "Email 1", "Email 2", "Email 3"]
 
+        # Create a tree Frame with scroll bar
+        self.tree_view_frame = tk.Frame(self.standard_frame)
+        self.tree_scroll = tk.Scrollbar(self.tree_view_frame)
+        self.tree_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+        mytree = ttk.Treeview(self.tree_view_frame, yscrollcommand=self.tree_scroll.set, selectmode="browse")
+
+        self.tree_scroll.config(command=mytree.yview)
+        self.tree_view_frame.pack()
+        mytree.pack()
+        mytree["columns"] = ("Name", "Email", "Date Created", "Last Sign In")
+        # FOrmatting Colums
+        mytree.column("#0", width=0, stretch=tk.NO)
+        mytree.column("Name", anchor=tk.CENTER)
+        mytree.column("Email", anchor=tk.W)
+        mytree.column("Date Created", anchor=tk.CENTER)
+        mytree.column("Last Sign In", anchor=tk.CENTER)
+
+        # Creating Headings
+        mytree.heading("#0", text="", anchor=tk.W)
+        mytree.heading("Name", text="Name", anchor=tk.CENTER)
+        mytree.heading("Email", text="Email", anchor=tk.W)
+        mytree.heading("Date Created", text="Date Created", anchor=tk.CENTER)
+        mytree.heading("Last Sign In", text="Last Sign In", anchor=tk.CENTER)
+        
+        # Fake Data
+        count = 0
+        for i in range(0,25):
+            if i % 2 == 0:
+                mytree.insert(parent="", index="end", iid=count, text="", values=("FAke Name", "fakename@hotmail.com", 12, 18))
+            else:
+                mytree.insert(parent="", index="end", iid=count, text="", values=("Real Name", "realname@hotmail.com", 10, 20), tags=("odd",))
+                
+            count+= 1
+        
+        # Should be working but....
+        mytree.tag_configure("odd", background="blue")
+        
+
+
     def create_tabs(self):
         style = ttk.Style()
         style.configure('TNotebook.Tab', font=("Helvetica", "20", "bold"))
