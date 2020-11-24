@@ -60,27 +60,6 @@ class UserManagementWindow(active_window.ActiveWindow):
     def get_users(self):
         users = ["Name", "One", "Two", "Three"]
         emails = ["Email", "Email 1", "Email 2", "Email 3"]
-        self.my_listbox = tk.Listbox(self.standard_frame, font=("Helvetica", 20))
-        self.my_listbox.pack(side=tk.LEFT)
-        self.my_listbox.bind('<<ListboxSelect>>', self.activate)
-
-        self.my_email_listbox = tk.Listbox(self.standard_frame, font=("Helvetica", 20))
-        self.my_email_listbox.pack(side=tk.LEFT)
-
-        for item in range(0, len(users)):
-            self.my_listbox.insert("end", users[item])
-            self.my_email_listbox.insert("end", emails[item])
-            if item == 0:
-                self.my_listbox.itemconfig(item, fg="white", bg="blue")
-                self.my_email_listbox.itemconfig(item, fg="white", bg="blue")
-            if item % 2 != 0:
-                self.my_listbox.itemconfig(item, bg="light gray")
-                self.my_email_listbox.itemconfig(item, bg="light gray")
-
-        tk.Label(self.standard_frame, text="Actions").pack(side=tk.RIGHT)
-
-    def activate(self, event):
-        print(self.my_listbox.index(tk.ANCHOR))
 
     def create_tabs(self):
         style = ttk.Style()
