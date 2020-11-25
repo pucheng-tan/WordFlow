@@ -4,141 +4,100 @@ from user_interface.active_windows import active_window
 import threading
 import time
 import datetime
+from managements import challenge_management
 
 class NewChallengeWindow(active_window.ActiveWindow):
-    def __init__(self, gui, selections):
+
+    modes = {"Standard": 0, "Dictation": 1, "Java": 2, "Python": 3, "PHP": 4, "HTML": 5, "C": 6}
+
+    def __init__(self, gui, selected_mode, duration_seconds):
         """Creates the challenge window given the type of challenge, the challenge duration
 
         Args:
             gui ([type]): [the gui that this window is attached too]
-            selections ([type]): [this is a list that contains the test perameters]
 
-            selections is a list with challenge type at index 0 (challenge type = {"Standard","Programmer","Dictation"}),
-            the language at index 1 (None if challenge type is not programmer), and the duration at index 2 as a int
+            selected_mode: An integer corresponding to the challenge mode, and prorgramming language if applicable.
+            One of: {"Standard": 0, "Dictation": 1, "Java": 2, "Python": 3, "PHP": 4, "HTML": 5, "C": 6}
+
+            duration: The duration of the challenge in seconds
         """
 
         active_window.ActiveWindow.__init__(self, gui)
         self.challenge_label = tk.Label(self.frame)
         self.challenge_label.pack()
 
-        self.challenge_type = selections[0]
-        self.challenge_language = selections[1] # if challenge_type is not "Programmer, this should be None"
-        self.challenge_duration = selections[2]
+        self.challenge_type = selected_mode
+        self.challenge_duration = duration_seconds
 
+        self.challenge_management = challenge_management.ChallengeManagement()
         
         self._load_new_challenge()
-
-        
-    
-    
-    # def choose_a_typing_challenge(self):
-    #     self.challenge_label['text'] = "Choose a typing challenge!"
-    
-    #     self.create_timer()
-    
-    
-    #     #This variable will be set the the type of test the user wants
-    #     self.challenge_type = tk.StringVar(self.frame)
-    #     self.challenge_type.set("Standard")  #default will be standard
-    
-    #     #Create the option menu
-    #     choose_challenge_dropdown = tk.OptionMenu(self.frame, self.challenge_type, "Standard", "Programming Test", "Dictation Test")
-    #     choose_challenge_dropdown.pack()
-    
-    #     submitButton = tk.Button(self.frame, text="Start",command=self._loadTypingChallenge)
-    #     submitButton.pack()
-    
-    # def create_timer(self):
-    #     """Creates the labels for the timer frame.
-    #     Creates both the permanent labels that do not change and the labels the
-    #     labels that do change when a button is pressed.
-    #     """
-    #     self.challenge_duration = "02:00"
-    
-    #     #create timer labels (time_label displays time)
-    #     self.timer_frame = tk.LabelFrame(self.frame, borderwidth=0)
-    #     self.timer_frame.pack()
-    #     self.duration_label = tk.Label(self.timer_frame, text="Duration:")
-    #     self.time_label = tk.Label(self.timer_frame, text=self.challenge_duration, font=("TkDefaultFont", 15), borderwidth=3, relief="sunken")
-    
-    #     self.duration_label.grid(row=1, column=0,rowspan=2)
-    #     self.time_label.grid(row=1, column=1, rowspan=2)
-    #     #display buttons
-    #     self.up_button = tk.Button(self.timer_frame, text="\u25b2", fg="blue", bg="white")
-    #     self.down_button = tk.Button(self.timer_frame, text="\u25bc", fg="blue", bg="white")
-    
-    #     self.up_button["command"] = self._up_button_response
-    #     self.down_button["command"] = self._down_button_response
-    
-    #     self.up_button.grid(row=1, column=2)
-    #     self.down_button.grid(row=2, column=2)
-    
-    
-    # def _up_button_response(self):
-    #     """Increases the amount of time."""
-    #     total_time = int(self.challenge_duration[1]) + 1
-    #     if total_time <= 5:
-    #         self.challenge_duration = "0"+str(total_time)+":00"
-    #         self.time_label.configure(text=self.challenge_duration)
-    #         self.timer_frame.update()
-    # def _down_button_response(self):
-    #     """Decreases the amount of time."""
-    #     total_time = int(self.challenge_duration[1]) - 1
-    #     if total_time >= 1:
-    #         self.challenge_duration = "0"+str(total_time)+":00"
-    #         self.time_label.configure(text=self.challenge_duration)
-    #         self.timer_frame.update()
-
-
-    
 
 
     def _load_new_challenge(self):
         """Creates a typing test based on the challenge type
         """
-        if(self.challenge_type=="Standard"):
-            StandardTypingChallenge(self.frame,self.challenge_duration)
-        elif(self.challenge_type=="Programming"):
-            ProgrammingTypingChallenge(self.frame,self.challenge_duration,self.challenge_language)
-        elif(self.challenge_type=="Dictation"):
-            DictationTypingChallenge(self.frame,self.challenge_duration)
+
+        challenge_content = self.challenge_management.get_random_challenge_content(self.challenge_type)
+
+        if(self.challenge_type == self.modes["Standard"]):
+            StandardTypingChallenge(self.frame, self.challenge_duration, challenge_content, self.challenge_type)
+
+        elif(self.challenge_type == self.modes["Dictation"]):
+            DictationTypingChallenge(self.frame, self.challenge_duration, challenge_content, self.challenge_type)
+
+        elif(self.challenge_type in self.modes):          
+            ProgrammingTypingChallenge(self.frame, self.challenge_duration, challenge_content, self.challenge_type)
+
+        
         else:
             #should never get here
             print("ljsdjflkdsjflks")
 
 
-
-class StandardTypingChallenge(object):
-    """Creates a standard typing challenge
+class BaseTypingChallenge(object):
+    """ Base class for all of the other typing challenges
     """
-    def __init__(self, master, challenge_duration): 
+
+    def __init__(self, master, challenge_duration, challenge_content, mode):
         self.frame = master
-        #This it so be swapped a random challenge from firebase
-        self.text_content = "She was in a hurry. Not the standard hurry when you're in a rush to get someplace, but a frantic hurry. The type of hurry where a few seconds could mean life or death. She raced down the road ignoring speed limits and weaving between cars. She was only a few minutes away when traffic came to a dead standstill on the road ahead."
+        self.text_content = challenge_content
         self.challenge_duration = challenge_duration
+        self.mode = mode
 
         self.correct_words = 0
         self.incorrect_words = 0
         self.total_words_completed = 0
 
-        self.display_standard_challenge()
+        self.correct_color="blue"
+        self.incorrect_color="red"
+        self.challenge_management = challenge_management.ChallengeManagement()
 
-    def display_standard_challenge(self):
-        """Creates the standard typing challenge
+        self.display_challenge()
+
+    def format_timer_label(self, seconds):
+        """ Take in number in seconds, turn it into "2:00" format
         """
+        mins, secs = divmod(seconds, 60)
+        timer = '{:02d}:{:02d}'.format(mins, secs)
 
+        return timer
+    
+    def display_challenge(self):
+        """ Creates the typing challenge
+        """
         #Title label
         self.challenge_label = tk.Label(self.frame)
         self.challenge_label.pack()
-        self.challenge_label["text"] = "Standard Challenge - Type anything to begin!"
+        self.challenge_label["text"] = self.title + " Challenge - Type anything to begin!"
+        
+        self.time_left = self.challenge_duration
 
-
-        self.time_left = int(self.challenge_duration[1]) * 60
-
-        #remember to send to db
+        # TODO: remember to send to db
         self.total_time_in_seconds = self.time_left
 
-        self.time_remaining = tk.Label(self.frame,text=self.challenge_duration,font=("TkDefaultFont", 30))
+        timer_text = self.format_timer_label(self.challenge_duration)
+        self.time_remaining = tk.Label(self.frame, text=timer_text, font=("TkDefaultFont", 30))
         self.time_remaining.pack()
 
         #List of each word in the text content
@@ -146,22 +105,25 @@ class StandardTypingChallenge(object):
 
         #List of the length of each word, in the order of the words
         self.list_of_word_lengths = [len(word) for word in self.list_of_words]
+
+        # the element that displays the content to be typed
+        # TODO: In most challenge modes, this will display the text to be typed
+        # but, in dictation, it'll have to be different
+        self.display_text_box = tk.Text(self.frame, height=20, font=("Times New Roman", 21))
+
+        #Create tags to highlight words as correct or incorrect
+        self.display_text_box.tag_configure("correct", background=self.correct_color, foreground="white")
+        self.display_text_box.tag_configure("false", background=self.incorrect_color, foreground="white")
         
-
-
-        self.display_text_box = tk.Text(self.frame,height=20,font=("Times New Roman", 21))
-        # self.display_text_box_font = tkinter.font.Font(family="Times New Roman", size=21)
-        # self.display_text_box.configure(font=self.display_text_box_font)
-
         self.display_text_box.pack()
         self.display_text_box.insert('end', self.text_content)
-        
-        #Create tags
-        self.display_text_box.tag_configure("correct",background="blue",foreground="white")
-        self.display_text_box.tag_configure("false",background="red",foreground="white")
 
-        self.answer_box = tk.Entry(self.frame,width=10,font=("TkDefaultFont", 50))
+        # the element that the user types into
+        self.answer_box = tk.Entry(self.frame, width=10, font=("TkDefaultFont", 50))
         self.answer_box.pack()
+
+        def display_results(challenge_window, challenge_results):
+            pass
 
         def timer_countdown(challenge_window):
             """This is the function that makes the timer tick. It will be executed in a thread so it does not impact the performance of our program.
@@ -170,52 +132,47 @@ class StandardTypingChallenge(object):
                 challenge_window ([type]): this is an instance of the new_challenge_window class (just give this function self as an argument)
             """
             while challenge_window.time_left >= 0:
-                mins, secs = divmod(challenge_window.time_left, 60)
-                timer = '{:02d}:{:02d}'.format(mins, secs)
-                # print(timer, end="\n")
+                timer = self.format_timer_label(challenge_window.time_left)
 
                 challenge_window.time_remaining.configure(text=timer)
                 time.sleep(1)
                 challenge_window.frame.update()
 
-                #challenge_window.frame.after(1000, challenge_window.frame.update())
-
                 challenge_window.time_left = challenge_window.time_left - 1
 
 
             #Put stuff that happends after timer here - This might be temporary
-
             #Clean the screen
             for item in challenge_window.frame.pack_slaves():
                 item.destroy()
-            
-            test_finished_label = tk.Label(challenge_window.frame,text="Test Finished!",font=("TkDefaultFont", 50))
+
+            # TODO: Does not account for if they finished it early!
+            duration = self.total_time_in_seconds
+            challenge_results = self.challenge_management.save_challenge_results(challenge_window.correct_words, 
+                                                                                challenge_window.incorrect_words, 
+                                                                                challenge_window.total_words_completed,
+                                                                                duration, self.mode)
+    
+            test_finished_label = tk.Label(challenge_window.frame,text="Challenge Finished!", font=("TkDefaultFont", 50))
             test_finished_label.pack()
-            display_stats = tk.Text(challenge_window.frame,font=("TkDefaultFont", 23))
+            display_stats = tk.Text(challenge_window.frame, font=("TkDefaultFont", 23))
             display_stats.pack()
 
-            wpm = challenge_window.correct_words/int(challenge_window.challenge_duration[1])
-            accuracy = (challenge_window.correct_words/challenge_window.total_words_completed)*100
+            # wpm = challenge_window.correct_words/int(challenge_window.challenge_duration[1])
+            # accuracy = (challenge_window.correct_words/challenge_window.total_words_completed)*100
 
-            display_stats.insert('end',"Test Summary")
-            display_stats.insert('end',"Correct Words: "+str(challenge_window.correct_words)+"\n")
-            display_stats.insert('end', "Incorrect Words: "+str(challenge_window.incorrect_words)+"\n")
-            display_stats.insert('end', "Total words completed: "+str(challenge_window.total_words_completed)+"\n")
-            display_stats.insert('end',"WPM: "+str(wpm)+"\n")
-            display_stats.insert('end',"Accuracy: "+str(accuracy)+"%")
+            display_stats.insert('end',"Challenge Summary")
+            display_stats.insert('end',"Correct Words: " + str(challenge_window.correct_words) + "\n")
+            display_stats.insert('end', "Incorrect Words: " + str(challenge_window.incorrect_words) + "\n")
+            display_stats.insert('end', "Total words completed: " + str(challenge_window.total_words_completed) + "\n")
+            display_stats.insert('end',"WPM: " + str(challenge_results["wpm"]) + "\n")
+            display_stats.insert('end',"Accuracy: " + str(challenge_results["accuracy"])+ "%")
 
-            challenge = {
-                "accuracy":accuracy,
-                "date_completed":datetime.datetime.utcnow(),
-                "duration": challenge_window.total_time_in_seconds,
-                "mode":0,
-                "wpm":wpm
-            }
 
             #TODO send this challenge to the db
             
 
-        self.timer_thread = threading.Thread(target=timer_countdown,args=(self,))
+        self.timer_thread = threading.Thread(target=timer_countdown, args=(self,))
 
         def on_button_press(challenge_window):
             """This function is to execute on the very first button press of the test. It will start the test.
@@ -245,10 +202,10 @@ class StandardTypingChallenge(object):
 
         # timer_thread.join()
 
-
-        
-
-        
+class StandardTypingChallenge(BaseTypingChallenge):
+    """Creates a standard typing challenge
+    """
+    title = "Standard"
 
     
     def _highlight_progress(self):

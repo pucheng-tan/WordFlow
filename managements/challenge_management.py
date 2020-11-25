@@ -1,19 +1,32 @@
 from managements.application_management import ApplicationManagement
 from services.challenge_service import ChallengeService
 from random import randint
+import datetime
 
 class ChallengeManagement(ApplicationManagement):
 
     _service = ChallengeService()
 
-    def save_challenge_results(self, challenge):
+    def save_challenge_results(self, correct_words, incorrect_words, total_words, duration):
+
+        wpm = correct_words / duration
+        accuracy = (correct_words / total_words_completed) * 100
+
+        challenge_results = {
+            "wpm": wpm,
+            "accuracy": accuracy,
+            "date_completed": datetime.datetime.utcnow(),
+            "duration": duration,
+            "mode": mode,
+        }
+
         # get context data
         school_id = ChallengeManagement._context.get_school_id()
         user_id = ChallengeManagement._context.get_user_uid()
 
         # TODO: Validate the challenge results in any way? Not sure if necessary as no user input
 
-        response = self._service.save_challenge_results(school_id, user_id, challenge)
+        response = self._service.save_challenge_results(school_id, user_id, challenge_results)
         return response
 
     def get_random_challenge_content(self, mode=0):

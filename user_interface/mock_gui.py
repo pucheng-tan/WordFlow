@@ -12,7 +12,14 @@ class ContextServiceTest(object):
     def get_user_privilege(self):
         return 2
     def get_user_email(self):
-        return "Test User 123"
+        return "1123@gmail.com"
+
+    def get_school_id(self):
+        return "3p1U6xAvKic1RvXMl5nJ"
+
+    def get_user_uid(self):
+        return "T1b5iP7q96YBnaPDRuEN8c5Arwh1"
+
 class TESTGUI(object):
     """GUI class will create a main menu and an active window, which together will make up the GUI.
 
