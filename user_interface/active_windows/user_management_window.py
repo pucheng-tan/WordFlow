@@ -46,6 +46,7 @@ class UserManagementWindow(active_window.ActiveWindow):
         self.create_standard_frame()
         self.create_admin_frame()
         self.create_super_admin_frame()
+        self.create_actions()
         self.create_tabs()
 
     def create_standard_frame(self):
@@ -60,6 +61,24 @@ class UserManagementWindow(active_window.ActiveWindow):
         self.super_admin_frame = tk.Frame(self.user_management_notebook, bg="red")
         self.super_admin_frame.pack()
 
+    def create_actions(self):
+        self.actions_label = tk.Label(self.standard_frame, text="Actions")
+        self.actions_label.pack(side=tk.RIGHT)
+
+        self.view_button = tk.Button(self.standard_frame, text="View User")
+        self.view_button.pack(side=tk.RIGHT)
+
+        self.view_button["command"] = self.view_user_response
+
+    def view_user_response(self):
+        cur_item = self.mytree.focus()
+        print(cur_item, self.mytree.item(cur_item))
+        selected_item = self.mytree.item(cur_item)
+        print(selected_item["values"])
+        if selected_item["values"]:
+            print("Open new window")
+
+
     def get_users(self):
         users = ["Name", "One", "Two", "Three"]
         emails = ["Email", "Email 1", "Email 2", "Email 3"]
@@ -68,25 +87,25 @@ class UserManagementWindow(active_window.ActiveWindow):
         self.tree_view_frame = tk.Frame(self.standard_frame)
         self.tree_scroll = tk.Scrollbar(self.tree_view_frame)
         self.tree_scroll.pack(side=tk.RIGHT, fill=tk.Y)
-        mytree = ttk.Treeview(self.tree_view_frame, yscrollcommand=self.tree_scroll.set, selectmode="browse", style="Custom.Treeview")
+        self.mytree = ttk.Treeview(self.tree_view_frame, yscrollcommand=self.tree_scroll.set, selectmode="browse", style="Custom.Treeview")
 
-        self.tree_scroll.config(command=mytree.yview)
-        self.tree_view_frame.pack()
-        mytree.pack()
-        mytree["columns"] = ("Name", "Email", "Date Created", "Last Sign In")
+        self.tree_scroll.config(command=self.mytree.yview)
+        self.tree_view_frame.pack(side=tk.LEFT)
+        self.mytree.pack()
+        self.mytree["columns"] = ("Name", "Email", "Date Created", "Last Sign In")
         # FOrmatting Colums
-        mytree.column("#0", width=0, stretch=tk.NO)
-        mytree.column("Name", anchor=tk.CENTER)
-        mytree.column("Email", anchor=tk.W)
-        mytree.column("Date Created", anchor=tk.CENTER)
-        mytree.column("Last Sign In", anchor=tk.CENTER)
+        self.mytree.column("#0", width=0, stretch=tk.NO)
+        self.mytree.column("Name", anchor=tk.CENTER)
+        self.mytree.column("Email", anchor=tk.W)
+        self.mytree.column("Date Created", anchor=tk.CENTER)
+        self.mytree.column("Last Sign In", anchor=tk.CENTER)
 
         # Creating Headings
-        mytree.heading("#0", text="", anchor=tk.W)
-        mytree.heading("Name", text="Name", anchor=tk.CENTER)
-        mytree.heading("Email", text="Email", anchor=tk.W)
-        mytree.heading("Date Created", text="Date Created", anchor=tk.CENTER)
-        mytree.heading("Last Sign In", text="Last Sign In", anchor=tk.CENTER)
+        self.mytree.heading("#0", text="", anchor=tk.W)
+        self.mytree.heading("Name", text="Name", anchor=tk.CENTER)
+        self.mytree.heading("Email", text="Email", anchor=tk.W)
+        self.mytree.heading("Date Created", text="Date Created", anchor=tk.CENTER)
+        self.mytree.heading("Last Sign In", text="Last Sign In", anchor=tk.CENTER)
         
         # Fake Data
         users = self.school_management.get_school_users(0, 2)
@@ -96,14 +115,14 @@ class UserManagementWindow(active_window.ActiveWindow):
             user_data = self.user_management.get_user_data(users[i])
             values = (user_data[0], user_data[1], user_data[2], user_data[3])
             if i % 2 == 0:
-                mytree.insert(parent="", index="end", iid=count, text="", values=values)
+                self.mytree.insert(parent="", index="end", iid=count, text="", values=values)
             else:
-                mytree.insert(parent="", index="end", iid=count, text="", values=values, tags=("odd",))
+                self.mytree.insert(parent="", index="end", iid=count, text="", values=values, tags=("odd",))
                 
             count += 1
         
         # Should be working but....
-        mytree.tag_configure("odd", background="light gray")
+        self.mytree.tag_configure("odd", background="light gray")
         
         # Todo: Figure out how to configure heading...
         
