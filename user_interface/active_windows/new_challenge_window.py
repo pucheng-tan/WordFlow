@@ -73,7 +73,7 @@ class BaseTypingChallenge(object):
         self.incorrect_color="red"
         self.challenge_management = challenge_management.ChallengeManagement()
 
-        self.challenge_finished = False
+        self.is_challenge_finished = False
 
         self.display_challenge()
 
@@ -104,7 +104,7 @@ class BaseTypingChallenge(object):
             # accuracy = (challenge_window.correct_words/challenge_window.total_words_completed)*100
 
             display_stats.insert('end',"Challenge Summary" + "\n")
-            print(challenge_results)
+            #print(challenge_results)
             display_stats.insert('end',"Correct Words: " + str(self.correct_words) + "\n")
             display_stats.insert('end', "Incorrect Words: " + str(self.incorrect_words) + "\n")
             display_stats.insert('end', "Total words completed: " + str(self.total_words_completed) + "\n")
@@ -114,6 +114,10 @@ class BaseTypingChallenge(object):
 
     def challenge_finished(self):
         duration = self.total_time_in_seconds
+
+        if self.time_left > 0:
+            time_taken_to_complete = duration - self.time_left
+            print(time_taken_to_complete)
 
         challenge_results = self.challenge_management.save_challenge_results(self.correct_words, 
                                                                             self.incorrect_words, 
@@ -169,7 +173,7 @@ class BaseTypingChallenge(object):
             Args:
                 challenge_window ([type]): this is an instance of the new_challenge_window class (just give this function self as an argument)
             """
-            while challenge_window.time_left >= 0:
+            while ((challenge_window.time_left >= 0) and (not self.is_challenge_finished)):
                 timer = self.format_timer_label(challenge_window.time_left)
 
                 challenge_window.time_remaining.configure(text=timer)
@@ -177,6 +181,8 @@ class BaseTypingChallenge(object):
                 challenge_window.frame.update()
 
                 challenge_window.time_left = challenge_window.time_left - 1
+
+            
 
 
             #Put stuff that happends after timer here - This might be temporary
@@ -283,6 +289,7 @@ class StandardTypingChallenge(BaseTypingChallenge):
         # we should probally handle that somehow
         def _on_space_key_pressed(self):
             user_input = self.answer_box.get().strip(' ')
+
             self.answer_box.delete(0,'end')
 
             if(user_input == self.list_of_words[self.progress_counter]):
@@ -294,8 +301,16 @@ class StandardTypingChallenge(BaseTypingChallenge):
                 self.incorrect_words+=1
                 self.total_words_completed+=1
 
-            _update_start_and_end_index(self)
-            #self.displayInput.configure(state='disabled')
+            
+
+            if(len(self.list_of_words)-1 == self.progress_counter):
+                #If you've reached the end of the test
+                self.is_challenge_finished = True
+                self.answer_box.unbind('<space>')
+
+            if not self.is_challenge_finished:
+                _update_start_and_end_index(self)
+            
 
 
         self.answer_box.bind('<space>',lambda a = self: _on_space_key_pressed(self) )
