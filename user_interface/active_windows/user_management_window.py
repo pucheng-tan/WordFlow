@@ -72,11 +72,17 @@ class UserManagementWindow(active_window.ActiveWindow):
 
     def view_user_response(self):
         cur_item = self.mytree.focus()
-        print(cur_item, self.mytree.item(cur_item))
+        # print(cur_item, self.mytree.item(cur_item))
         selected_item = self.mytree.item(cur_item)
-        print(selected_item["values"])
+        # print(selected_item["values"])
         if selected_item["values"]:
-            print("Open new window")
+            self.hide()
+            user_info = selected_item["values"]
+            user_information_Window = UserinformationWindow(self.gui, user_info)
+            self.gui.active_window=user_information_Window
+            self.gui.active_window.show()
+            
+            
 
 
     def get_users(self):
@@ -140,3 +146,75 @@ class UserManagementWindow(active_window.ActiveWindow):
 
     def hello(self, event):
         print("Hello World!")
+
+
+class UserinformationWindow(active_window.ActiveWindow):
+    def __init__(self, gui, user_info):
+        active_window.ActiveWindow.__init__(self, gui)
+
+        self.user_info = user_info
+        self.first_name = self.user_info[0]
+        self.last_name = self.user_info[0]
+        self.email = self.user_info[1]
+        self.date_created = self.user_info[2]
+        self.last_sign_in= self.user_info[3]
+
+        # Creating things
+        self.make_buttons()
+        self.create_labels()
+        self.create_option_menu()
+        
+    def make_buttons(self):
+        # Creating butttons
+        assign_newchallenge_button = tk.Button(self.frame, text="Asssign New Challenge", fg="white", bg="blue")
+        invite_button = tk.Button(self.frame, text="Invite", fg="white", bg="blue")
+        reports_button = tk.Button(self.frame, text="Reports", fg="white", bg="blue")
+        remove_user_button = tk.Button(self.frame, text="Remove User", fg="white", bg="blue")
+        back_to_users_button = tk.Button(self.frame, text="Back To Users", fg="white", bg="blue")
+        change_privilege_button =tk.Button(self.frame, text="Change Privilege", fg="white", bg="blue")
+        
+        assign_newchallenge_button.pack()
+        invite_button.pack()
+        reports_button.pack()
+        remove_user_button.pack()
+        back_to_users_button.pack()
+        change_privilege_button.pack()
+
+        back_to_users_button["command"] = self.back_to_users
+
+    def back_to_users(self):
+        self.hide()
+        user_management_Window = UserManagementWindow(self.gui)
+        self.gui.active_window=user_management_Window
+        self.gui.active_window.show()
+
+
+    def create_labels(self):
+        print(self.user_info)
+        profile_label = tk.Label(self.frame, text="Profile: Fake Profile" )
+        first_name_label = tk.Label(self.frame, text="First Name: " + self.first_name)
+        last_name_label = tk.Label(self.frame, text="Last Name: " + self.last_name)
+        email_label = tk.Label(self.frame, text="Email: " + self.email)
+        date_created_label = tk.Label(self.frame, text="Date Created: " + self.date_created)
+        last_sign_in_label = tk.Label(self.frame, text="Last Sign In: " + self.last_sign_in)
+        classroom_label = tk.Label(self.frame, text="Classroom 1")
+
+        profile_label.pack()
+        first_name_label.pack()
+        last_name_label.pack()
+        email_label.pack()
+        date_created_label.pack()
+        last_sign_in_label.pack()
+        classroom_label.pack()
+
+    def create_option_menu(self):
+    
+        privileges = ["Standard", "Admin", "Super-Admin"]
+
+        self.change_privileges = tk.StringVar()
+        self.change_privileges.set(privileges[0]) # Default privilege
+
+        privilege_option_menu = tk.OptionMenu(self.frame, self.change_privileges, *privileges)
+
+        privilege_option_menu.pack()
+        

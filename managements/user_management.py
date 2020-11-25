@@ -146,7 +146,7 @@ class UserManagement(ApplicationManagement):
         if user_id == 0:
             fake_user_data = ["User 0", "email", "date created", "last log in"]
         elif user_id == 1:
-            fake_user_data = ["User 1", "email", "date created", "last log in"]
+            fake_user_data = ["Fake name", "fakename@hotmail.com", "July 12", "18:00"]
         elif user_id == 2:
             fake_user_data = ["User 2", "email", "date created", "last log in"]
         elif user_id == 3:
