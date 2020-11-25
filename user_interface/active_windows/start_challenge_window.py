@@ -109,17 +109,25 @@ class StartChallengeWindow(active_window.ActiveWindow):
         begin_button.grid(row=5)
 
     def begin_response(self):
+        modes = {"Standard": 0, "Dictation": 1, "Java": 2, "Python": 3, "PHP": 4, "HTML": 5, "C": 6}
+
         self.selected_challenge_language = None
         self.selected_challenge_type = self.challenge_type.get()
         print(self.selected_challenge_type, self.challenge_duration)
+        
         if self.selected_challenge_type == "Programmer":
             self.selected_challenge_language = self.language.get()
             print(self.selected_challenge_language)
-
-        selections = [self.selected_challenge_type, self.selected_challenge_language, self.challenge_duration]
+            selected_mode = modes[self.selected_challenge_language]
+        else:
+            selected_mode = modes[self.selected_challenge_type]
 
         self.hide()
-        self.gui.active_window = new_challenge_window.NewChallengeWindow(self.gui, selections)
+
+        # change the duration from a string into an integer and do math on it to get seconds
+        duration = self.challenge_duration.split(":")
+        duration_seconds = (int(duration[0]) * 60) + int(duration[1]) # "2:00" --> [2, 0]
+        self.gui.active_window = new_challenge_window.NewChallengeWindow(self.gui, selected_mode, duration_seconds)
         self.gui.active_window.show()
 
 
