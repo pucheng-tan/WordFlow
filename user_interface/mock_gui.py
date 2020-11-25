@@ -3,14 +3,25 @@ import tkinter as tk
 from user_interface import main_menu
 from user_interface.active_windows import home_window
 
+from services import context_service
+
+
+
 #THE PURPOSE OF TEST GUI IS A GUI THAT DOES NOT DEPEND ON THE LOGIN SCREEN -> PERFECT FOR MAKING QUICK ADJUSTMENTS TO THE GUI
 
 #This is just a mock context service that I can use to give test gui dummy values - we can use the same gui as the real one, without changing the code
 class ContextServiceTest(object):
+    __instance = None
+
+
+    _user_privilege = 2
+    _user_uid = "T1b5iP7q96YBnaPDRuEN8c5Arwh1"
+    _school_id = "3p1U6xAvKic1RvXMl5nJ"
+    _token = {}
     def get_instance(self):
         return self
     def get_user_privilege(self):
-        return 2
+        return _user_privilege
     def get_user_email(self):
         return "1123@gmail.com"
 
@@ -38,7 +49,11 @@ class TESTGUI(object):
         self.master = master
 
         
-        self.context_service = ContextServiceTest()
+        # self.context_service = ContextServiceTest()
+
+        # context_service.ContextService.__instance = ContextServiceTest()
+        self.context_service = context_service.ContextService.get_instance()
+        self.context_service.set_user(2,"T1b5iP7q96YBnaPDRuEN8c5Arwh1","3p1U6xAvKic1RvXMl5nJ","1123@gmail.com")
 
         # self.master.state("zoomed")
         # self.master.resizable(False, False)

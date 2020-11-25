@@ -39,7 +39,7 @@ class NewChallengeWindow(active_window.ActiveWindow):
         """
 
         challenge_content = self.challenge_management.get_random_challenge_content(self.challenge_type)
-
+        
         if(self.challenge_type == self.modes["Standard"]):
             StandardTypingChallenge(self.frame, self.challenge_duration, challenge_content, self.challenge_type)
 
@@ -73,6 +73,8 @@ class BaseTypingChallenge(object):
         self.incorrect_color="red"
         self.challenge_management = challenge_management.ChallengeManagement()
 
+        self.challenge_finished = False
+
         self.display_challenge()
 
     def format_timer_label(self, seconds):
@@ -82,6 +84,42 @@ class BaseTypingChallenge(object):
         timer = '{:02d}:{:02d}'.format(mins, secs)
 
         return timer
+    def display_results(self,challenge_results):
+            """
+
+            Args:
+                challenge_results ([type]): [description]
+
+            Returns:
+                [type]: [description]
+            """
+
+
+            test_finished_label = tk.Label(self.frame,text="Challenge Finished!", font=("TkDefaultFont", 50))
+            test_finished_label.pack()
+            display_stats = tk.Text(self.frame, font=("TkDefaultFont", 23))
+            display_stats.pack()
+
+            # wpm = challenge_window.correct_words/int(challenge_window.challenge_duration[1])
+            # accuracy = (challenge_window.correct_words/challenge_window.total_words_completed)*100
+
+            display_stats.insert('end',"Challenge Summary" + "\n")
+            print(challenge_results)
+            display_stats.insert('end',"Correct Words: " + str(self.correct_words) + "\n")
+            display_stats.insert('end', "Incorrect Words: " + str(self.incorrect_words) + "\n")
+            display_stats.insert('end', "Total words completed: " + str(self.total_words_completed) + "\n")
+            display_stats.insert('end',"WPM: " + str(challenge_results["wpm"]) + "\n")
+            display_stats.insert('end',"Accuracy: " + str(challenge_results["accuracy"])+ "%")
+
+
+    def challenge_finished(self):
+        duration = self.total_time_in_seconds
+
+        challenge_results = self.challenge_management.save_challenge_results(self.correct_words, 
+                                                                            self.incorrect_words, 
+                                                                            self.total_words_completed,
+                                                                            duration, self.mode)
+        self.display_results(challenge_results)
     
     def display_challenge(self):
         """ Creates the typing challenge
@@ -122,8 +160,8 @@ class BaseTypingChallenge(object):
         self.answer_box = tk.Entry(self.frame, width=10, font=("TkDefaultFont", 50))
         self.answer_box.pack()
 
-        def display_results(challenge_window, challenge_results):
-            pass
+        
+            
 
         def timer_countdown(challenge_window):
             """This is the function that makes the timer tick. It will be executed in a thread so it does not impact the performance of our program.
@@ -145,28 +183,40 @@ class BaseTypingChallenge(object):
             #Clean the screen
             for item in challenge_window.frame.pack_slaves():
                 item.destroy()
+            # duration = self.total_time_in_seconds
+
+            # challenge_results = self.challenge_management.save_challenge_results(challenge_window.correct_words, 
+            #                                                                 challenge_window.incorrect_words, 
+            #                                                                 challenge_window.total_words_completed,
+            #                                                                 duration, self.mode)
+                    
 
             # TODO: Does not account for if they finished it early!
-            duration = self.total_time_in_seconds
-            challenge_results = self.challenge_management.save_challenge_results(challenge_window.correct_words, 
-                                                                                challenge_window.incorrect_words, 
-                                                                                challenge_window.total_words_completed,
-                                                                                duration, self.mode)
+
+            # challenge_window.display_results(challenge_results)
+            challenge_window.challenge_finished()
+
+            
+            
+
+
+            
     
-            test_finished_label = tk.Label(challenge_window.frame,text="Challenge Finished!", font=("TkDefaultFont", 50))
-            test_finished_label.pack()
-            display_stats = tk.Text(challenge_window.frame, font=("TkDefaultFont", 23))
-            display_stats.pack()
+            # test_finished_label = tk.Label(challenge_window.frame,text="Challenge Finished!", font=("TkDefaultFont", 50))
+            # test_finished_label.pack()
+            # display_stats = tk.Text(challenge_window.frame, font=("TkDefaultFont", 23))
+            # display_stats.pack()
 
-            # wpm = challenge_window.correct_words/int(challenge_window.challenge_duration[1])
-            # accuracy = (challenge_window.correct_words/challenge_window.total_words_completed)*100
-
-            display_stats.insert('end',"Challenge Summary")
-            display_stats.insert('end',"Correct Words: " + str(challenge_window.correct_words) + "\n")
-            display_stats.insert('end', "Incorrect Words: " + str(challenge_window.incorrect_words) + "\n")
-            display_stats.insert('end', "Total words completed: " + str(challenge_window.total_words_completed) + "\n")
-            display_stats.insert('end',"WPM: " + str(challenge_results["wpm"]) + "\n")
-            display_stats.insert('end',"Accuracy: " + str(challenge_results["accuracy"])+ "%")
+            # # wpm = challenge_window.correct_words/int(challenge_window.challenge_duration[1])
+            # # accuracy = (challenge_window.correct_words/challenge_window.total_words_completed)*100
+            
+            # display_stats.insert('end',"Challenge Summary" + "\n")
+            # display_stats.insert('end',"Challenge Summary" + challenge)
+            # display_stats.insert('end',"Correct Words: " + str(challenge_window.correct_words) + "\n")
+            # display_stats.insert('end', "Incorrect Words: " + str(challenge_window.incorrect_words) + "\n")
+            # display_stats.insert('end', "Total words completed: " + str(challenge_window.total_words_completed) + "\n")
+            # display_stats.insert('end',"WPM: " + str(challenge_results["wpm"]) + "\n")
+            # display_stats.insert('end',"Accuracy: " + str(challenge_results["accuracy"])+ "%")
 
 
             #TODO send this challenge to the db

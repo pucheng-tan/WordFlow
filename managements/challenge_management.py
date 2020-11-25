@@ -7,10 +7,10 @@ class ChallengeManagement(ApplicationManagement):
 
     _service = ChallengeService()
 
-    def save_challenge_results(self, correct_words, incorrect_words, total_words, duration):
+    def save_challenge_results(self, correct_words, incorrect_words, total_words, duration, mode):
 
-        wpm = correct_words / duration
-        accuracy = (correct_words / total_words_completed) * 100
+        wpm = round((correct_words / duration)*60,1)
+        accuracy = round((correct_words / total_words) * 100,1)
 
         challenge_results = {
             "wpm": wpm,
@@ -27,7 +27,8 @@ class ChallengeManagement(ApplicationManagement):
         # TODO: Validate the challenge results in any way? Not sure if necessary as no user input
 
         response = self._service.save_challenge_results(school_id, user_id, challenge_results)
-        return response
+        challenge_results["response"] = response
+        return challenge_results
 
     def get_random_challenge_content(self, mode=0):
         """Gets a challenge content text belonging to a particular challenge mode.
