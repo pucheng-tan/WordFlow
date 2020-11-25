@@ -137,4 +137,22 @@ class UserManagement(ApplicationManagement):
             user["privilege_level"] = PRIVILEGE["standard"]
 
         return user
-        
+
+    def get_user_data(self, user_id):
+        # Take in the id
+        # Get the data in the form of
+        # Returns a list with ["name", "email", "date created", "last log in"]
+        # in that order
+        if user_id == 0:
+            fake_user_data = ["User 0", "email", "date created", "last log in"]
+        elif user_id == 1:
+            fake_user_data = ["User 1", "email", "date created", "last log in"]
+        elif user_id == 2:
+            fake_user_data = ["User 2", "email", "date created", "last log in"]
+        elif user_id == 3:
+            fake_user_data = ["User 3", "email", "date created", "last log in"]
+        elif user_id == 4:
+            fake_user_data = ["User 4", "email", "date created", "last log in"]
+        else:
+            fake_user_data = ["User 5", "email", "date created", "last log in"]
+        return fake_user_data

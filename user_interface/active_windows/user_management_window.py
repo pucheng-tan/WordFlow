@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from user_interface.active_windows import active_window
 
-
+from managements import school_management, user_management
 
 class UserManagementWindow(active_window.ActiveWindow):
     def __init__(self, gui):
@@ -10,6 +10,9 @@ class UserManagementWindow(active_window.ActiveWindow):
 
         # // TODO Make the User Management Window
         # The two lines below can be removed once the window is being made
+
+        self.school_management = school_management.SchoolManagement()
+        self.user_management = user_management.UserManagement()
 
         self.first_frame = tk.Frame(self.frame)
         self.first_frame.pack(fill=tk.X, pady=20)
@@ -79,21 +82,25 @@ class UserManagementWindow(active_window.ActiveWindow):
         mytree.column("Last Sign In", anchor=tk.CENTER)
 
         # Creating Headings
-        mytree.heading("#0", text="", anchor=tk.W, font="red")
+        mytree.heading("#0", text="", anchor=tk.W)
         mytree.heading("Name", text="Name", anchor=tk.CENTER)
         mytree.heading("Email", text="Email", anchor=tk.W)
         mytree.heading("Date Created", text="Date Created", anchor=tk.CENTER)
         mytree.heading("Last Sign In", text="Last Sign In", anchor=tk.CENTER)
         
         # Fake Data
+        users = self.school_management.get_school_users(0, 2)
+        print(users)
         count = 0
-        for i in range(0,25):
+        for i in range(0, len(users)):
+            user_data = self.user_management.get_user_data(users[i])
+            values = (user_data[0], user_data[1], user_data[2], user_data[3])
             if i % 2 == 0:
-                mytree.insert(parent="", index="end", iid=count, text="", values=("FAke Name", "fakename@hotmail.com", 12, 18))
+                mytree.insert(parent="", index="end", iid=count, text="", values=values)
             else:
-                mytree.insert(parent="", index="end", iid=count, text="", values=("Real Name", "realname@hotmail.com", 10, 20), tags=("odd",))
+                mytree.insert(parent="", index="end", iid=count, text="", values=values, tags=("odd",))
                 
-            count+= 1
+            count += 1
         
         # Should be working but....
         mytree.tag_configure("odd", background="light gray")

@@ -26,3 +26,11 @@ class SchoolManagement(ApplicationManagement):
         result = self._service.update_school(school)
         return school
 
+    def get_school_users(self, school_id, privilege):
+        # TODO
+        # Returns a list of all the user ids with that privilege level in the school
+        if privilege == 2:
+            standard_user_ids = [0, 1, 2, 3, 4, 5]
+
+        return standard_user_ids
+
