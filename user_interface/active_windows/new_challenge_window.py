@@ -116,8 +116,8 @@ class BaseTypingChallenge(object):
         duration = self.total_time_in_seconds
 
         if self.time_left > 0:
-            time_taken_to_complete = duration - self.time_left
-            print(time_taken_to_complete)
+            duration = duration - self.time_left
+        
 
         challenge_results = self.challenge_management.save_challenge_results(self.correct_words, 
                                                                             self.incorrect_words, 
