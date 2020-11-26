@@ -29,8 +29,16 @@ class SchoolManagement(ApplicationManagement):
     def get_school_users(self, school_id, privilege):
         # TODO
         # Returns a list of all the user ids with that privilege level in the school
-        if privilege == 2:
-            standard_user_ids = [0, 1, 2, 3, 4, 5]
+        standard_user_ids = [i for i in range(1, 31)]
+        admin_user_ids = [i for i in range(31, 41)]
+        super_admin_user_ids = [i for i in range(41, 46)]
 
-        return standard_user_ids
+        if privilege == 0:
+            user_ids = super_admin_user_ids
+        elif privilege == 1:
+            user_ids = admin_user_ids
+        else:
+            user_ids = standard_user_ids
+
+        return user_ids
 

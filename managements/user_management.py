@@ -3,6 +3,27 @@ from services.user_service import UserService
 
 PRIVILEGE = {"standard": 2, "admin": 1, "super_admin": 0}
 
+all_fake_user_data = []
+fake_date_created = "Date created"
+fake_last_log_in = "Last log in"
+for i in range(1, 46):
+    id = i
+    if i < 31:
+        fake_user_name = "Standard User " + str(i)
+        fake_email = "email" + str(i) + "@hotmail.com"
+        privilege = 2
+    elif i < 41:
+        fake_user_name = "Admin User " + str(i)
+        fake_email = "email" + str(i) + "@hotmail.com"
+        privilege = 1
+    else:
+        fake_user_name = "Super Admin User " + str(i)
+        fake_email = "email" + str(i) + "@hotmail.com"
+        privilege = 0
+    fake_user = [fake_user_name, fake_email, fake_date_created,
+                 fake_last_log_in, id, privilege]
+    all_fake_user_data.append(fake_user)
+
 class UserManagement(ApplicationManagement):
     """
     NOTE ABOUT HANDLING ERRORS:
@@ -143,16 +164,31 @@ class UserManagement(ApplicationManagement):
         # Get the data in the form of
         # Returns a list with ["name", "email", "date created", "last log in"]
         # in that order
-        if user_id == 0:
-            fake_user_data = ["User 0", "email", "date created", "last log in"]
-        elif user_id == 1:
-            fake_user_data = ["Fake name", "fakename@hotmail.com", "July 12", "18:00"]
-        elif user_id == 2:
-            fake_user_data = ["User 2", "email", "date created", "last log in"]
-        elif user_id == 3:
-            fake_user_data = ["User 3", "email", "date created", "last log in"]
-        elif user_id == 4:
-            fake_user_data = ["User 4", "email", "date created", "last log in"]
-        else:
-            fake_user_data = ["User 5", "email", "date created", "last log in"]
+        for user in all_fake_user_data:
+            if user[4] == user_id:
+                fake_user_data = user
         return fake_user_data
+
+    def change_user_privilege(self, uid, privilege):
+        all_fake_user_data[uid-1][5] = privilege
+
+    def get_school_users(self, school_id, privilege):
+        # TODO
+        # Returns a list of all the user ids with that privilege level in the school
+        standard_user_ids = [user[4] for user in all_fake_user_data if user[5] == 2]
+        admin_user_ids = [user[4] for user in all_fake_user_data if user[5] == 1]
+        super_admin_user_ids = [user[4] for user in all_fake_user_data if user[5] == 0]
+
+        if privilege == 0:
+            user_ids = super_admin_user_ids
+        elif privilege == 1:
+            user_ids = admin_user_ids
+        else:
+            user_ids = standard_user_ids
+
+        return user_ids
+
+    def remove_user(self, uid):
+        for user in all_fake_user_data:
+            if user[4] == uid:
+                all_fake_user_data.remove(user)
