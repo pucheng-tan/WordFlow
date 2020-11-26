@@ -159,7 +159,18 @@ class UserManagement(ApplicationManagement):
 
         return user
 
+    # TODO: might also need school_id
     def get_user_data(self, user_id):
+        """Gets the information of the user.
+        The information it gets is name, email, date created, etc.
+
+        Args:
+            user_id: The id of the user to get the information for.
+
+        Returns:
+             A dictionary maybe with keys and the information as values?
+             {["name"]: "Fake Name", etc.}
+        """
         # Take in the id
         # Get the data in the form of
         # Returns a list with ["name", "email", "date created", "last log in"]
@@ -169,11 +180,13 @@ class UserManagement(ApplicationManagement):
                 fake_user_data = user
         return fake_user_data
 
+    # Just for the purpose of testing out the user management window
+    # get_school_users is there so that changes in user_management affect the
+    # user ids, because otherwise in a separate module, they would not
     def change_user_privilege(self, uid, privilege):
         all_fake_user_data[uid-1][5] = privilege
 
     def get_school_users(self, school_id, privilege):
-        # TODO
         # Returns a list of all the user ids with that privilege level in the school
         standard_user_ids = [user[4] for user in all_fake_user_data if user[5] == 2]
         admin_user_ids = [user[4] for user in all_fake_user_data if user[5] == 1]
