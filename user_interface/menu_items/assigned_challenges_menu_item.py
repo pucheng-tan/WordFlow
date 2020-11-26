@@ -21,7 +21,7 @@ class AssignedChallengesMenuItem(menu_item.MenuItem):
         
         self.gui.active_window.hide()
 
-        self.associated_window = assigned_challenges_window.AssignedChallengesWindow(self.gui.master)
+        self.associated_window = assigned_challenges_window.AssignedChallengesWindow(self.gui)
         self.gui.active_window = self.associated_window
 
         self.gui.active_window.show()

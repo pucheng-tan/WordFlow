@@ -20,7 +20,7 @@ class ReportsMenuItem(menu_item.MenuItem):
         """
         self.gui.active_window.hide()
 
-        self.associated_window = reports_window.ReportsWindow(self.gui.master)
+        self.associated_window = reports_window.ReportsWindow(self.gui)
         self.gui.active_window = self.associated_window
 
         self.gui.active_window.show()

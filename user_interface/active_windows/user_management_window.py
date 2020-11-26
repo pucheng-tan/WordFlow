@@ -8,30 +8,27 @@ class UserManagementWindow(active_window.ActiveWindow):
     def __init__(self, gui):
         active_window.ActiveWindow.__init__(self, gui)
 
-        # // TODO Make the User Management Window
-        # The two lines below can be removed once the window is being made
-
+        # To get a list of users in the school
         self.school_management = school_management.SchoolManagement()
         self.user_management = user_management.UserManagement()
 
-        self.first_frame = tk.Frame(self.frame)
-        self.first_frame.pack(fill=tk.X, pady=20)
+        self.heading_frame = tk.Frame(self.frame)
+        self.heading_frame.pack(fill=tk.X, pady=20)
 
-        self.create_labels()
-        self.create_buttons()
+        self.create_heading()
+
         self.create_user_management_notebook()
         self.get_users()
 
     def show(self):
         self.frame.pack(expand=True, fill=tk.BOTH)
 
-    def create_labels(self):
-        label = tk.Label(self.first_frame, text="User Management", font=("Helvetica", 20, "bold"))
-        label.pack(side=tk.LEFT)
+    def create_heading(self):
+        user_management_label = tk.Label(self.heading_frame, text="User Management", font=("Helvetica", 20, "bold"))
+        user_management_label.pack(side=tk.LEFT)
 
-    def create_buttons(self):
-        new_user_button = tk.Button(self.first_frame, text="New User", fg="white", bg="blue")
-        invite_all_button = tk.Button(self.first_frame, text="Invite All", fg="white", bg="blue")
+        new_user_button = tk.Button(self.heading_frame, text="New User", fg="white", bg="blue")
+        invite_all_button = tk.Button(self.heading_frame, text="Invite All", fg="white", bg="blue")
 
         new_user_button["font"] = ("Helvetica", 20)
         invite_all_button["font"] = ("Helvetica", 20)
@@ -43,9 +40,11 @@ class UserManagementWindow(active_window.ActiveWindow):
         self.user_management_notebook = ttk.Notebook(self.frame)
         self.user_management_notebook.pack(expand=True, fill=tk.BOTH)
 
+        # TODO Check privilege
         self.create_standard_frame()
         self.create_admin_frame()
         self.create_super_admin_frame()
+
         self.create_actions()
         self.create_tabs()
 
@@ -160,25 +159,25 @@ class UserinformationWindow(active_window.ActiveWindow):
         self.last_sign_in= self.user_info[3]
 
         # Creating things
-        self.make_buttons()
-        self.create_labels()
-        self.create_option_menu()
-        
-    def make_buttons(self):
-        # Creating butttons
-        assign_newchallenge_button = tk.Button(self.frame, text="Asssign New Challenge", fg="white", bg="blue")
-        invite_button = tk.Button(self.frame, text="Invite", fg="white", bg="blue")
-        reports_button = tk.Button(self.frame, text="Reports", fg="white", bg="blue")
-        remove_user_button = tk.Button(self.frame, text="Remove User", fg="white", bg="blue")
-        back_to_users_button = tk.Button(self.frame, text="Back To Users", fg="white", bg="blue")
-        change_privilege_button =tk.Button(self.frame, text="Change Privilege", fg="white", bg="blue")
-        
-        assign_newchallenge_button.pack()
-        invite_button.pack()
-        reports_button.pack()
-        remove_user_button.pack()
-        back_to_users_button.pack()
-        change_privilege_button.pack()
+        self.create_heading()
+        self.create_actions_frame()
+        self.create_profile_frame()
+
+    def show(self):
+        self.frame.pack(fill=tk.BOTH)
+
+    def create_heading(self):
+        heading_frame = tk.Frame(self.frame)
+        heading_frame.pack(side=tk.TOP, fill=tk.X)
+
+        user_management_label = tk.Label(heading_frame, text="User Management: ")
+        back_to_users_button = tk.Button(heading_frame, text="Back To Users", fg="white", bg="blue")
+
+        user_management_label["font"] = ("Helvetica", 20, "bold")
+        back_to_users_button["font"] = ("Helvetica", 20)
+
+        user_management_label.pack(side=tk.LEFT, padx=20, pady=20)
+        back_to_users_button.pack(side=tk.RIGHT, padx=20, pady=20)
 
         back_to_users_button["command"] = self.back_to_users
 
@@ -188,33 +187,56 @@ class UserinformationWindow(active_window.ActiveWindow):
         self.gui.active_window=user_management_Window
         self.gui.active_window.show()
 
+    def create_actions_frame(self):
+        actions_frame = tk.Frame(self.frame)
+        actions_frame.pack(fill=tk.X, pady=20)
 
-    def create_labels(self):
+        # Creating butttons
+        invite_button = tk.Button(actions_frame, text="Invite", fg="white", bg="blue")
+        assign_newchallenge_button = tk.Button(actions_frame, text="Asssign New Challenge", fg="white", bg="blue")
+        reports_button = tk.Button(actions_frame, text="Reports", fg="white", bg="blue")
+        remove_user_button = tk.Button(actions_frame, text="Remove User", fg="white", bg="blue")
+        print(invite_button.winfo_class(), actions_frame.winfo_children())
+
+        buttons = [widget for widget in actions_frame.winfo_children() if widget.winfo_class() == "Button"]
+
+        for button in buttons:
+            button["font"] = ("Helvetica", 20)
+            button.pack(side=tk.LEFT, expand=True)
+
+    def create_profile_frame(self):
         print(self.user_info)
-        profile_label = tk.Label(self.frame, text="Profile: Fake Profile" )
-        first_name_label = tk.Label(self.frame, text="First Name: " + self.first_name)
-        last_name_label = tk.Label(self.frame, text="Last Name: " + self.last_name)
-        email_label = tk.Label(self.frame, text="Email: " + self.email)
-        date_created_label = tk.Label(self.frame, text="Date Created: " + self.date_created)
-        last_sign_in_label = tk.Label(self.frame, text="Last Sign In: " + self.last_sign_in)
-        classroom_label = tk.Label(self.frame, text="Classroom 1")
 
-        profile_label.pack()
-        first_name_label.pack()
-        last_name_label.pack()
-        email_label.pack()
-        date_created_label.pack()
-        last_sign_in_label.pack()
-        classroom_label.pack()
+        profile_frame = tk.Frame(self.frame)
+        profile_frame.pack(fill=tk.BOTH, pady=20)
 
-    def create_option_menu(self):
+        profile_label = tk.Label(profile_frame, text="Profile")
+        first_name_label = tk.Label(profile_frame, text="First Name: " + self.first_name)
+        last_name_label = tk.Label(profile_frame, text="Last Name: " + self.last_name)
+        email_label = tk.Label(profile_frame, text="Email: " + self.email)
+        date_created_label = tk.Label(profile_frame, text="Date Created: " + self.date_created)
+        last_sign_in_label = tk.Label(profile_frame, text="Last Sign In: " + self.last_sign_in)
+        classroom_label = tk.Label(profile_frame, text="Classroom: 1")
+
+        labels = [widget for widget in profile_frame.winfo_children() if widget.winfo_class() == "Label"]
+
+        for label in labels:
+            if "Profile" in label["text"]:
+                label["font"] = ("Helvetica", 25, "bold")
+            else:
+                label["font"] = ("Helvetica", 20, "bold")
+            label.pack(anchor=tk.W)
+
+        self.create_option_menu(profile_frame)
+
+    def create_option_menu(self, frame):
     
         privileges = ["Standard", "Admin", "Super-Admin"]
 
         self.change_privileges = tk.StringVar()
         self.change_privileges.set(privileges[0]) # Default privilege
 
-        privilege_option_menu = tk.OptionMenu(self.frame, self.change_privileges, *privileges)
+        privilege_option_menu = tk.OptionMenu(frame, self.change_privileges, *privileges)
 
-        privilege_option_menu.pack()
+        privilege_option_menu.pack(anchor=tk.W)
         
