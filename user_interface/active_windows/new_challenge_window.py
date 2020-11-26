@@ -136,7 +136,7 @@ class BaseTypingChallenge(object):
         #Title label
         self.challenge_label = tk.Label(self.frame)
         self.challenge_label.pack()
-        self.challenge_label["text"] = self.title + " Challenge - Type anything to begin!"
+        self.challenge_label["text"] = self.title + " Challenge - Press the space key to begin!"
         
         self.time_left = self.challenge_duration
 
@@ -216,7 +216,7 @@ class BaseTypingChallenge(object):
                 challenge_window ([type]): this is an instance of the new_challenge_window class.
             """
             #unmap the any key to this function
-            challenge_window.answer_box.unbind('<Key>')
+            challenge_window.answer_box.unbind('<space>')
 
             challenge_window.challenge_label["text"] = "Standard Challenge" #get rid of "Press any key to start the test" in the title
 
@@ -229,7 +229,7 @@ class BaseTypingChallenge(object):
             #thus, I put anycode that needs to be executed after the timer finished after the timer in the thread function.
             #challenge_window.timer_thread.join()
 
-        self.answer_box.bind('<Key>',lambda a = self: on_button_press(self))
+        self.answer_box.bind('<space>',lambda a = self: on_button_press(self))
 
 
 
@@ -331,33 +331,6 @@ class DictationTypingChallenge(BaseTypingChallenge):
         
         self.execute_challenge()
 
-    # def say_something(self, something):
-    #         self.engine.say(something)
-    #         self.engine.runAndWait()
-
-    def say_something(self,tts):
-        # global self.next_word
-        # global self.run_next
-        from subprocess import call
-        while True:
-            if self.run_next == True:
-                
-                phrase = self.next_word
-                call(["python3", "speak.py", phrase])
-                self.run_next = False
-            
-
-    
-
-    def say_something_thread(self, something):
-        self.run_next = True
-        self.next_word=something
-
-        self.new_thread = threading.Thread(target=self.say_something,args=(self.tts,),daemon=True)
-
-        self.new_thread.start()
-
-
 
 
     # def execute_challenge(self):
@@ -432,7 +405,7 @@ class DictationTypingChallenge(BaseTypingChallenge):
         self.end_index = "1." + str(self.list_of_word_lengths[0])
 
 
-        #what is this??
+        
         self.display_text_box.mark_set("myword", "1.1")
         
         self.progress_counter = 0
@@ -447,10 +420,11 @@ class DictationTypingChallenge(BaseTypingChallenge):
             from subprocess import call
             while True:
                 if run_next == True:
+                    run_next = False
                     
                     phrase = next_word
                     call(["python3", "speak.py", phrase])
-                    run_next = False
+                    
 
         self.new_thread = threading.Thread(target=say_something,args=(self.tts,),daemon=True).start()
         
@@ -463,7 +437,7 @@ class DictationTypingChallenge(BaseTypingChallenge):
             self.start_index = cur[0]+'.'+str(int(cur[1]) + 1)
             self.end_index = cur[0]+'.'+str(int(cur[1]) + 1 + self.list_of_word_lengths[self.progress_counter])
 
-        print("here2")
+        
 
 
 
@@ -496,7 +470,7 @@ class DictationTypingChallenge(BaseTypingChallenge):
 
             if not self.is_challenge_finished:
                 _update_start_and_end_index(self)
-                print("sjsjjsjs")
+                
                 next_word = self.list_of_words[self.progress_counter]
                 run_next = True
             
