@@ -20,7 +20,7 @@ class MyHistoryMenuItem(menu_item.MenuItem):
         """
         self.gui.active_window.hide()
 
-        self.associated_window = my_history_window.MyHistoryWindow(self.gui.master)
+        self.associated_window = my_history_window.MyHistoryWindow(self.gui)
         self.gui.active_window = self.associated_window
 
         self.gui.active_window.show()
