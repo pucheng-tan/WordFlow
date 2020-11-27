@@ -109,7 +109,7 @@ class UserManagement(ApplicationManagement):
             privilege_level = user_profile["privilege_level"]
             user_uid = user_profile["id"]
             # set the context once the user has successfully logged in
-            UserManagement._context.set_user(privilege_level, user_uid, school_id, current_user["token"])
+            UserManagement._context.set_user(privilege_level, user_uid, school_id, email, current_user["token"])
             result = user_profile
         else:
             # if there's no user in the result, there'll be an error instead

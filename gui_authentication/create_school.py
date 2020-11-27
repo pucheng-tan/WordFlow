@@ -6,7 +6,6 @@ Typical usage example:
 """
 
 import tkinter as tk
-# from GUI_Authentication import login
 from gui_authentication import screen_handler
 
 from managements import school_management, user_management
@@ -32,12 +31,11 @@ class CreateSchool(tk.Frame):
         self.master.grid_columnconfigure(0, weight=1)
 
         self.create_borders()
-        self.create_labels()
+        self.create_permanent_labels()
+        self.create_temporary_labels()
         self.create_clickable_labels()
         self.create_entries()
         self.create_buttons()
-
-        self.screen_handler = screen_handler.ScreenHandler()
 
         # Create user manager
         self.user_management = user_management.UserManagement()
@@ -59,12 +57,12 @@ class CreateSchool(tk.Frame):
 
         self.first_line.grid(row=2)
 
-    def create_labels(self):
+    def create_permanent_labels(self):
         """Creates the labels for the CreateSchool window.
+        
         Creates both the permanent labels that are always visible on the
-        CreateSchool window and the labels that only appear under certain
-        conditions such as a missing field. It also places the permanent labels
-        on the CreateSchool frame.
+        CreateSchool window. It also places the permanent labels on the
+        CreateSchool frame.
         """
 
         # Create permanent labels
@@ -76,20 +74,37 @@ class CreateSchool(tk.Frame):
         self.verify_password_label = tk.Label(self.frame,
                                               text="Verify Password:")
 
-        # Create temporary labels
-        self.forget_label = tk.Label(self.frame,
-                                     text="You are missing a field!",
-                                     fg="red")
-        self.different_passwords_label = tk.Label(
-            self.frame, text="The passwords do not match!", fg="red")
-
-        # Place Permanent labels into their positions
+        # Place permanent labels into their positions
         self.new_school_label.grid(row=1)
 
         self.school_label.grid(row=3)
         self.email_label.grid(row=5)
         self.password_label.grid(row=7)
         self.verify_password_label.grid(row=9)
+
+    def create_temporary_labels(self):
+        """Creates the temporary labels given conditions such as missing
+        fields."""
+
+        self.temporary_label = None
+
+        # Create temporary labels
+        self.forget_field_label = tk.Label(self.frame,
+                                           text="You are missing a field!",
+                                           fg="red")
+
+        self.different_passwords_label = tk.Label(
+            self.frame, text="The passwords do not match!", fg="red")
+
+        self.password_too_short_label = tk.Label(
+            self.frame,
+            text="Password must be at least six characters long!",
+            fg="red")
+
+        self.success_label = tk.Label(
+            self.frame,
+            text="School successfully created! Sign in to get started!",
+            fg="green")
 
     def create_entries(self):
         """Creates and places the entry fields for the CreateSchool frame."""
@@ -122,8 +137,7 @@ class CreateSchool(tk.Frame):
 
         self.master.destroy()
         new_root = tk.Tk()
-        # login.Authentication(new_root).mainloop()
-        self.screen_handler.run_login_screen(new_root)
+        screen_handler.run_login_screen(new_root)
 
     def create_buttons(self):
         """Creates and places all the buttons for the CreateSchool frame."""
@@ -138,37 +152,67 @@ class CreateSchool(tk.Frame):
     def create_school_response(self):
         """Responds to the create school button being clicked."""
 
-        school = self.school_entry.get()
-        email = self.email_entry.get()
-        password = self.password_entry.get()
-        verify_password = self.verify_password_entry.get()
+        self.school = self.school_entry.get().strip()
+        self.email = self.email_entry.get().strip()
+        self.password = self.password_entry.get().strip()
+        self.verify_password = self.verify_password_entry.get().strip()
 
-        if not school or not email or not password or not verify_password:
-            # Forget any other labels
-            self.different_passwords_label.grid_forget()
+        print(self.school, self.email, self.password, self.verify_password)
 
-            self.forget_label.grid(row=12)
-        elif password != verify_password:
-            # Forget any other labels
-            self.forget_label.grid_forget()
+        valid_entries = self.check_entries()
 
-            self.different_passwords_label.grid(row=12)
-        else:
-            # Forget all labels
-            self.forget_label.grid_forget()
-            self.different_passwords_label.grid_forget()
-
+        if valid_entries:
             # Creating super-admin and school
-            user = self.user_management.create_auth_user(email, password)
-            
-            # test that the user was successfully created:
-            if "id" in user:            
-                school = self.school_management.create_school(school, user["id"])
-                school_user = self.user_management.create_user_profile(email, user["id"], 0)
-                print(school, email, password, verify_password)
-            else:
-                print(user["error"])
-            
+            user = self.user_management.create_auth_user(
+                self.email, self.password)
+                
+            school = self.school_management.create_school(
+                self.school, user["id"])
+            if "error" not in school:
+                school_user = self.user_management.create_user_profile(
+                    self.email, user["id"], 0)
+                print(school, school_user)
+                print("Good entries")
+            else: 
+                self.temporary_label["text"] = school["error"]
+
+    def check_entries(self):
+        """
+        Checks whether the entries are valid.
+
+        Return:
+             Returns a boolean value on whether the values entered in the entry
+             fields are valid. It is True if the entries are valid and False if
+             they are not.
+        """
+        print(self.password)
+
+        valid_entries = False
+        if self.temporary_label:
+            self.forget_temporary_label()
+
+        # Empty entry field
+        if (not self.school or not self.email or not self.password
+                or not self.verify_password):
+            self.temporary_label = self.forget_field_label
+        # Passwords and Verify Password don't match
+        elif self.password != self.verify_password:
+            self.temporary_label = self.different_passwords_label
+        # Password too short, must be at least 6 characters long
+        elif len(self.password) < 6:
+            self.temporary_label = self.password_too_short_label
+        # Valid entries
+        else:
+            self.temporary_label = self.success_label
+            valid_entries = True
+
+        self.temporary_label.grid(row=12)
+
+        return valid_entries
+
+    def forget_temporary_label(self):
+        """Removes the temporary label."""
+        self.temporary_label.grid_forget()
 
 
 # root = tk.Tk()

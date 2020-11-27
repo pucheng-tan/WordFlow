@@ -15,6 +15,7 @@ TEST_USER_ID_ADMIN = "mCj2ZrYMbbeRpYp3aRof9EjfKkg1"
 TEST_DATE = datetime(2020, 10, 30, tzinfo=timezone.utc)# November 1
 
 METADATA_ID = "UserService"
+PRIV = {"standard": 2, "admin": 1, "super_admin": 0}
 
 PRIV = {"standard": 2, "admin": 1, "super_admin": 0}
 

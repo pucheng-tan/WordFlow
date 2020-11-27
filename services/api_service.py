@@ -69,16 +69,17 @@ class API:
         #     })
         # API._db = firestore.client()
 
-        if (API._db is not None):
+        if API.__instance != None:
             raise Exception("This class is a singleton! Call static get_instance() instead of constructor")
         else:
             # TODO: This is not how credentials should be setup.
             # If this is ever called more than once, the initialize_app gives an error because it is only ever meant to be called once!
             # The JSON is credentials for a service account that's actually not supposed to go into a public repository.
-            cred = credentials.Certificate(
-                './cmpt370-group2-firebase-adminsdk-lno8j-3910eb45cf.json'
-            )
-            firebase_admin.initialize_app(cred)
+            if not firebase_admin._apps:
+                cred = credentials.Certificate(
+                    './cmpt370-group2-firebase-adminsdk-lno8j-3910eb45cf.json'
+                )
+                firebase_admin.initialize_app(cred)
             API._db = firestore.client()
             API.__instance = self
 
@@ -336,17 +337,15 @@ class API:
         data = None
         if "DocumentReference" in doc_type:
             data = query.get()
-            if data.id:
-                doc_id = data.id
-                data = data.to_dict()
+            doc_id = data.id
+            data = data.to_dict()
+            if data is not None:
                 data["id"] = doc_id
-            else:
-                data = {}
-        if "CollectionReference" in doc_type or "Query" in doc_type:
+        elif "CollectionReference" in doc_type or "Query" in doc_type or "CollectionGroup" in doc_type:
             data = query.stream()
             data = {doc.id: doc.to_dict() for doc in data}
         # this shouldn't ever happen, but just in case...
-        if data is None:
+        else:
             raise TypeError("Invalid query", "expecting DocumentReference CollectionReference or Query, got " + doc_type, self.get_last_statement())
         
         return data

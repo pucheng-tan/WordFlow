@@ -29,12 +29,11 @@ class CreateUser(tk.Frame):
         self.master.grid_columnconfigure(0, weight=1)
 
         self.create_borders()
-        self.create_labels()
+        self.create_permanent_labels()
+        self.create_temporary_labels()
         self.create_entries()
         self.create_clickable_labels()
         self.create_buttons()
-
-        self.screen_handler = screen_handler.ScreenHandler()
 
     def create_borders(self):
         """Creates the blue borders and places them on the CreateUser frame."""
@@ -49,12 +48,12 @@ class CreateUser(tk.Frame):
 
         self.first_line.grid(row=2)
 
-    def create_labels(self):
+    def create_permanent_labels(self):
         """Creates the labels for the CreateUser window.
+
         Creates both the permanent labels that are always visible on the
-        CreateUser window and the labels that only appear under certain
-        conditions such as a missing field. It also places the permanent labels
-        on the CreateUser frame.
+        CreateUser window. It also places the permanent labels on the
+        CreateUser frame.
         """
 
         # Permanent labels
@@ -67,13 +66,6 @@ class CreateUser(tk.Frame):
         self.verify_password_label = tk.Label(self.frame,
                                               text="Verify Password:")
 
-        # Temporary labels
-        self.forget_label = tk.Label(self.frame,
-                                     text="You are missing a field!",
-                                     fg="red")
-        self.different_passwords_label = tk.Label(
-            self.frame, text="The passwords do not match!", fg="red")
-
         self.new_user_label.grid(row=1)
 
         self.school_label.grid(row=3)
@@ -81,6 +73,23 @@ class CreateUser(tk.Frame):
         self.invite_code_label.grid(row=7)
         self.password_label.grid(row=9)
         self.verify_password_label.grid(row=11)
+
+    def create_temporary_labels(self):
+        """Creates the temporary labels that appear given a condition such as a
+        missing field"""
+        self.temporary_label = None
+
+        # Temporary labels
+        self.forget_field_label = tk.Label(self.frame,
+                                           text="You are missing a field!",
+                                           fg="red")
+        self.different_passwords_label = tk.Label(
+            self.frame, text="The passwords do not match!", fg="red")
+
+        self.success_label = tk.Label(
+            self.frame,
+            text="Account successfully created! Sign in to get started!",
+            fg="green")
 
     def create_entries(self):
         """Creates and places the entry fields for the CreateUser frame."""
@@ -120,7 +129,7 @@ class CreateUser(tk.Frame):
         self.master.destroy()
         new_root = tk.Tk()
         # login.Authentication(new_root).mainloop()
-        self.screen_handler.run_login_screen(new_root)
+        screen_handler.run_login_screen(new_root)
 
     def create_buttons(self):
         """Creates and places all the buttons for the CreateUser frame."""
@@ -135,29 +144,56 @@ class CreateUser(tk.Frame):
     def create_account_response(self):
         """Responds to the create account button being clicked."""
 
-        school = self.school_entry.get()
-        email = self.email_entry.get()
-        invite_code = self.invite_code_entry.get()
-        password = self.password_entry.get()
-        verify_password = self.verify_password_entry.get()
+        self.school = self.school_entry.get().strip()
+        self.email = self.email_entry.get().strip()
+        self.invite_code = self.invite_code_entry.get().strip()
+        self.password = self.password_entry.get().strip()
+        self.verify_password = self.verify_password_entry.get().strip()
 
-        if (not school or not email or not invite_code or not password
-                or not verify_password):
-            # Forget any other labels
-            self.different_passwords_label.grid_forget()
+        valid_entries = self.check_entries()
 
-            self.forget_label.grid(row=14)
-        elif password != verify_password:
-            # Forget any other labels
-            self.forget_label.grid_forget()
-
-            self.different_passwords_label.grid(row=14)
+        # TODO: Connect so that a user is signed up.
+        if valid_entries:
+            print("Good entries")
         else:
-            # Forget all labels
-            self.forget_label.grid_forget()
-            self.different_passwords_label.grid_forget()
+            print("Bad entries")
 
-            print(school, email, invite_code, password, verify_password)
+    def check_entries(self):
+        """
+        Checks whether the entries are valid.
+
+        Return:
+             Returns a boolean value on whether the values entered in the
+             entry fields are valid. It is True if the entries are valid and
+             False if they are not.
+        """
+
+        valid_entries = False
+
+        if self.temporary_label:
+            self.forget_temporary_label()
+
+        # Empty entry field
+        if (not self.school or not self.email or not self.invite_code
+                or not self.password or not self.verify_password):
+            self.temporary_label = self.forget_field_label
+        # Password and Verify Password don't match
+        elif self.password != self.verify_password:
+            self.temporary_label = self.different_passwords_label
+        else:
+            self.temporary_label = self.success_label
+            valid_entries = True
+
+        self.temporary_label.grid(row=14)
+
+        print(self.school, self.email, self.invite_code, self.password,
+              self.verify_password)
+
+        return valid_entries
+
+    def forget_temporary_label(self):
+        """Removes the temporary label."""
+        self.temporary_label.grid_forget()
 
 
 # print("Sign Up")
