@@ -23,3 +23,18 @@ class SchoolService:
         path = "Schools/" + school["id"]
         result = SchoolService._api.post(path, school)
         return result["document"]
+
+    def check_school_exists(self, school_name):
+        """ Checks if the school already exists.
+        Args:
+            school_name: The name of the school.
+        Returns:
+             True if the school does exist. False if it does not.
+        """
+        path = "Schools/" + school_name
+        result = SchoolService._api.get(path)
+
+        if result:
+            return True
+        else:
+            return False
