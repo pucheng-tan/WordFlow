@@ -34,13 +34,20 @@ class UserManagement(ApplicationManagement):
         valid_user = self._validate_user(user_data, UserManagement._USER_AUTH_FIELDS)        
         if valid_user:
             user_result = self._service.create_user(valid_user)
+
             # grab the id and wipe the password
-            valid_user["id"] = user_result.uid
+            try:
+                # if the create/login was success, will have uid
+                valid_user["id"] = user_result["uid"]
+            except Exception as e:
+                # this would be the case where they try to create the same user
+                # but at a different school, but use the wrong password
+                return {"error": str(e)}
             del valid_user["password"]
             return valid_user
         else:
             # NOTE: Catch this with "if 'error' in result: display_message(result['error'])"
-            {"error": "Failed to create user credentials"}
+            return {"error": "Failed to create user credentials"}
 
     def create_user_profile(self, email, uid, privilege_level=PRIVILEGE["standard"], display_name=None, ):
         """ Creates the user profile in the database with default standard privilege level

@@ -53,7 +53,7 @@ class TESTGUI(object):
 
         # context_service.ContextService.__instance = ContextServiceTest()
         self.context_service = context_service.ContextService.get_instance()
-        self.context_service.set_user(2,"T1b5iP7q96YBnaPDRuEN8c5Arwh1","3p1U6xAvKic1RvXMl5nJ","1123@gmail.com")
+        self.context_service.set_user(2,"22gk6tCud3NbZeBwGUsxT0nSICL2","Usask","principal@test.com")
 
         # self.master.state("zoomed")
         # self.master.resizable(False, False)

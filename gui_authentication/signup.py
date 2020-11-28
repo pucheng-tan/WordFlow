@@ -6,8 +6,8 @@ Typical usage example:
 """
 
 import tkinter as tk
+# from GUI_Authentication import login
 from gui_authentication import screen_handler
-
 
 class CreateUser(tk.Frame):
     """Creates the CreateUser window.
