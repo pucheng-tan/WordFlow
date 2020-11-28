@@ -10,7 +10,7 @@ class GUI(object):
 
     In order to run the GUI, you can run this class.
     """
-    def __init__(self, privilege, master):
+    def __init__(self, master):
         """GUI init
 
         Args:
@@ -20,15 +20,18 @@ class GUI(object):
             master ([tkinter window]): master is the tkinter window which we want to display the GUI on.
         """
 
-        self.privilege = privilege
         self.master = master
-        self.context_service = context_service.ContextService.get_instance()
+        # self.context_service = context_service.ContextService.get_instance()
+        # self.privilege = self.context_service.get_user_privilege()
+
+        self.privilege = 0
 
         # self.master.state("zoomed")
         # self.master.resizable(False, False)
 
         # Create a main menu
         self.main_menu = main_menu.MainMenu(self)
+
         # Create an active window (currently, the active window will display the
         # home window, since it is the first window viewed when logging in
         self.active_window = home_window.HomeWindow(self)
