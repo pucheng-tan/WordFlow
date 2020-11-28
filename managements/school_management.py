@@ -27,8 +27,8 @@ class SchoolManagement(ApplicationManagement):
         return school
 
     # TODO: user_management_window most likely will need this
-    def get_school_users(self, school_id, privilege):
-        """Gets all the user ids of users in the school with the chosen
+    def get_school_user_profiles(self, privilege):
+        """Gets all the user data of users in the school with the chosen
         privilege level.
 
         Args:
@@ -36,19 +36,21 @@ class SchoolManagement(ApplicationManagement):
             privilege: The privilege level of the users to get.
 
         Returns:
-             A list of user ids maybe?
+             Returns a list of dictionaries containing user profiles that have
+             the information of:
+
+             id
+             privilege level
+             email
+             display_name
         """
-        # Returns a list of all the user ids with that privilege level in the school
-        standard_user_ids = [i for i in range(1, 31)]
-        admin_user_ids = [i for i in range(31, 41)]
-        super_admin_user_ids = [i for i in range(41, 46)]
 
-        if privilege == 0:
-            user_ids = super_admin_user_ids
-        elif privilege == 1:
-            user_ids = admin_user_ids
-        else:
-            user_ids = standard_user_ids
+        school_id = SchoolManagement._context.get_school_id()
+        user_documents = self._service.get_user_documents_by_privilege(school_id, privilege)
 
-        return user_ids
+        user_profiles = []
+        for user_id in user_documents:
+            user_profiles.append(user_documents[user_id])
+
+        return user_profiles
 

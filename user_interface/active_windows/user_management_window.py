@@ -8,8 +8,8 @@ user_management is necessary to get the information about the user.
 """
 
 import tkinter as tk
-from tkinter import ttk
-from tkinter import messagebox
+from tkinter import ttk, messagebox, simpledialog
+
 from user_interface.active_windows import active_window
 
 from managements import school_management, user_management
@@ -59,8 +59,42 @@ class UserManagementWindow(active_window.ActiveWindow):
         new_user_button["font"] = ("Helvetica", 20)
         invite_all_button["font"] = ("Helvetica", 20)
 
+        new_user_button["command"] = self.new_user_response
+
         invite_all_button.pack(side=tk.RIGHT, padx=20)
         new_user_button.pack(side=tk.RIGHT, padx=20)
+
+    def new_user_response(self):
+
+        self.new_user_root = tk.Tk()
+        tk.Label(self.new_user_root, text="Please enter in the email address of the new user.").pack()
+        email_entry = tk.Entry(self.new_user_root)
+        email_entry.pack()
+
+        tk.Label(self.new_user_root, text="Please enter in a privilege level. 0 for super-admin, 1 for admin, or 2 for standard.").pack()
+        privilege_entry = tk.Entry(self.new_user_root)
+        privilege_entry.pack()
+
+        tk.Button(self.new_user_root, text="Enter", fg="white", bg="blue", command=lambda: self.enter_response(email_entry.get(), privilege_entry.get())).pack()
+
+        self.new_user_root.mainloop()
+
+    def enter_response(self, email, privilege):
+        print(email, privilege)
+        privileges = ["0", "1", "2"]
+
+        if not email or not privilege:
+            message = "You are missing a field!"
+        elif privilege not in privileges:
+            message = "Not a valid privilege level!"
+        else:
+            privilege = int(privilege)
+            user = self.user_management.create_auth_user(email)
+            school_user = self.user_management.create_user_profile(email, user["id"], privilege)
+            message = "The user has been created!"
+
+        messagebox.showinfo("Creating new user", message)
+        self.new_user_root.destroy()
 
     def create_user_management_notebook(self):
         """Creates the part of the window with the tabs for managing different
@@ -194,15 +228,28 @@ class UserManagementWindow(active_window.ActiveWindow):
                                  text="Last Sign In",
                                  anchor=tk.CENTER)
 
-        # TODO: actually connect to API to get real users
-        users = self.user_management.get_school_users(0, user_privilege)
-        print(users)
+        # TODO: actually connect to API to get real users, uncomment the lines below to use the static data in user management
+
+        # Get the profiles of the users
+        self.user_profiles = self.school_management.get_school_user_profiles(user_privilege)
 
         count = 0
-        for i in range(0, len(users)):
-            user_data = self.user_management.get_user_data(users[i])
-            values = (user_data[0], user_data[1], user_data[2], user_data[3],
-                      user_data[4], user_data[5])
+        for i in range(0, len(self.user_profiles)):
+            user_profile = self.user_profiles[i]
+            print(user_profile)
+            # Get the information from the user profile for the table of users
+            heading_columns = ["name", "email", "date created", "last sign in"]
+            user_information = {}
+            for column in heading_columns:
+                if column not in user_profile:
+                    print(column)
+                    user_information[column] = "-"
+                else:
+                    user_information[column] = user_profile[column]
+            values = (user_information["name"], user_information["email"], user_information["date created"], user_information["last sign in"],
+                    user_profile["id"], user_profile["privilege_level"])
+
+            # Put the profiles in the table tagging whether the row is odd
             if i % 2 == 0:
                 self.users_table.insert(parent="",
                                         index="end",
@@ -262,6 +309,8 @@ class UserManagementWindow(active_window.ActiveWindow):
         selected_item = self.users_table.item(cur_item)
         # print(selected_item["values"])
         # TODO: Figure out what actually needs to be sent to UserInformationWindow
+
+        # Check that an item has actually been selected
         if selected_item["values"]:
             self.hide()
             user_info = selected_item["values"]
@@ -279,8 +328,6 @@ class UserinformationWindow(active_window.ActiveWindow):
     """
     def __init__(self, gui, user_info):
         active_window.ActiveWindow.__init__(self, gui)
-
-        self.user_management = user_management.UserManagement()
 
         self.user_info = user_info
         self.first_name = self.user_info[0]
@@ -338,6 +385,7 @@ class UserinformationWindow(active_window.ActiveWindow):
         actions_frame = tk.Frame(self.frame)
         actions_frame.pack(fill=tk.X, pady=20)
         # TODO: Figure out what users with what privilege should get what buttons and make the functions for clicking them
+
         # Create the buttons
         invite_button = tk.Button(actions_frame,
                                   text="Invite",
@@ -356,7 +404,6 @@ class UserinformationWindow(active_window.ActiveWindow):
                                            text="Remove User",
                                            fg="white",
                                            bg="blue")
-            remove_user_button["command"] = self.remove_user_response
 
         buttons = [
             widget for widget in actions_frame.winfo_children()
@@ -366,9 +413,6 @@ class UserinformationWindow(active_window.ActiveWindow):
         for button in buttons:
             button["font"] = ("Helvetica", 20)
             button.pack(side=tk.LEFT, expand=True)
-
-    def remove_user_response(self):
-        self.user_management.remove_user(self.user_id)
 
     def create_profile_frame(self):
         """
@@ -493,11 +537,5 @@ class UserinformationWindow(active_window.ActiveWindow):
         if response:
             print("Change privilege")
             messagebox.showinfo(
-                "Change succcessful!",
+                "Change successful!",
                 "The privilege level of the user has been changed!")
-            self.user_management.change_user_privilege(self.user_id,
-                                                       new_privilege)
-
-            if new_privilege == 0:
-                self.privilege_option_menu.configure(state=tk.DISABLED)
-                self.change_privilege_button["state"] = tk.DISABLED
