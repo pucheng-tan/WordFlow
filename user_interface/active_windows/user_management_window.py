@@ -47,6 +47,18 @@ class UserManagementWindow(active_window.ActiveWindow):
                                          font=("Helvetica", 20, "bold"))
         user_management_label.pack(side=tk.LEFT)
 
+        if self.privilege == 0:
+            self.super_admin_heading_frame(heading_frame)
+
+    def super_admin_heading_frame(self, frame):
+        """If the logged in user is a super-admin, creates the buttons for
+        adding and inviting new users in the heading.
+
+        Args:
+            frame: The heading frame to put the buttons on.
+        """
+        heading_frame = frame
+
         new_user_button = tk.Button(heading_frame,
                                     text="New User",
                                     fg="white",
