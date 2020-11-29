@@ -1,6 +1,6 @@
 import tkinter as tk
 
-from user_interface.active_windows import new_challenge_window
+from user_interface.active_windows import start_challenge_window
 from user_interface.menu_items import menu_item
 
 class NewChallengeMenuItem(menu_item.MenuItem):
@@ -21,7 +21,7 @@ class NewChallengeMenuItem(menu_item.MenuItem):
         """
         self.gui.active_window.hide()
 
-        self.associated_window = new_challenge_window.NewChallengeWindow(self.gui)
+        self.associated_window = start_challenge_window.StartChallengeWindow(self.gui)
         self.gui.active_window = self.associated_window
 
         self.gui.active_window.show()

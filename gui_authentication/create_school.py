@@ -165,12 +165,16 @@ class CreateSchool(tk.Frame):
             # Creating super-admin and school
             user = self.user_management.create_auth_user(
                 self.email, self.password)
+                
             school = self.school_management.create_school(
                 self.school, user["id"])
-            school_user = self.user_management.create_user_profile(
-                self.email, user["id"], 0)
-            print(school, school_user)
-            print("Good entries")
+            if "error" not in school:
+                school_user = self.user_management.create_user_profile(
+                    self.email, user["id"], 0)
+                print(school, school_user)
+                print("Good entries")
+            else: 
+                self.temporary_label["text"] = school["error"]
 
     def check_entries(self):
         """

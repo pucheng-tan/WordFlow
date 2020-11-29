@@ -1,7 +1,8 @@
+import os
 import firebase_admin
 from firebase_admin import credentials
+#from google.cloud import firestore
 from firebase_admin import firestore
-from firebase_admin import auth
 from datetime import datetime
 
 # Some helpful docs: 
@@ -339,12 +340,13 @@ class API:
             data = query.get()
             doc_id = data.id
             data = data.to_dict()
-            data["id"] = doc_id
-        if "CollectionReference" in doc_type or "Query" in doc_type or "CollectionGroup" in doc_type:
+            if data is not None:
+                data["id"] = doc_id
+        elif "CollectionReference" in doc_type or "Query" in doc_type or "CollectionGroup" in doc_type:
             data = query.stream()
             data = {doc.id: doc.to_dict() for doc in data}
         # this shouldn't ever happen, but just in case...
-        if data is None:
+        else:
             raise TypeError("Invalid query", "expecting DocumentReference CollectionReference or Query, got " + doc_type, self.get_last_statement())
         
         return data

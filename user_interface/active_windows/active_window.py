@@ -18,12 +18,14 @@ class ActiveWindow(object):
     """
     def __init__(self, gui):
         self.gui = gui
+
         self.master = gui.master
         self.privilege = gui.privilege
 
         self.frame = tk.Frame(self.master)
 
-        self.context_service = context_service.ContextService.get_instance()
+        #self.context_service = context_service.ContextService.get_instance()
+        self.context_service = gui.context_service
 
     def show(self):
         """Show the active window
