@@ -79,15 +79,25 @@ class UserManagementWindow(active_window.ActiveWindow):
     def new_user_response(self):
 
         self.new_user_root = tk.Tk()
-        tk.Label(self.new_user_root, text="Please enter in the email address of the new user.").pack()
+        tk.Label(
+            self.new_user_root,
+            text="Please enter in the email address of the new user.").pack()
         email_entry = tk.Entry(self.new_user_root)
         email_entry.pack()
 
-        tk.Label(self.new_user_root, text="Please enter in a privilege level. 0 for super-admin, 1 for admin, or 2 for standard.").pack()
+        tk.Label(
+            self.new_user_root,
+            text=("Please enter in a privilege level. 0 for super-admin, 1 for"
+                  " admin, or 2 for standard.")).pack()
         privilege_entry = tk.Entry(self.new_user_root)
         privilege_entry.pack()
 
-        tk.Button(self.new_user_root, text="Enter", fg="white", bg="blue", command=lambda: self.enter_response(email_entry.get(), privilege_entry.get())).pack()
+        tk.Button(self.new_user_root,
+                  text="Enter",
+                  fg="white",
+                  bg="blue",
+                  command=lambda: self.enter_response(email_entry.get(
+                  ), privilege_entry.get())).pack()
 
         self.new_user_root.mainloop()
 
@@ -102,7 +112,8 @@ class UserManagementWindow(active_window.ActiveWindow):
         else:
             privilege = int(privilege)
             user = self.user_management.create_auth_user(email)
-            school_user = self.user_management.create_user_profile(email, user["id"], privilege)
+            school_user = self.user_management.create_user_profile(
+                email, user["id"], privilege)
             message = "The user has been created!"
 
         messagebox.showinfo("Creating new user", message)
@@ -243,7 +254,8 @@ class UserManagementWindow(active_window.ActiveWindow):
         # TODO: actually connect to API to get real users, uncomment the lines below to use the static data in user management
 
         # Get the profiles of the users
-        self.user_profiles = self.school_management.get_school_user_profiles(user_privilege)
+        self.user_profiles = self.school_management.get_school_user_profiles(
+            user_privilege)
 
         count = 0
         for i in range(0, len(self.user_profiles)):
@@ -258,8 +270,10 @@ class UserManagementWindow(active_window.ActiveWindow):
                     user_information[column] = "-"
                 else:
                     user_information[column] = user_profile[column]
-            values = (user_information["name"], user_information["email"], user_information["date created"], user_information["last sign in"],
-                    user_profile["id"], user_profile["privilege_level"])
+            values = (user_information["name"], user_information["email"],
+                      user_information["date created"],
+                      user_information["last sign in"], user_profile["id"],
+                      user_profile["privilege_level"])
 
             # Put the profiles in the table tagging whether the row is odd
             if i % 2 == 0:
@@ -536,14 +550,12 @@ class UserinformationWindow(active_window.ActiveWindow):
                 messagebox.showwarning(
                     "Super-Admin",
                     ("Changing the privilege level of a user to a super-admin"
-                     "cannot be undone!")
-                )
+                     "cannot be undone!"))
 
             response = messagebox.askyesno(
                 "Privilege Level Confirmation",
                 ("Are you sure you want to change the privilege level of this"
-                 " user?")
-            )
+                 " user?"))
 
         # TODO: Connect to user management to actually change the privilege of the user.
         if response:
