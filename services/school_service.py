@@ -30,9 +30,11 @@ class SchoolService:
 
         Args:
             school_id: The id of the school.
-            desired_privilege: The privilege of the users to get from the school.
-            limit: The pagination limit.
-            start_at:
+            desired_privilege: The privilege of the users to get from the
+            school.
+            limit: The pagination limit. In this case None, because we want all
+            of the users of the desired privilege.
+            start_at: The string to start at.
 
         Returns: A list of dictionaries with the key id associated with a
         dictionary containing the user's profile information.
