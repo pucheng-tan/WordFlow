@@ -11,7 +11,7 @@ class MyHistoryWindow(active_window.ActiveWindow):
     COLUMN_DATA_FIELDS = ["date_text", "mode", "wpm", "accuracy"]
 
     # the number of challenge results to show on a page
-    PAGE_LIMIT = 2
+    PAGE_LIMIT = 10
 
     ALT_ROW_COLOUR = "lightgrey"
 
@@ -35,15 +35,16 @@ class MyHistoryWindow(active_window.ActiveWindow):
         active_window.ActiveWindow.__init__(self, gui)
 
         self.challenge_management = challenge_management.ChallengeManagement()
-        self.current_page_data = None
-        self.pages = []
-        self.current_page = 0 # currently we are not on a page
+        self.current_page_data = self.load_challenge_results()
+        self.pages = [self.current_page_data]
+        self.current_page = 0 # first page
 
         self.create_heading()        
         self.setup_elements()
         self.generate_table()
 
-        self.view_next_page()
+
+        self.update_table_data()
 
     def create_heading(self):
         self.heading_frame = tk.Frame(self.frame)
@@ -102,8 +103,13 @@ class MyHistoryWindow(active_window.ActiveWindow):
     def update_table_data(self):
         """Changes the data in the table
         """
-        # and then display it to the user
+        # nuke all the current data
         self.data_table.delete(*self.data_table.get_children())
+
+        # then put in data for all of the current page
+        print("Current page number: " + str(self.current_page))
+        self.current_page_data = self.pages[self.current_page]
+        
         for i in range(0, len(self.current_page_data)):
             data = self.current_page_data[i]
             values = ([data[field] for field in MyHistoryWindow.COLUMN_DATA_FIELDS])
@@ -115,36 +121,30 @@ class MyHistoryWindow(active_window.ActiveWindow):
     def view_previous_page(self):
         # updates the data to the previous page data, don't pull again
         self.current_page = self.current_page - 1
-        self.current_page_data = self.pages[self.current_page]
-
-        # disable the button if applicable
-        if self.current_page == 1:
+        # disable the button if applicable, enable next button
+        if self.current_page == 0:
             self.prev_button["state"] = tk.DISABLED
+        self.next_button["state"] = tk.NORMAL
         self.update_table_data()
 
     def view_next_page(self):
         # update page number
         self.current_page = self.current_page + 1
-        print("Current page number: " + str(self.current_page))
-
 
         # if we don't have the page data, get it
-        if self.current_page > len(self.pages):
+        if self.current_page > len(self.pages) - 1:
             print("Time to load a new page!")
             
             # do the stuff to get the data
             last_challenge = None
-            if self.current_page_data:
+            if self.current_page_data: # FALSE
                 last_challenge = self.current_page_data[-1]
-            self.current_page_data = self.load_challenge_results(last_challenge)
-            print(self.current_page_data)
-            self.pages.append(self.current_page_data)
-        # else just grab the data            
-        else:
-            self.current_page_data = self.pages[self.current_page]
+
+            new_data = self.load_challenge_results(last_challenge)
+            self.pages.append(new_data)
         
         # enable the previous button if applicable
-        if self.current_page == 2:
+        if self.current_page == 1:
             self.prev_button["state"] = tk.NORMAL
         self.update_table_data()
         
@@ -171,7 +171,8 @@ class MyHistoryWindow(active_window.ActiveWindow):
         """
         # Define the date to start at as either now if the list is empty, or the last challenge otherwise
         print("This is the last challenge:")
-        print(last_challenge)
+        challenge = "None" if not last_challenge else last_challenge["date_text"]
+        print(challenge)
         start_at = datetime.now() if not last_challenge else last_challenge["date_completed"]
         # get the data
         results = self.challenge_management.get_my_challenge_history(start_time=start_at, limit=MyHistoryWindow.PAGE_LIMIT)
@@ -179,13 +180,18 @@ class MyHistoryWindow(active_window.ActiveWindow):
         
         # check if it's good
         if "error" not in results:
+            # disable the "next" button if necessary
+            self.check_if_out_of_data(results)
             # change the mode to something readable
             return self.format_data(results)
         else:
             self.display_error(results["error"])
             return []
 
-    
+    def check_if_out_of_data(self, results):
+        if len(results) < self.PAGE_LIMIT:
+            # disable the next button
+                self.next_button["state"] = tk.DISABLED
 
     def display_error(self, error_message):
         # TODO: this should be actually displayed on the page
