@@ -25,7 +25,7 @@ class SchoolService:
         return result["document"]
 
     def get_user_documents_by_privilege(self, school_id, desired_privilege,
-                                       limit=10, start_at=" "):
+                                       limit=None, start_at=" "):
         """Gets a list of user privileges from the database with the desired privilege.
 
         Args:
