@@ -79,7 +79,7 @@ class UserManagement(ApplicationManagement):
         return result
 
 
-    def create_school_user(self, email, school_id, privilege_level=PRIVILEGE["standard"], password=None, display_name=None):
+    def create_school_user(self, email, privilege_level=PRIVILEGE["standard"], password=None, display_name=None):
         """Create both an auth account and a user profile.
         Returns the user object, or False on failure
         Import PRIVILEGE to use PRIVILEGE["standard" | "admin" | "super_admin"]- default to standard
@@ -91,7 +91,7 @@ class UserManagement(ApplicationManagement):
             auth_user = self.create_auth_user(email, password, display_name)
 
             # and then do the profile
-            user_data = self.create_user_profile(email, auth_user["id", privilege_level, display_name])          
+            user_data = self.create_user_profile(email, auth_user["id"], privilege_level, display_name)
         except:
             # return the user object else an error message. TODO: Make the error message better
             user_data = {"error": "Failed to create user"}
