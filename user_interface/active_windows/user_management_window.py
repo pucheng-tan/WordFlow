@@ -123,9 +123,12 @@ class UserManagementWindow(active_window.ActiveWindow):
             message = "You are missing a field!"
         else:
             user = self.user_management.create_auth_user(email)
-            school_user = self.user_management.create_user_profile(
-                email, user["id"], user_privilege)
-            message = "The user has been created!"
+            if "error" in user:
+                message = "Email already in school or invalid email address."
+            else:
+                school_user = self.user_management.create_user_profile(
+                    email, user["id"], user_privilege)
+                message = "The user has been created!"
 
         messagebox.showinfo("Creating new user", message)
         self.new_user_root.destroy()
