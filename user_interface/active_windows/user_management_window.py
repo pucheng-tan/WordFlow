@@ -124,7 +124,8 @@ class UserManagementWindow(active_window.ActiveWindow):
         else:
             user = self.user_management.create_auth_user(email)
             if "error" in user:
-                message = "Email already in school or invalid email address."
+                message = ("There is already a user with that email already in"
+                           " the school or invalid email address.")
             else:
                 school_user = self.user_management.create_user_profile(
                     email, user["id"], user_privilege)
