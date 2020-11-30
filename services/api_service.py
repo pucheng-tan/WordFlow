@@ -213,7 +213,7 @@ class API:
             if len(where_fields) > 0 and order_by:
                 # Firestore says to only use comparison operators on the same field, so only looking at first
                 where_field = where_fields[0]
-                order_compare = list(filter(lambda order_clause: order_clause == where_field, order_by))
+                order_compare = list(filter(lambda order_clause: where_field in order_clause, order_by))
                 if len(order_compare) == 0:
                     order_by.insert(0, {where_field: True})
 

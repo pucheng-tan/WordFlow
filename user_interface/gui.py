@@ -22,18 +22,15 @@ class GUI(object):
         """
 
         self.master = master
-
         
         self.context_service = context_service.ContextService.get_instance()
+        self.privilege = self.context_service.get_user_privilege()
 
         # self.master.state("zoomed")
         # self.master.resizable(False, False)
 
         # Create a main menu
-
-
-        self.main_menu = main_menu.MainMenu(self.context_service.get_user_privilege(), self)
-        #Just took this line out so I could test
+        self.main_menu = main_menu.MainMenu(self)
 
         # Create an active window (currently, the active window will display the
         # home window, since it is the first window viewed when logging in

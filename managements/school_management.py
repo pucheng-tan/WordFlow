@@ -33,3 +33,31 @@ class SchoolManagement(ApplicationManagement):
         result = self._service.update_school(school)
         return school
 
+    # TODO: user_management_window most likely will need this
+    def get_school_user_profiles(self, privilege):
+        """Gets all the user data of users in the school with the chosen
+        privilege level.
+
+        Args:
+            school_id: The id of the school to get the users.
+            privilege: The privilege level of the users to get.
+
+        Returns:
+             Returns a list of dictionaries containing user profiles that have
+             the information of:
+
+             id
+             privilege level
+             email
+             display_name
+        """
+
+        school_id = SchoolManagement._context.get_school_id()
+        user_documents = self._service.get_user_documents_by_privilege(school_id, privilege)
+
+        user_profiles = []
+        for user_id in user_documents:
+            user_profiles.append(user_documents[user_id])
+
+        return user_profiles
+
