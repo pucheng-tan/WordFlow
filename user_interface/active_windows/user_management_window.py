@@ -8,7 +8,7 @@ user_management is necessary to get the information about the user.
 """
 
 import tkinter as tk
-from tkinter import ttk, messagebox, simpledialog
+from tkinter import ttk, messagebox
 
 from user_interface.active_windows import active_window
 
@@ -77,6 +77,12 @@ class UserManagementWindow(active_window.ActiveWindow):
         new_user_button.pack(side=tk.RIGHT, padx=20)
 
     def new_user_response(self):
+        """
+        Responds to the new user button being clicked.
+
+        Opens up to a new window that has an entry field to enter in the user
+        email and a drop down menu to pick the desired privilege level.
+        """
 
         self.new_user_root = tk.Tk()
         tk.Label(
@@ -85,35 +91,40 @@ class UserManagementWindow(active_window.ActiveWindow):
         email_entry = tk.Entry(self.new_user_root)
         email_entry.pack()
 
-        tk.Label(
-            self.new_user_root,
-            text=("Please enter in a privilege level. 0 for super-admin, 1 for"
-                  " admin, or 2 for standard.")).pack()
-        privilege_entry = tk.Entry(self.new_user_root)
-        privilege_entry.pack()
+        privilege_variable = tk.StringVar(self.new_user_root)
+        privilege_variable.set("Standard")  # Default value
+
+        privilege_option_menu = tk.OptionMenu(self.new_user_root,
+                                              privilege_variable, "Standard",
+                                              "Admin", "Super-Admin")
+        privilege_option_menu.pack()
 
         tk.Button(self.new_user_root,
                   text="Enter",
                   fg="white",
                   bg="blue",
                   command=lambda: self.enter_response(email_entry.get(
-                  ), privilege_entry.get())).pack()
+                  ), privilege_variable.get())).pack()
 
         self.new_user_root.mainloop()
 
-    def enter_response(self, email, privilege):
-        print(email, privilege)
-        privileges = ["0", "1", "2"]
+    def enter_response(self, email, desired_privilege):
+        """Responds to the enter button for a new user being clicked.
 
-        if not email or not privilege:
+        Args:
+            email: The email of the new user.
+            desired_privilege: The desired privilege of the new user.
+        """
+
+        privileges = {"Standard": 2, "Admin": 1, "Super-Admin": 0}
+        user_privilege = privileges[desired_privilege]
+
+        if not email:
             message = "You are missing a field!"
-        elif privilege not in privileges:
-            message = "Not a valid privilege level!"
         else:
-            privilege = int(privilege)
             user = self.user_management.create_auth_user(email)
             school_user = self.user_management.create_user_profile(
-                email, user["id"], privilege)
+                email, user["id"], user_privilege)
             message = "The user has been created!"
 
         messagebox.showinfo("Creating new user", message)
