@@ -21,7 +21,7 @@ class ContextServiceTest(object):
     def get_instance(self):
         return self
     def get_user_privilege(self):
-        return _user_privilege
+        return self._user_privilege
     def get_user_email(self):
         return "1123@gmail.com"
 
@@ -55,13 +55,14 @@ class TESTGUI(object):
         self.context_service = context_service.ContextService.get_instance()
         self.context_service.set_user(2,"T1b5iP7q96YBnaPDRuEN8c5Arwh1","3p1U6xAvKic1RvXMl5nJ","principal@test.com")
 
+        self.privilege = self.context_service.get_user_privilege()
         # self.master.state("zoomed")
         # self.master.resizable(False, False)
 
         # Create a main menu
 
 
-        self.main_menu = main_menu.MainMenu(self.context_service.get_user_privilege(), self)
+        self.main_menu = main_menu.MainMenu(self)
         #Just took this line out so I could test
 
         # Create an active window (currently, the active window will display the

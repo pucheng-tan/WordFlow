@@ -23,7 +23,7 @@ class MainMenu(object):
     Main menu will be used to give the user menu items that they can use to
     switch between different active windows.
     """
-    def __init__(self, privilege, gui):
+    def __init__(self, gui):
         """MainMenu init
 
         Args:
@@ -34,6 +34,7 @@ class MainMenu(object):
         """
         self.gui = gui
         self.master = gui.master
+        self.privilege = gui.privilege
 
         # The main menu frame
         self.frame = tk.LabelFrame(self.master, height=1000)
@@ -44,7 +45,7 @@ class MainMenu(object):
         self.frame_top.pack(side=tk.TOP, fill=tk.X)
         self.frame_bottom.pack(side=tk.BOTTOM, fill=tk.X)
 
-        self.create_main_menu(privilege)
+        self.create_main_menu(self.privilege)
 
     def create_main_menu(self, privilege):
         """Creates the main menu for the GUI frame.
