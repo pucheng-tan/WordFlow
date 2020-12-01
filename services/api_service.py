@@ -153,14 +153,22 @@ class API:
               searches for History items within a UserProfile within a School can be
               filtered by the school
         """
-        # start with the firestore client and the collection group
-        query = self._get_db().collection_group(collection_name)
-        API._last_statement += ".collection_group(" + collection_name + ")"
+        try: 
+            # start with the firestore client and the collection group
+            query = self._get_db().collection_group(collection_name)
+            API._last_statement += ".collection_group(" + collection_name + ")"
 
-        # this stuff is the same for get and get_all: use helper function to filter
-        query = self._filter_query(query, where_clauses, order_by, limit)
-        return self._to_dict(query)
-
+            # this stuff is the same for get and get_all: use helper function to filter
+            query = self._filter_query(query, where_clauses, order_by, limit)
+            return self._to_dict(query)
+        except Exception as e:
+            exception_message = str(e)
+            if "FailedPrecondition" in str(type(e)):
+                message = "Your code is probably good! But you need to create an index. Click the link:"
+                start_at = exception_message.index("http")
+                index_link = exception_message[start_at:]
+                raise Exception(message, index_link)
+            raise TypeError("Invalid query", exception_message, self.get_last_statement())
     def _get_path(self, query, path_string):
         """Takes the path string and adds it onto the query
         """
