@@ -30,6 +30,17 @@ class ChallengeManagement(ApplicationManagement):
         challenge_results["response"] = response
         return challenge_results
 
+    def get_my_challenge_history(self, limit=10, start_time=None):
+        """Returns the challenge history of the current user.
+        Limit is mandatory to avoid excessive reads.
+        """
+        # get context data
+        school_id = ChallengeManagement._context.get_school_id()
+        user_id = ChallengeManagement._context.get_user_uid()
+
+        # ask the service to get the challenges
+        return ChallengeManagement._service.get_challenge_results_by_user(school_id, user_id, limit=limit, start_at=start_time)
+
     def get_random_challenge_content(self, mode=0):
         """Gets a challenge content text belonging to a particular challenge mode.
         Will pick a random one.

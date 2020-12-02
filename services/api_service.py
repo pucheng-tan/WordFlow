@@ -120,8 +120,14 @@ class API:
 
             # then pull the data and turn it into a dictionary
             return self._to_dict(query)
-        except:
-            raise TypeError("Invalid query: ", self.get_last_statement())
+        except Exception as e:
+            exception_message = str(e)
+            if "FailedPrecondition" in str(type(e)):
+                message = "Your code is probably good! But you need to create an index. Click the link:"
+                start_at = exception_message.index("http")
+                index_link = exception_message[start_at:]
+                raise Exception(message, index_link)
+            raise TypeError("Invalid query", exception_message, self.get_last_statement())
 
     def get_all(self, collection_name, where_clauses, order_by=None, limit=None):
         """ Returns data from subcollections across multiple parents.
@@ -147,14 +153,22 @@ class API:
               searches for History items within a UserProfile within a School can be
               filtered by the school
         """
-        # start with the firestore client and the collection group
-        query = self._get_db().collection_group(collection_name)
-        API._last_statement += ".collection_group(" + collection_name + ")"
+        try: 
+            # start with the firestore client and the collection group
+            query = self._get_db().collection_group(collection_name)
+            API._last_statement += ".collection_group(" + collection_name + ")"
 
-        # this stuff is the same for get and get_all: use helper function to filter
-        query = self._filter_query(query, where_clauses, order_by, limit)
-        return self._to_dict(query)
-
+            # this stuff is the same for get and get_all: use helper function to filter
+            query = self._filter_query(query, where_clauses, order_by, limit)
+            return self._to_dict(query)
+        except Exception as e:
+            exception_message = str(e)
+            if "FailedPrecondition" in str(type(e)):
+                message = "Your code is probably good! But you need to create an index. Click the link:"
+                start_at = exception_message.index("http")
+                index_link = exception_message[start_at:]
+                raise Exception(message, index_link)
+            raise TypeError("Invalid query", exception_message, self.get_last_statement())
     def _get_path(self, query, path_string):
         """Takes the path string and adds it onto the query
         """
@@ -199,10 +213,10 @@ class API:
             for clause in where_clauses:
                 # look for wrong types and wrong length lists                
                 if not isinstance(clause, list) or len(clause) != 3:
-                    raise TypeError("Invalid query", str(clause) + " is not a valid where clause. Format is ['field', 'operator', value]")
+                    raise TypeError(str(clause) + " is not a valid where clause. Format is ['field', 'operator', value]")
                 # look for valid operator
                 if clause[1] not in all_operators:
-                    raise ValueError("Invalid query", str(clause[1]) + " is not a valid operator. Valid operators are " + str(all_operators))
+                    raise ValueError(str(clause[1]) + " is not a valid operator. Valid operators are " + str(all_operators))
 
             # all of the where clauses that use comparisons
             where_compare = list(filter(lambda where: where[1] in comparisons, where_clauses))
@@ -347,7 +361,7 @@ class API:
             data = {doc.id: doc.to_dict() for doc in data}
         # this shouldn't ever happen, but just in case...
         else:
-            raise TypeError("Invalid query", "expecting DocumentReference CollectionReference or Query, got " + doc_type, self.get_last_statement())
+            raise TypeError("expecting DocumentReference CollectionReference or Query, got " + doc_type, self.get_last_statement())
         
         return data
 
