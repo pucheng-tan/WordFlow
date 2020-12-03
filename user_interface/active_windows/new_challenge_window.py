@@ -68,6 +68,8 @@ class BaseTypingChallenge(object):
         self.challenge_duration = challenge_duration
         self.mode = mode
 
+
+        #each type of typing challenge stores the number of correct words, number of incorrect words, and the total words completed
         self.correct_words = 0
         self.incorrect_words = 0
         self.total_words_completed = 0
@@ -90,10 +92,10 @@ class BaseTypingChallenge(object):
 
         return timer
     def display_results(self,challenge_results):
-            """
+            """Adds all the widgets to the window that display the final test results. Does not calculate the test results
 
             Args:
-                challenge_results ([type]): [description]
+                challenge_results ([type]): [list containing the different challenge results]
 
             Returns:
                 [type]: [description]
@@ -118,8 +120,11 @@ class BaseTypingChallenge(object):
 
 
     def challenge_finished(self):
+        """send raw stats to challenge management, get back the challenge results, then display the challenge results
+        """
         duration = self.total_time_in_seconds
 
+        #if time left is more than zero, than the test was finished before the time ran out
         if self.time_left > 0:
             duration = duration - self.time_left
         
@@ -131,7 +136,7 @@ class BaseTypingChallenge(object):
         self.display_results(challenge_results)
     
     def display_challenge(self):
-        """ Creates the typing challenge
+        """ Creates the typing challenge, does everything to create the window and start the typing challenge
         """
         #Title label
         self.challenge_label = tk.Label(self.frame)
@@ -201,8 +206,6 @@ class BaseTypingChallenge(object):
             #                                                                 duration, self.mode)
                     
 
-            # TODO: Does not account for if they finished it early!
-
             # challenge_window.display_results(challenge_results)
             challenge_window.challenge_finished()
 
@@ -233,20 +236,6 @@ class BaseTypingChallenge(object):
 
 
 
-class _TTS:
-
-    engine = None
-    rate = None
-    def __init__(self):
-        self.engine = pyttsx3.init()
-
-
-    def start(self,text_):
-        self.engine.say(text_)
-        self.engine.runAndWait()
-
-
-
 class StandardTypingChallenge(BaseTypingChallenge):
     """Creates a standard typing challenge
     """
@@ -258,6 +247,7 @@ class StandardTypingChallenge(BaseTypingChallenge):
 
     
     def _highlight_progress(self):
+        # in charge of keaping track of users progress through the test
         self.start_index = "1.0"
         self.end_index = "1." + str(self.list_of_word_lengths[0])
 
@@ -278,8 +268,6 @@ class StandardTypingChallenge(BaseTypingChallenge):
 
 
 
-        # TODO What should we do when there is nothing left in list of words? right now there is an error once the user gets to the end of the text
-        # we should probally handle that somehow
         def _on_space_key_pressed(self):
             user_input = self.answer_box.get().strip(' ')
 
@@ -325,8 +313,6 @@ class DictationTypingChallenge(BaseTypingChallenge):
 
     def __init__(self, master, challenge_duration, challenge_content, mode):
         super().__init__(master,challenge_duration,challenge_content,mode)
-        #self.engine = pyttsx3.init()
-        self.tts = _TTS()
         self.display_text_box.configure(foreground="white")
         
         self.execute_challenge()
@@ -394,10 +380,13 @@ class DictationTypingChallenge(BaseTypingChallenge):
 
     
 
-
+    #These need to be globals so you can access them inside of a thread
     next_word = ""
     run_next = True
+
     def _highlight_progress(self):
+        """Keaps track of the user's progress through the typing challenge
+        """
         global next_word
         global run_next
         
@@ -413,20 +402,35 @@ class DictationTypingChallenge(BaseTypingChallenge):
         next_word = self.list_of_words[self.progress_counter]
         run_next = True
         
-        def say_something(tts):
+        def say_something():
+            """This function will use tts to say something. Ran inside a thread so the tts does not block
+
+            Args:
+                tts ([type]): [the string that the tts will read out loud]
+            """
             global next_word
             global run_next
             run_next = True
-            from subprocess import call
+            space_pressed = False
+
+            #Following code is a workaround for a bug on mac
+            #This is important to allow mac users to run tts inside of a thread. say_something is a function that will be executed inside of a thread
+            #NOTE: If you are having issues running this, then change the Popen line to how you would run speak.py in command line (change python3)
+            import subprocess
             while True:
-                if run_next == True:
+                if run_next:  
                     run_next = False
                     
                     phrase = next_word
-                    call(["python3", "speak.py", phrase])
-                    
+                    child_process = subprocess.Popen(args=["python3", "speak.py", phrase],stdout=subprocess.PIPE)
 
-        self.new_thread = threading.Thread(target=say_something,args=(self.tts,),daemon=True).start()
+                    #this will continue until process is finished
+                    while child_process.poll() is None:
+
+                        if run_next:   #run next is set to true when the user presses space bar. This means that we can end the pronounciation of the word when the user submits there word
+                            child_process.terminate()
+
+        self.new_thread = threading.Thread(target=say_something,args=(),daemon=True).start()
         
         #move start_index to the start of the next word, and move end_index to the end of the next word
         def _update_start_and_end_index(self):
@@ -440,10 +444,9 @@ class DictationTypingChallenge(BaseTypingChallenge):
         
 
 
-
-        # TODO What should we do when there is nothing left in list of words? right now there is an error once the user gets to the end of the text
-        # we should probally handle that somehow
         def _on_space_key_pressed(self):
+            """Behavior on a space keypress
+            """
             global next_word
             global run_next
             
@@ -462,9 +465,8 @@ class DictationTypingChallenge(BaseTypingChallenge):
                 self.total_words_completed+=1
 
             
-
+            #If you've reached the end of the test
             if(len(self.list_of_words)-1 == self.progress_counter):
-                #If you've reached the end of the test
                 self.is_challenge_finished = True
                 self.answer_box.unbind('<space>')
 
