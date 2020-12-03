@@ -3,6 +3,18 @@ from pytest_jsonreport.plugin import JSONReport, json_metadata
 
 from managements.user_management import UserManagement
 
+user_management = UserManagement()
+
+@pytest.mark.parametrize("description, email, expected_result", [
+    ("Testing an invalid email", "invalid_email.com", "error"),
+    ("Testing an invalid email", "", "error")
+])
+
+def test_create_auth_user(description, email, expected_result):
+    result = user_management.create_auth_user(email)
+
+    assert expected_result == result
+
 # @pytest.mark.xfail
 @pytest.mark.parametrize("user, result", [
     ("valid user", "success"),
@@ -16,3 +28,4 @@ def test_create_user(user, result, json_metadata):
 @pytest.mark.xfail
 def test_login():
     pass
+
