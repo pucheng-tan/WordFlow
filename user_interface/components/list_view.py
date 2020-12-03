@@ -14,6 +14,7 @@ class ListView():
             parent_frame: the frame in which to place the table
             column_headings: ordered list of headings to be displayed
             column_data_fields: list of data attributes that match up to those headings
+                Additional data fields (such as id) can be added here and not shown
             load_data_function: The function used to call the data
                 It's expected to take a limit (int) parameter, and an item parameter,
                 that it will use to find the next item on the page (see my_history_window)
@@ -24,45 +25,84 @@ class ListView():
         self.column_headings = column_headings
         self.column_data_fields = column_data_fields
         self.load_data_function = load_data_function
+        self.parent_frame = parent_frame
 
         # start setting up page data
-        self.current_page_data = self.load_data_function(ListView.PAGE_LIMIT)
+        self.generate_buttons() # load_new_data needs the buttons made first
+        self.current_page_data = self.load_new_data()
         self.pages = [self.current_page_data]
         self.current_page = 0 # first page
 
         # make the gui things      
-        self.generate_buttons(parent_frame)
-        self.generate_table(parent_frame)
-        self.update_table_data()
         
-    def generate_buttons(self, parent_frame):
+        self.generate_table()
+        self.update_table_data()
+
+    def set_action_button(self, button_text, action_function, disabled=False, item_scope=False):
+        """Add a button to the frame of buttons.
+        Args:
+            button_text: the text to display on the button (NO DUPLICATES)
+            action_function: function to call when it's clicked
+            disabled: whether it should be disabled by default
+            item_scope: whether the button performs an action on an individual
+                list item, or whether it's scoped to the whole page
+        """
+        if item_scope:
+            self.item_buttons.append(button_text)
+            # make the item buttons frame if non existant
+            if not hasattr(self, "item_buttons_frame"):
+                self.item_buttons_frame = tk.Frame(self.parent_frame)
+                self.item_buttons_frame.pack(side=tk.RIGHT, fill=tk.Y)
+            frame = self.item_buttons_frame
+        else:
+            frame = self.buttons_frame
+
+        new_button = tk.Button(frame,
+                                text=button_text,
+                                fg=Styles.BUTTON_FG,
+                                bg=Styles.BUTTON_BG,
+                                font=Styles.BUTTON_FONT)
+        if disabled:
+            new_button["state"] = tk.DISABLED
+        new_button["command"] = action_function
+        
+
+        new_button.pack(side=tk.RIGHT, padx=Styles.PADX, pady=Styles.PADY)
+        self.buttons[button_text] = new_button
+
+        
+
+    def get_focus(self):
+        """Returns the item which is currently selected.
+        Will return it in exactly the same format it was received in by load_data_function
+        """
+        iid = self.data_table.focus()
+        focus_item = self.current_page_data[int(iid)]
+        return focus_item
+
+    def select_list_item(self, event):
+        """Enables any item_scope buttons.
+        No need to disable them, because you can't completely deselect.
+        """
+        for item in self.item_buttons:
+            self.buttons[item]["state"] = tk.NORMAL
+
+    def generate_buttons(self):
         """ Create the next and previous buttons
         """
-        self.buttons_frame = tk.Frame(parent_frame)
-        self.buttons_frame.pack(side=tk.BOTTOM, fill=tk.X)
-        self.next_button = tk.Button(self.buttons_frame, 
-                                text="Next", 
-                                fg=Styles.BUTTON_FG, 
-                                bg=Styles.BUTTON_BG, 
-                                font=Styles.BUTTON_FONT)
-        self.prev_button = tk.Button(self.buttons_frame, 
-                                text="Previous", 
-                                fg=Styles.BUTTON_FG, 
-                                bg=Styles.BUTTON_BG, 
-                                font=Styles.BUTTON_FONT)
+        self.buttons = {}
+        self.item_buttons = []
+        self.buttons_frame = tk.Frame(self.parent_frame)
+        self.buttons_frame.pack(side=tk.TOP, fill=tk.X)
 
-        self.prev_button["state"] = tk.DISABLED
-        self.next_button["command"] = self.view_next_page
-        self.prev_button["command"] = self.view_previous_page
-        
-        self.next_button.pack(side=tk.RIGHT, padx=Styles.PADX, pady=Styles.PADY)
-        self.prev_button.pack(side=tk.RIGHT, padx=Styles.PADX, pady=Styles.PADY)
+        self.set_action_button("Next", self.view_next_page)
+        self.set_action_button("Previous", self.view_previous_page, True)
 
-    def generate_table(self, parent_frame):
+    def generate_table(self):
         """Create the table part of it
         """
         # parent frame for table
-        self.table_frame = tk.Frame(parent_frame)
+        self.table_frame = tk.Frame(self.parent_frame)
         self.table_frame.pack(side=tk.TOP, fill=tk.X, expand=True, padx=Styles.PADX)
 
         # scroll bar in the table
@@ -88,6 +128,8 @@ class ListView():
         table_style.configure("Treeview.Heading", font=Styles.HEADER_FONT)
         table_style.configure("Treeview", font=Styles.DEFAULT_FONT, rowheight=40)
         self.data_table.tag_configure("odd", background=Styles.ALT_ROW_COLOUR)
+
+        self.data_table.bind('<<TreeviewSelect>>', self.select_list_item)
 
 
     def update_table_data(self):
@@ -115,8 +157,8 @@ class ListView():
         self.current_page = self.current_page - 1
         # disable the button if applicable, enable next button
         if self.current_page == 0:
-            self.prev_button["state"] = tk.DISABLED
-        self.next_button["state"] = tk.NORMAL
+            self.buttons["Previous"]["state"] = tk.DISABLED
+        self.buttons["Next"]["state"] = tk.NORMAL
         self.update_table_data()
 
     def view_next_page(self):
@@ -141,7 +183,7 @@ class ListView():
         
         # enable the previous button if applicable
         if self.current_page == 1:
-            self.prev_button["state"] = tk.NORMAL
+            self.buttons["Previous"]["state"] = tk.NORMAL
         self.update_table_data()
         
     def load_new_data(self, last_item=None):
@@ -168,7 +210,7 @@ class ListView():
         """
         if len(results) < self.PAGE_LIMIT:
             # disable the next button
-                self.next_button["state"] = tk.DISABLED
+            self.buttons["Next"]["state"] = tk.DISABLED
 
     def display_error(self, error_message):
         # TODO: this should be actually displayed on the page

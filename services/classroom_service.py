@@ -17,6 +17,14 @@ class ClassroomService:
         results = ClassroomService._api.get(path=path, limit=limit, order_by=[sort], where_clauses=where_clauses)
         return results
 
+    def get_user_profiles(self, profile_paths):
+        profiles = []
+        for path in profile_paths:
+            profile = ClassroomService._api.get(path=path)
+            profiles.append(profile)
+
+        return profiles
+
     def update_classroom(self, school_id, classroom):
         """Create a new classroom or update an existing one
         """

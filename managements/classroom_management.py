@@ -16,6 +16,12 @@ class ClassroomManagement(ApplicationManagement):
         school_id = self._context.get_school_id()
         return ClassroomManagement._service.get_classrooms(school_id, limit, start_at_name)
         
+    def get_classroom_management(self, classroom):
+        return ClassroomManagement._service.get_user_profiles(classroom["managed_by"])
+
+    def get_classroom_members(self, classroom):
+        return ClassroomManagement._service.get_user_profiles(classroom["members"])
+
     def add_classroom(self, classroom):
         pass
 

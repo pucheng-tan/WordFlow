@@ -18,7 +18,6 @@ class MyHistoryWindow(active_window.ActiveWindow):
 
         self.challenge_management = challenge_management.ChallengeManagement()
         self.heading_frame = header.Header(self.frame, "My History")
-        # self.create_heading()    
 
         HEADINGS = ["Date", "Mode", "WPM", "Accuracy"]
         FIELDS = ["date_text", "mode", "wpm", "accuracy"]
