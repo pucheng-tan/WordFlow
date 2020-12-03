@@ -17,6 +17,8 @@ TEST_DATE = datetime(2020, 10, 30, tzinfo=timezone.utc)# November 1
 METADATA_ID = "UserService"
 PRIV = {"standard": 2, "admin": 1, "super_admin": 0}
 
+PRIV = {"standard": 2, "admin": 1, "super_admin": 0}
+
 @pytest.mark.api_call
 @pytest.mark.parametrize("user, expected_result, detail", [
     ({
@@ -35,15 +37,15 @@ PRIV = {"standard": 2, "admin": 1, "super_admin": 0}
         "display_name": "Completely New User"
     }, True, "Display name omitted- should still work"),
     ({
-        "email": "completely_new_email@test.ca",
+        "email": "completely_new_email.ca",
         "password": "Val1d_Pa$$word",
         "display_name": "Completely New User"
-    }, "invalid email", "invalid email- not a proper email format"),
+    }, "Invalid email format", "invalid email- not a proper email format"),
     ({
         "email": "test111@test.ca",
         "password": "12345",
         "display_name": "Invalid user"
-    }, "invalid password", "invalid password- password too short")
+    }, "Password must be at least 6 characters long", "invalid password- password too short")
 ])
 def test_create_user(user, expected_result, detail, json_metadata):
     json_metadata["id"] = "UT " + METADATA_ID + ".1"
@@ -54,7 +56,12 @@ def test_create_user(user, expected_result, detail, json_metadata):
     # if success expected, should have id
 
     # otherwise, should be an error returned
-    pass
+
+    result = user_service.create_user(user)
+    if expected_result == True:
+        assert "uid" in result
+    else:
+        assert result["error"] == expected_result
 
 @pytest.mark.api_call
 @pytest.mark.parametrize("user, school_id", [
