@@ -1,23 +1,11 @@
 import tkinter as tk
 from tkinter import ttk
+from user_interface.components.styles import Styles
 
 class ListView():
 
     # the number of items to show on a page
     PAGE_LIMIT = 10
-
-    ALT_ROW_COLOUR = "lightgrey"
-
-    BUTTON_FG = "white"
-    BUTTON_BG = "blue"
-    BUTTON_FONT = ("Helvetica", 20)
-
-    DEFAULT_FONT = ("Helvetica", 20)
-    HEADER_FONT = ("Helvetica", 18)
-
-    PADX = 20
-    PADY = 20
-
 
     def __init__(self, parent_frame, column_headings, column_data_fields, load_data_function):
         """Creates a table with headings that paginates (has next/prev buttons)
@@ -54,28 +42,28 @@ class ListView():
         self.buttons_frame.pack(side=tk.BOTTOM, fill=tk.X)
         self.next_button = tk.Button(self.buttons_frame, 
                                 text="Next", 
-                                fg=ListView.BUTTON_FG, 
-                                bg=ListView.BUTTON_BG, 
-                                font=ListView.BUTTON_FONT)
+                                fg=Styles.BUTTON_FG, 
+                                bg=Styles.BUTTON_BG, 
+                                font=Styles.BUTTON_FONT)
         self.prev_button = tk.Button(self.buttons_frame, 
                                 text="Previous", 
-                                fg=ListView.BUTTON_FG, 
-                                bg=ListView.BUTTON_BG, 
-                                font=ListView.BUTTON_FONT)
+                                fg=Styles.BUTTON_FG, 
+                                bg=Styles.BUTTON_BG, 
+                                font=Styles.BUTTON_FONT)
 
         self.prev_button["state"] = tk.DISABLED
         self.next_button["command"] = self.view_next_page
         self.prev_button["command"] = self.view_previous_page
         
-        self.next_button.pack(side=tk.RIGHT, padx=ListView.PADX, pady=ListView.PADY)
-        self.prev_button.pack(side=tk.RIGHT, padx=ListView.PADX, pady=ListView.PADY)
+        self.next_button.pack(side=tk.RIGHT, padx=Styles.PADX, pady=Styles.PADY)
+        self.prev_button.pack(side=tk.RIGHT, padx=Styles.PADX, pady=Styles.PADY)
 
     def generate_table(self, parent_frame):
         """Create the table part of it
         """
         # parent frame for table
         self.table_frame = tk.Frame(parent_frame)
-        self.table_frame.pack(side=tk.TOP, fill=tk.X, expand=True, padx=ListView.PADX)
+        self.table_frame.pack(side=tk.TOP, fill=tk.X, expand=True, padx=Styles.PADX)
 
         # scroll bar in the table
         self.scroll_bar = tk.Scrollbar(self.table_frame)
@@ -97,9 +85,9 @@ class ListView():
 
         # and then style the table
         table_style = ttk.Style()
-        table_style.configure("Treeview.Heading", font=ListView.HEADER_FONT)
-        table_style.configure("Treeview", font=ListView.DEFAULT_FONT, rowheight=40)
-        self.data_table.tag_configure("odd", background=ListView.ALT_ROW_COLOUR)
+        table_style.configure("Treeview.Heading", font=Styles.HEADER_FONT)
+        table_style.configure("Treeview", font=Styles.DEFAULT_FONT, rowheight=40)
+        self.data_table.tag_configure("odd", background=Styles.ALT_ROW_COLOUR)
 
 
     def update_table_data(self):

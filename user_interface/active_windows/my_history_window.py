@@ -1,17 +1,14 @@
 import tkinter as tk
 from tkinter import ttk
 from user_interface.active_windows import active_window
+from user_interface.components import list_view, header
+from user_interface.components.styles import Styles
 from managements import challenge_management
 from datetime import datetime
 
-from user_interface.components import list_view
+
 
 class MyHistoryWindow(active_window.ActiveWindow):
-    TITLE_FONT = ("Helvetica", 25, "bold")    
-    TITLE = "My History"    
-
-    PADX = 20
-    PADY = 20
 
     CHALLENGE_MODES = ["Standard", "Dictation", "Java", "Python", "PHP", "HTML", "C"]
 
@@ -20,21 +17,12 @@ class MyHistoryWindow(active_window.ActiveWindow):
         active_window.ActiveWindow.__init__(self, gui)
 
         self.challenge_management = challenge_management.ChallengeManagement()
-        self.create_heading()    
+        self.heading_frame = header.Header(self.frame, "My History")
+        # self.create_heading()    
 
         HEADINGS = ["Date", "Mode", "WPM", "Accuracy"]
         FIELDS = ["date_text", "mode", "wpm", "accuracy"]
-
         self.history_list = list_view.ListView(self.frame, HEADINGS, FIELDS, self.load_challenge_results)
-
-    def create_heading(self):
-        """Creates a header row with a title
-        """
-        self.heading_frame = tk.Frame(self.frame)
-        self.heading_frame.pack(side=tk.TOP, fill=tk.X)
-        title_label = tk.Label(self.heading_frame, text=MyHistoryWindow.TITLE)
-        title_label["font"] = MyHistoryWindow.TITLE_FONT
-        title_label.pack(side=tk.LEFT, padx=MyHistoryWindow.PADX, pady=MyHistoryWindow.PADY)
         
     def format_data(self, data):
         # turn the data into a list
