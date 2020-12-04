@@ -41,7 +41,8 @@ class NewChallengeWindow(active_window.ActiveWindow):
         """Creates a typing test based on the challenge type
         """
 
-        challenge_content = self.challenge_management.get_random_challenge_content(self.challenge_type)
+        #challenge_content = self.challenge_management.get_random_challenge_content(self.challenge_type)
+        challenge_content = "hello here is a newline\nafter neline\n\tnewline then tab"
         
         if(self.challenge_type == self.modes["Standard"]):
             StandardTypingChallenge(self.frame, self.challenge_duration, challenge_content, self.challenge_type)
@@ -49,7 +50,7 @@ class NewChallengeWindow(active_window.ActiveWindow):
         elif(self.challenge_type == self.modes["Dictation"]):
             DictationTypingChallenge(self.frame, self.challenge_duration, challenge_content, self.challenge_type)
 
-        elif(self.challenge_type in self.modes):          
+        elif(self.challenge_type in self.modes.values()):          
             ProgrammingTypingChallenge(self.frame, self.challenge_duration, challenge_content, self.challenge_type)
 
         
@@ -300,10 +301,12 @@ class StandardTypingChallenge(BaseTypingChallenge):
 
 #TODO implement the programming typing challenge here
 class ProgrammingTypingChallenge(BaseTypingChallenge):
-    def __init__(self, master, challenge_duration, challenge_language):
-        self.frame = master
-        self.challenge_duration = challenge_duration
-        self.challenge_language = challenge_language
+    title = "Programmer"
+    def __init__(self, master, challenge_duration, challenge_content, mode):
+        
+        super().__init__(master,challenge_duration,challenge_content,mode)
+        self.execute_challenge()
+
 
 
 
@@ -316,6 +319,7 @@ class DictationTypingChallenge(BaseTypingChallenge):
         self.display_text_box.configure(foreground="white")
         
         self.execute_challenge()
+
 
 
 
