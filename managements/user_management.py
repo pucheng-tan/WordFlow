@@ -43,7 +43,6 @@ class UserManagement(ApplicationManagement):
             except Exception as e:
                 # this would be the case where they try to create the same user
                 # but at a different school, but use the wrong password
-                print(str(e))
                 return {"error": str(e)}
             del valid_user["password"]
             return valid_user
