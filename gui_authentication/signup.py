@@ -61,7 +61,7 @@ class CreateUser(tk.Frame):
 
         self.school_label = tk.Label(self.frame, text="School:")
         self.email_label = tk.Label(self.frame, text="Email:")
-        self.invite_code_label = tk.Label(self.frame, text="Invite Code:")
+        # self.invite_code_label = tk.Label(self.frame, text="Invite Code:")
         self.password_label = tk.Label(self.frame, text="Password:")
         self.verify_password_label = tk.Label(self.frame,
                                               text="Verify Password:")
@@ -70,7 +70,7 @@ class CreateUser(tk.Frame):
 
         self.school_label.grid(row=3)
         self.email_label.grid(row=5)
-        self.invite_code_label.grid(row=7)
+        # self.invite_code_label.grid(row=7)
         self.password_label.grid(row=9)
         self.verify_password_label.grid(row=11)
 
@@ -96,13 +96,13 @@ class CreateUser(tk.Frame):
 
         self.school_entry = tk.Entry(self.frame)
         self.email_entry = tk.Entry(self.frame)
-        self.invite_code_entry = tk.Entry(self.frame)
+        # self.invite_code_entry = tk.Entry(self.frame)
         self.password_entry = tk.Entry(self.frame)
         self.verify_password_entry = tk.Entry(self.frame)
 
         self.school_entry.grid(row=4, padx=10, pady=10)
         self.email_entry.grid(row=6)
-        self.invite_code_entry.grid(row=8)
+        # self.invite_code_entry.grid(row=8)
         self.password_entry.grid(row=10)
         self.verify_password_entry.grid(row=12)
 
@@ -146,7 +146,7 @@ class CreateUser(tk.Frame):
 
         self.school = self.school_entry.get().strip()
         self.email = self.email_entry.get().strip()
-        self.invite_code = self.invite_code_entry.get().strip()
+        # self.invite_code = self.invite_code_entry.get().strip()
         self.password = self.password_entry.get().strip()
         self.verify_password = self.verify_password_entry.get().strip()
 
@@ -155,16 +155,17 @@ class CreateUser(tk.Frame):
         # TODO: Connect so that a user is signed up.
         if valid_entries:
             print("Good entries")
+
         else:
             print("Bad entries")
 
     def check_entries(self):
         """
-        Checks whether the entries are valid.
+        Checks whether the entries are filled out and the passwords match.
 
         Return:
-             Returns a boolean value on whether the values entered in the
-             entry fields are valid. It is True if the entries are valid and
+             Returns a boolean value on whether each entry field is filled out
+             and the passwords match. It is True if the entries are both and
              False if they are not.
         """
 
@@ -174,8 +175,8 @@ class CreateUser(tk.Frame):
             self.forget_temporary_label()
 
         # Empty entry field
-        if (not self.school or not self.email or not self.invite_code
-                or not self.password or not self.verify_password):
+        if (not self.school or not self.email or not self.password
+                or not self.verify_password):
             self.temporary_label = self.forget_field_label
         # Password and Verify Password don't match
         elif self.password != self.verify_password:
@@ -186,8 +187,7 @@ class CreateUser(tk.Frame):
 
         self.temporary_label.grid(row=14)
 
-        print(self.school, self.email, self.invite_code, self.password,
-              self.verify_password)
+        print(self.school, self.email, self.password, self.verify_password)
 
         return valid_entries
 

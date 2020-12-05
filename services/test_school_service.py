@@ -11,8 +11,8 @@ TEST_SCHOOL_ID = "3p1U6xAvKic1RvXMl5nJ"
         ("Usask", 0, 1),
         ("Usask", 1, 0),
         ("Usask", 2, 1),
-        ("3p1U6xAvKic1RvXMl5nJ", 0, 3),
-        ("3p1U6xAvKic1RvXMl5nJ", 1, 3),
+        ("3p1U6xAvKic1RvXMl5nJ", 0, 4),
+        ("3p1U6xAvKic1RvXMl5nJ", 1, 4),
         ("3p1U6xAvKic1RvXMl5nJ", 2, 8)])
 
 def test_get_user_documents_by_privilege(test_school_id, privilege_level, expected_result):
