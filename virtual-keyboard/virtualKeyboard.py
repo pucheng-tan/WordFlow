@@ -5,7 +5,7 @@ os.system('xset r off')
 
 window = tk.Tk()
 window.title('Typing Challenge')
-window.geometry('800x500')
+window.geometry('900x500')
 
 # create a text entry
 e = tk.Entry(window,show=None)
@@ -14,18 +14,18 @@ e.pack()
 # Global Variables
 Key_row1 = ['`', '1', '2', '3', '4','5','6','7','8','9','0','-', '=', 'BackSpace']
 Key_row2 = ['\t', 'q', 'w', 'e', 'r', 't','y', 'u', 'i', 'o', 'p', '[', ']', '\\']
-Key_row3 = ['Caps', 'a', 's', 'd', 'f', 'g','h','j','k','l',';','\'', '\r']
+Key_row3 = ['Caps_Lock', 'a', 's', 'd', 'f', 'g','h','j','k','l',';','\'', '\r']
 Key_row4 = ['shift', 'z', 'x', 'c', 'v', 'b','n','m',',','.','/', 'shift']
 Key_row5 = [' ']
 keys = Key_row1 + Key_row2 + Key_row3 + Key_row4 + Key_row5
 
 
 default_color = "powder blue"
-keypressed_color = "red"
+keypressed_color = "green"
 
 # labels = {}
 
-
+# create a list of list in which each list contains all the keys in a certain row
 def key_of_keys():
     new_dict = []
     new_dict.append(Key_row1)
@@ -79,13 +79,41 @@ def key_released_new(event):
     if (event.char.lower() in keys):
         label = keys_dict[event.char.lower()]
         labels[label].configure(bg=default_color)
-    
-    
 
 window.bind("<KeyPress>", key_pressed_new)
 window.bind("<KeyRelease>", key_released_new)
 
+def key_pressed_shift_l(event):
+    labels["L41"].configure(bg=keypressed_color)    
+def key_released_shift_l(event):
+    labels["L41"].configure(bg=default_color) 
 
+window.bind("<KeyPress-Shift_L>", key_pressed_shift_l)
+window.bind("<KeyRelease-Shift_L>", key_released_shift_l)
+
+def key_pressed_shift_r(event):
+    labels["L52"].configure(bg=keypressed_color)    
+def key_released_shift_r(event):
+    labels["L52"].configure(bg=default_color) 
+
+window.bind("<KeyPress-Shift_R>", key_pressed_shift_r)
+window.bind("<KeyRelease-Shift_R>", key_released_shift_r)
+
+def key_pressed_backspace(event):
+    labels["L13"].configure(bg=keypressed_color)    
+def key_released_backspace(event):
+    labels["L13"].configure(bg=default_color) 
+
+window.bind("<KeyPress-BackSpace>", key_pressed_backspace)
+window.bind("<KeyRelease-BackSpace>", key_released_backspace)
+
+def key_pressed_caps(event):
+    labels["L28"].configure(bg=keypressed_color)    
+def key_released_caps(event):
+    labels["L28"].configure(bg=default_color) 
+
+window.bind("<KeyPress-Caps_Lock>", key_pressed_caps)
+window.bind("<KeyRelease-Caps_Lock>", key_released_caps)
 
 def create_labels():
     keys = key_of_keys()
@@ -110,7 +138,7 @@ def create_labels():
                 labels[key] = tk.Label(window, text="Tab", bg=default_color, font=('Arial', 12), width=10, height=2)
                 labels[key].place(x=startingcoordinateX + (j*55), y=startingCoordinateY + (i*50))
                 startingcoordinateX += 45
-            elif (keys[i][j] == 'Caps'):
+            elif (keys[i][j] == 'Caps_Lock'):
                 # Create the Capslock label
                 startingcoordinateX -= 45
                 labels[key] = tk.Label(window, text="Caps", bg=default_color, font=('Arial', 12), width=10, height=2)
