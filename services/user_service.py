@@ -108,7 +108,7 @@ class UserService:
         creates it if it doesn't exist.
 
         Args:
-            user_id:
+            user_id: The id of the user whose profile is being updated.
             school_id: The id of the school.
             data: A dictionary containing a key of the string of the field in
             the profile to be updated or created and the value to place in that

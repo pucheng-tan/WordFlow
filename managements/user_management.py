@@ -43,6 +43,7 @@ class UserManagement(ApplicationManagement):
             except Exception as e:
                 # this would be the case where they try to create the same user
                 # but at a different school, but use the wrong password
+                print(str(e))
                 return {"error": str(e)}
             del valid_user["password"]
             return valid_user
@@ -128,7 +129,8 @@ class UserManagement(ApplicationManagement):
         """Change the privilege of the user.
 
         Args:
-            user:
+            user: A dictionary of information of the user whose privilege is
+            being changed.
             new_privilege_level: The new privilege level of the user.
         """
         user_id = user["id"]
