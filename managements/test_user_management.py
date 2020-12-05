@@ -13,7 +13,7 @@ user_management = UserManagement()
 def test_create_auth_user(description, email, expected_result):
     result = user_management.create_auth_user(email)
 
-    assert expected_result == result
+    assert expected_result in result
 
 # @pytest.mark.xfail
 @pytest.mark.parametrize("user, result", [
