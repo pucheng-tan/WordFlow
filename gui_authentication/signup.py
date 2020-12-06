@@ -65,7 +65,6 @@ class CreateUser(tk.Frame):
 
         self.school_label = tk.Label(self.frame, text="School:")
         self.email_label = tk.Label(self.frame, text="Email:")
-        # self.invite_code_label = tk.Label(self.frame, text="Invite Code:")
         self.password_label = tk.Label(self.frame, text="Password:")
         self.verify_password_label = tk.Label(self.frame,
                                               text="Verify Password:")
@@ -74,7 +73,6 @@ class CreateUser(tk.Frame):
 
         self.school_label.grid(row=3)
         self.email_label.grid(row=5)
-        # self.invite_code_label.grid(row=7)
         self.password_label.grid(row=9)
         self.verify_password_label.grid(row=11)
 
@@ -105,13 +103,11 @@ class CreateUser(tk.Frame):
 
         self.school_entry = tk.Entry(self.frame)
         self.email_entry = tk.Entry(self.frame)
-        # self.invite_code_entry = tk.Entry(self.frame)
         self.password_entry = tk.Entry(self.frame)
         self.verify_password_entry = tk.Entry(self.frame)
 
         self.school_entry.grid(row=4, padx=10, pady=10)
         self.email_entry.grid(row=6)
-        # self.invite_code_entry.grid(row=8)
         self.password_entry.grid(row=10)
         self.verify_password_entry.grid(row=12)
 
@@ -155,7 +151,6 @@ class CreateUser(tk.Frame):
 
         self.school = self.school_entry.get().strip()
         self.email = self.email_entry.get().strip()
-        # self.invite_code = self.invite_code_entry.get().strip()
         self.password = self.password_entry.get().strip()
         self.verify_password = self.verify_password_entry.get().strip()
 

@@ -57,6 +57,12 @@ class MyProfileWindow(active_window.ActiveWindow):
             text="Submit")
         change_information_button.pack(anchor=tk.W)
 
+        reset_password_button = tk.Button(
+            self.frame,
+            command=self.reset_password_button_response,
+            text="Reset Password")
+        reset_password_button.pack(anchor=tk.W)
+
     def change_profile(self, information_option):
         answer = simpledialog.askstring(
             "Input", "Please enter your new " + information_option + ":")
@@ -74,6 +80,17 @@ class MyProfileWindow(active_window.ActiveWindow):
             self.user_management.update_current_user_profile(
                 str(answer),
                 information_option.lower().replace(" ", "_"))
+
+    def reset_password_button_response(self):
+        answer = messagebox.askyesno("Reset Password", "Are you sure you want to reset your password?")
+
+        if answer:
+            email_sent = self.user_management.send_reset_password_email()
+            if email_sent:
+                message = "Success! An email to reset your password has been sent!"
+            else:
+                message = email_sent
+            messagebox.showinfo("Reset Password", message)
 
     def show(self):
         self.frame.pack(fill=tk.BOTH)

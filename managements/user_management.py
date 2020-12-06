@@ -214,12 +214,10 @@ class UserManagement(ApplicationManagement):
     def send_invite_email(self, user):
         try:
             receiver_mail = user["email"]
-            # school_id = UserManagement._context.get_school_id()
-            school_id = "School_id"
+            school_id = UserManagement._context.get_school_id()
 
             link = UserManagement._service.generate_verification_link(receiver_mail)
 
-            print("Link:", link)
             message = MIMEMultipart("alternative")
             message["Subject"] = "Email Verification"
             message["From"] = SENDER_MAIL
@@ -251,13 +249,12 @@ class UserManagement(ApplicationManagement):
             email_sent = str(e)
         return email_sent
 
-    def send_reset_password_email(self, user):
+    def send_reset_password_email(self):
         try:
-            receiver_mail = user["email"]
+            receiver_mail = self._context.get_user_email()
 
             link = UserManagement._service.generate_password_reset_link(receiver_mail)
 
-            print("Link:", link)
             message = MIMEMultipart("alternative")
             message["Subject"] = "Email Verification"
             message["From"] = SENDER_MAIL
