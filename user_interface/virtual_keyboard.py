@@ -1,7 +1,7 @@
 import tkinter as tk
 import os
 
-os.system('xset r off')
+
 
 # window1 = tk.Tk()
 # window1.title('Typing Challenge')
@@ -15,6 +15,16 @@ os.system('xset r off')
 # e = tk.Entry(f,show=None)
 # e.pack()
 
+Key_row1 = ['`', '1', '2', '3', '4','5','6','7','8','9','0','-', '=', 'BackSpace']
+Key_row2 = ['\t', 'q', 'w', 'e', 'r', 't','y', 'u', 'i', 'o', 'p', '[', ']', '\\']
+Key_row3 = ['Caps_Lock', 'a', 's', 'd', 'f', 'g','h','j','k','l',';','\'', '\r']
+Key_row4 = ['shift', 'z', 'x', 'c', 'v', 'b','n','m',',','.','/', 'shift']
+Key_row5 = [' ']
+keys = Key_row1 + Key_row2 + Key_row3 + Key_row4 + Key_row5
+
+
+default_color = "powder blue"
+keypressed_color = "green"
 
 
 
@@ -72,11 +82,13 @@ def create_onscreen_keyboard(window,e):
         #     labels["Caps"].configure(bg=keypressed_color)
         # elif (event.Shift):
         #     labels["shift"].configure(bg=keypressed_color)
+        
         if (event.char.lower() in keys):
+            
             # Use the key pressed to get the label
             label = keys_dict[event.char.lower()]
             # Use the label to get the tkinter object
-            labels[label].configure(bg=keypressed_color)
+            labels[label].configure(bg="green")
         
 
     def key_released_new(event):
@@ -130,7 +142,6 @@ def create_onscreen_keyboard(window,e):
         startingcoordinateX = 25
         startingCoordinateY = 100
         counter = 0
-
         global labels
         labels = {}
 

@@ -7,6 +7,9 @@ import time
 import datetime
 from managements import challenge_management
 import pyttsx3
+import os
+
+os.system('xset r off')
 
 
 class NewChallengeWindow(active_window.ActiveWindow):
@@ -169,6 +172,7 @@ class BaseTypingChallenge(object):
 		self.display_text_box.pack()
 		self.display_text_box.insert('end', self.text_content)
 
+		self.frame.focus_set()
 	
 
 		# the element that the user types into
@@ -177,13 +181,14 @@ class BaseTypingChallenge(object):
 
 		self.keyboard_frame = tk.LabelFrame(self.frame,width=900,height=350)
 		self.keyboard_frame.pack()
-
-		virtual_keyboard.create_onscreen_keyboard(self.keyboard_frame,self.answer_box)
+		
+		virtual_keyboard.create_onscreen_keyboard(self.keyboard_frame,self.frame)
 
 		
 
 	 
 	def execute_challenge(self):
+		
 		def timer_countdown(challenge_window):
 			"""This is the function that makes the timer tick. It will be executed in a thread so it does not impact the performance of our program.
 
