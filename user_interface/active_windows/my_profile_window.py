@@ -14,6 +14,7 @@ class MyProfileWindow(active_window.ActiveWindow):
         self.display_user_profile()
 
     def display_user_profile(self):
+        """Displays the user's profile in the my profile window."""
         self.create_profile()
         profile = ["First Name", "Last Name", "Email", "Display Name", "Privilege Level"]
 
@@ -28,6 +29,8 @@ class MyProfileWindow(active_window.ActiveWindow):
             information_label.pack()
 
     def create_profile(self):
+        """Creates a full user profile."""
+        
         profile_information = ["email", "display_name", "last_name",
                                "first_name", "privilege_level"]
 
