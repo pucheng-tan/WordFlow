@@ -289,7 +289,7 @@ class UserManagement(ApplicationManagement):
 
             You have been registered in school: """ + school_id + """
             Follow this link to verify your email address: """ + link + """
-            Afterwards sign up to finish setting up your account and log in to
+            Afterwards, sign up to finish setting up your account and log in to
             get started.
             If you're not sure why you've received this, you can ignore this
             email.

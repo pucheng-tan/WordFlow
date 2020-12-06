@@ -455,12 +455,21 @@ class UserInformationWindow(active_window.ActiveWindow):
         invite_button["command"] = self.invite_button_response
 
     def invite_button_response(self):
-        email_sent = self.user_management.send_invite_email(self.user_info)
-        if email_sent:
-            invitation_message = "Success! Invitation email sent!"
-        else:
-            invitation_message = email_sent
-        messagebox.showinfo("Invitation", invitation_message)
+        """Responds to the invite button being clicked.
+
+        First asks, for confirmation in inviting the user and if the answer is
+        yes, sends the invitation email containing the email verification link.
+        """
+        answer = messagebox.askyesno(
+            "Invite User", "Are you sure you want to invite this user?")
+
+        if answer:
+            email_sent = self.user_management.send_invite_email(self.user_info)
+            if email_sent:
+                invitation_message = "Success! Invitation email sent!"
+            else:
+                invitation_message = email_sent
+            messagebox.showinfo("Invitation", invitation_message)
 
     def create_profile_frame(self):
         """
