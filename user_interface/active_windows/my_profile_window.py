@@ -64,6 +64,12 @@ class MyProfileWindow(active_window.ActiveWindow):
         reset_password_button.pack(anchor=tk.W)
 
     def change_profile(self, information_option):
+        """Makes a dialog to enter in the new information for the chosen
+        information option.
+
+        Args:
+            information_option: The information option being changed.
+        """
         answer = simpledialog.askstring(
             "Input", "Please enter your new " + information_option + ":")
         confirmation = False
@@ -82,17 +88,26 @@ class MyProfileWindow(active_window.ActiveWindow):
                 information_option.lower().replace(" ", "_"))
 
     def reset_password_button_response(self):
-        answer = messagebox.askyesno("Reset Password", "Are you sure you want to reset your password?")
+        """Responds to the reset password button being clicked.
+
+        First asks for confirmation if the user is sure they want to reset their
+        password. If the answer is yes, an email with a reset password link is
+        sent, otherwise nothing is sent.
+        """
+        answer = messagebox.askyesno(
+            "Reset Password", "Are you sure you want to reset your password?")
 
         if answer:
             email_sent = self.user_management.send_reset_password_email()
             if email_sent:
-                message = "Success! An email to reset your password has been sent!"
+                message = ("Success! An email to reset your password has been"
+                           " sent!")
             else:
                 message = email_sent
             messagebox.showinfo("Reset Password", message)
 
     def show(self):
+        """See base class."""
         self.frame.pack(fill=tk.BOTH)
 
     def create_profile(self):
