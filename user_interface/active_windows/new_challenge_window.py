@@ -163,19 +163,25 @@ class BaseTypingChallenge(object):
 		self.time_remaining = tk.Label(self.frame, text=timer_text, font=("TkDefaultFont", 30))
 		self.time_remaining.pack()
 
-		# List of each word in the text content
-		self.list_of_words = re.split(' |\t',self.text_content)
+		# Split the list of words by either spaces, or new line characters
+		self.list_of_words = re.split(' |(\n)',self.text_content)
+		
+
+
 		temp = []
-		self.test = []
+
+		#this list will keap the newline characters - useful for looking ahead to see if we are going to a new line
+		self.list_of_words_with_newlines = []
 		for a in self.list_of_words:
-			b = a.strip('\n')
-			if a !='':
-				self.test.append(a)
-			if b !='':
-				temp.append(a)
+			if a != None:
+				c = a.strip('\t')
+				b = c.strip('\n')
+				if a !='':
+					self.list_of_words_with_newlines.append(a)
+				if b !='':
+					temp.append(b)
 			
 		self.list_of_words = temp
-		#print(temp)
 		
 
 		# List of the length of each word, in the order of the words
@@ -198,7 +204,9 @@ class BaseTypingChallenge(object):
 
 		# the element that the user types into
 		self.answer_box = tk.Entry(self.frame, width=10, font=("TkDefaultFont", 50))
+		
 		self.answer_box.pack()
+		self.answer_box.insert('end', 'Press space!')
 
 		self.keyboard_frame = tk.LabelFrame(self.frame,width=900,height=350)
 		self.keyboard_frame.pack()
@@ -333,12 +341,14 @@ class StandardTypingChallenge(BaseTypingChallenge):
 
 
 
-# TODO implement the programming typing challenge here
+# TODO: Handle enter key presses and tab key presses
 class ProgrammingTypingChallenge(BaseTypingChallenge):
 	title = "Programmer"
 	def __init__(self, master, challenge_duration, challenge_content, mode):
 		
 		super().__init__(master,challenge_duration,challenge_content,mode)
+		self.answer_box.configure(width=40, font=("TkDefaultFont", 30))
+		self.display_text_box.configure(height=30, width=100)
 		self.execute_challenge()
 
 	def _highlight_progress(self):
@@ -353,24 +363,46 @@ class ProgrammingTypingChallenge(BaseTypingChallenge):
 		
 		self.progress_counter = 0
 		self.line = 1
+
+		self.newline_counter = 1
 		
 		# move start_index to the start of the next word, and move end_index to the end of the next word
 		def _update_start_and_end_index(self):
-			if '\n' in self.test[self.progress_counter]:
+
+			#If the next line is a new line
+			if '\n' in self.list_of_words_with_newlines[self.progress_counter+self.newline_counter]:
 				self.line += 1
-				self.start_index = str(self.line)+".0"
-				self.end_index = str(self.line)+".0" # + str(self.list_of_word_lengths[self.progress_counter])
+				self.newline_counter += 1
+				self.start_index = str(self.line)+".0"  #increase the index to the next line
+				self.end_index = str(self.line)+".0" 
+				self.progress_counter = self.progress_counter + 1
 				
-			
-			self.progress_counter = self.progress_counter + 1
+				#This is to handle tabs
+				#TODO Find a more robust way to handle tabs, rather than hard coding each case
+				if '\t\t\t' in self.list_of_words_with_newlines[self.progress_counter + self.newline_counter - 1]:
+					cur = self.end_index.split('.')
+					self.start_index = cur[0]+'.'+str(int(cur[1]) + 3)
+					self.end_index = cur[0]+'.'+str(int(cur[1]) + 3 + self.list_of_word_lengths[self.progress_counter])
+				elif '\t\t' in self.list_of_words_with_newlines[self.progress_counter + self.newline_counter - 1]:
+					cur = self.end_index.split('.')
+					self.start_index = cur[0]+'.'+str(int(cur[1]) + 2)
+					self.end_index = cur[0]+'.'+str(int(cur[1]) + 2 + self.list_of_word_lengths[self.progress_counter])
+				elif '\t' in self.list_of_words_with_newlines[self.progress_counter + self.newline_counter - 1]:
+					cur = self.end_index.split('.')
+					self.start_index = cur[0]+'.'+str(int(cur[1]) + 1)
+					self.end_index = cur[0]+'.'+str(int(cur[1]) + 1 + self.list_of_word_lengths[self.progress_counter])
+				else:
+					cur = self.end_index.split('.')
+					self.start_index = cur[0]+'.'+str(int(cur[1]))
+					self.end_index = cur[0]+'.'+str(int(cur[1]) + self.list_of_word_lengths[self.progress_counter])
+			else: #if not on the next line
+				self.progress_counter = self.progress_counter + 1
+				cur = self.end_index.split('.')
+				self.start_index = cur[0]+'.'+str(int(cur[1]) + 1)
+				self.end_index = cur[0]+'.'+str(int(cur[1]) + 1 + self.list_of_word_lengths[self.progress_counter])
 
-
-			cur = self.end_index.split('.')
-			
-			
-			self.start_index = cur[0]+'.'+str(int(cur[1]) + 1)
-			self.end_index = cur[0]+'.'+str(int(cur[1]) + 1 + self.list_of_word_lengths[self.progress_counter])
-
+				
+		
 
 
 		def _on_space_key_pressed(self):
@@ -399,12 +431,7 @@ class ProgrammingTypingChallenge(BaseTypingChallenge):
 			if not self.is_challenge_finished:
 				_update_start_and_end_index(self)
 
-		def _on_enter_key_pressed(self):
-			user_input = self.answer_box.get().strip(' ')
-		   
 
-		#self.answer_box.bind('<tab>', lambda a = self: _on_tab_key_pressed(self) )
-		#self.answer_box.bind('<Return>', lambda a = self: _on_enter_key_pressed(self) )
 			
 
 
@@ -414,13 +441,17 @@ class ProgrammingTypingChallenge(BaseTypingChallenge):
 
 
 
-# TODO implement the dictation typing challenge here
 class DictationTypingChallenge(BaseTypingChallenge):
+	"""This is a dictation typing challenge. This will make use of text to speach
+
+	Args:
+		BaseTypingChallenge ([type]): [description]
+	"""
 	title = "Dictation"
 
 	def __init__(self, master, challenge_duration, challenge_content, mode):
 		super().__init__(master,challenge_duration,challenge_content,mode)
-		self.display_text_box.configure(foreground="white")
+		self.display_text_box.configure(foreground="white") #make words invisible
 		
 		self.execute_challenge()
 
