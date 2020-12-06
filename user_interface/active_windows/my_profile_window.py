@@ -1,7 +1,7 @@
 import tkinter as tk
 from user_interface.active_windows import active_window
 from managements import user_management
-from tkinter import simpledialog
+from tkinter import simpledialog, messagebox
 
 class MyProfileWindow(active_window.ActiveWindow):
     def __init__(self, gui):
@@ -44,7 +44,16 @@ class MyProfileWindow(active_window.ActiveWindow):
         change_information_button.pack(anchor=tk.W)
 
     def change_profile(self, information_option):
-        answer = simpledialog.askstring("Input", "Please enter your new " + information_option+":", parent=self.frame)
+        answer = simpledialog.askstring("Input", "Please enter your new " + information_option+":")
+        confirmation = False
+
+        if answer:
+            confirmation = messagebox.askyesno("Question", "Are you sure you want to change your " + information_option+" to" + answer+" ?")
+        else:
+            messagebox.showerror("Error", "Change failed. Nothing was entered.")
+
+        if confirmation:
+            
 
     def show(self):
         self.frame.pack(fill=tk.BOTH)
