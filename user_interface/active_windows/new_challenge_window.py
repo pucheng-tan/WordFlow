@@ -45,13 +45,20 @@ class NewChallengeWindow(active_window.ActiveWindow):
 	def _load_new_challenge(self):
 		"""Creates a typing test based on the challenge type
 		"""
+		challenge_content = ""
 		#challenge_content = self.challenge_management.get_random_challenge_content(self.challenge_type)
-		challenge_content = "def _highlight_progress(self):\n\t# in charge of keaping track of users progress through the test\n\tself.start_index = '1.0'\n\tself.end_index = '1.' + str(self.list_of_word_lengths[0])\n\t#what is this??\n\tself.display_text_box.mark_set('myword', '1.1')\n\tself.progress_counter = 0\n\t#move start_index to the start of the next word, and move end_index to the end of the next word\n\tdef _update_start_and_end_index(self):\n\t\tself.progress_counter = self.progress_counter + 1\n\t\tcur = self.end_index.split('.')\n\t\tself.start_index = cur[0]+'.'+str(int(cur[1]) + 1)\n\t\tself.end_index = cur[0]+'.'+str(int(cur[1]) + 1 + self.list_of_word_lengths[self.progress_counter])\n\tdef _on_space_key_pressed(self):\n\t\tuser_input = self.answer_box.get().strip(' ')\n\t\tself.answer_box.delete(0,'end')\n\t\tif(user_input == self.list_of_words[self.progress_counter]):\n\t\t\tself.display_text_box.tag_add('correct', self.start_index, self.end_index)\n\t\t\tself.correct_words+=1\n\t\t\tself.total_words_completed+=1\n\t\telse:\n\t\t\tself.display_text_box.tag_add('false', self.start_index, self.end_index)\n\t\t\tself.incorrect_words+=1\n\t\t\tself.total_words_completed+=1"
+		if (self.challenge_type == self.modes["Python"]):
+			challenge_content = "def _highlight_progress(self):\n\t# in charge of keaping track of users progress through the test\n\tself.start_index = '1.0'\n\tself.end_index = '1.' + str(self.list_of_word_lengths[0])\n\t#what is this??\n\tself.display_text_box.mark_set('myword', '1.1')\n\tself.progress_counter = 0\n\t#move start_index to the start of the next word, and move end_index to the end of the next word\n\tdef _update_start_and_end_index(self):\n\t\tself.progress_counter = self.progress_counter + 1\n\t\tcur = self.end_index.split('.')\n\t\tself.start_index = cur[0]+'.'+str(int(cur[1]) + 1)\n\t\tself.end_index = cur[0]+'.'+str(int(cur[1]) + 1 + self.list_of_word_lengths[self.progress_counter])\n\tdef _on_space_key_pressed(self):\n\t\tuser_input = self.answer_box.get().strip(' ')\n\t\tself.answer_box.delete(0,'end')\n\t\tif(user_input == self.list_of_words[self.progress_counter]):\n\t\t\tself.display_text_box.tag_add('correct', self.start_index, self.end_index)\n\t\t\tself.correct_words+=1\n\t\t\tself.total_words_completed+=1\n\t\telse:\n\t\t\tself.display_text_box.tag_add('false', self.start_index, self.end_index)\n\t\t\tself.incorrect_words+=1\n\t\t\tself.total_words_completed+=1"
+		elif (self.challenge_type == self.modes["C"]):
+			challenge_content = "def _highlight_progress(self):\n\t# in charge of keaping track of users progress through the test\n\tself.start_index = '1.0'\n\tself.end_index = '1.' + str(self.list_of_word_lengths[0])\n\t#what is this??\n\tself.display_text_box.mark_set('myword', '1.1')\n\tself.progress_counter = 0\n\t#move start_index to the start of the next word, and move end_index to the end of the next word\n\tdef _update_start_and_end_index(self):\n\t\tself.progress_counter = self.progress_counter + 1\n\t\tcur = self.end_index.split('.')\n\t\tself.start_index = cur[0]+'.'+str(int(cur[1]) + 1)\n\t\tself.end_index = cur[0]+'.'+str(int(cur[1]) + 1 + self.list_of_word_lengths[self.progress_counter])\n\tdef _on_space_key_pressed(self):\n\t\tuser_input = self.answer_box.get().strip(' ')\n\t\tself.answer_box.delete(0,'end')\n\t\tif(user_input == self.list_of_words[self.progress_counter]):\n\t\t\tself.display_text_box.tag_add('correct', self.start_index, self.end_index)\n\t\t\tself.correct_words+=1\n\t\t\tself.total_words_completed+=1\n\t\telse:\n\t\t\tself.display_text_box.tag_add('false', self.start_index, self.end_index)\n\t\t\tself.incorrect_words+=1\n\t\t\tself.total_words_completed+=1"
+		elif (self.challenge_type == self.modes["HTML"]):
+			challenge_content = "def _highlight_progress(self):\n\t# in charge of keaping track of users progress through the test\n\tself.start_index = '1.0'\n\tself.end_index = '1.' + str(self.list_of_word_lengths[0])\n\t#what is this??\n\tself.display_text_box.mark_set('myword', '1.1')\n\tself.progress_counter = 0\n\t#move start_index to the start of the next word, and move end_index to the end of the next word\n\tdef _update_start_and_end_index(self):\n\t\tself.progress_counter = self.progress_counter + 1\n\t\tcur = self.end_index.split('.')\n\t\tself.start_index = cur[0]+'.'+str(int(cur[1]) + 1)\n\t\tself.end_index = cur[0]+'.'+str(int(cur[1]) + 1 + self.list_of_word_lengths[self.progress_counter])\n\tdef _on_space_key_pressed(self):\n\t\tuser_input = self.answer_box.get().strip(' ')\n\t\tself.answer_box.delete(0,'end')\n\t\tif(user_input == self.list_of_words[self.progress_counter]):\n\t\t\tself.display_text_box.tag_add('correct', self.start_index, self.end_index)\n\t\t\tself.correct_words+=1\n\t\t\tself.total_words_completed+=1\n\t\telse:\n\t\t\tself.display_text_box.tag_add('false', self.start_index, self.end_index)\n\t\t\tself.incorrect_words+=1\n\t\t\tself.total_words_completed+=1"
+		
 		if(self.challenge_type == self.modes["Standard"]):
-			StandardTypingChallenge(self.frame, self.challenge_duration, challenge_content, self.challenge_type)
+			StandardTypingChallenge(self.frame, self.challenge_duration, self.challenge_management.get_random_challenge_content(self.challenge_type), self.challenge_type)
 
 		elif(self.challenge_type == self.modes["Dictation"]):
-			DictationTypingChallenge(self.frame, self.challenge_duration, challenge_content, self.challenge_type)
+			DictationTypingChallenge(self.frame, self.challenge_duration, self.challenge_management.get_random_challenge_content(self.challenge_type), self.challenge_type)
 
 		elif(self.challenge_type in self.modes.values()):          
 			ProgrammingTypingChallenge(self.frame, self.challenge_duration, challenge_content, self.challenge_type)
@@ -371,7 +378,6 @@ class ProgrammingTypingChallenge(BaseTypingChallenge):
 
 			self.answer_box.delete(0,'end')
 
-			print(self.list_of_words[self.progress_counter],user_input)
 
 			if(user_input == self.list_of_words[self.progress_counter].strip('\n').strip('\t')):
 				
