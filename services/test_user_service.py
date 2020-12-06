@@ -82,6 +82,17 @@ def test_create_user_profile(user, school_id, json_metadata):
     expected_path = "Schools/" + TEST_POST_SCHOOL_ID + "/UserProfiles/" + uid
     assert path == expected_path
 
+@pytest.mark.api_call
+@pytest.mark.parametrize("userid, school_id", [
+    ("2gJDgxzwJwfXai5rjZucYtNjBoE2", "3p1U6xAvKic1RvXMl5nJ"),
+    ("6L5FvIXenBNcZJt5poTVCbxMSWi2", "3p1U6xAvKic1RvXMl5nJ"), 
+    ("22gk6tCud3NbZeBwGUsxT0nSICL2", "Usask"),
+    ("1234", "Test_Post_School")])
+
+def test_get_user_document(userid, school_id):
+    result = user_service.get_user_document(userid, school_id)
+    assert result["id"] == userid
+    
 
 # @pytest.mark.xfail
 # @pytest.mark.api_call
