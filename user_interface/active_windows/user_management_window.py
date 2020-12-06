@@ -281,17 +281,28 @@ class UserManagementWindow(active_window.ActiveWindow):
             user_profile = self.user_profiles[i]
             print(user_profile)
             # Get the information from the user profile for the table of users
-            heading_columns = ["name", "email", "date created", "last sign in"]
+            heading_column_information = [
+                "first_name", "last_name", "email", "date_created",
+                "last_sign_in"
+            ]
             user_information = {}
-            for column in heading_columns:
+            for column in heading_column_information:
                 if column not in user_profile:
-                    print(column)
+                    # print(column)
                     user_information[column] = "-"
                 else:
                     user_information[column] = user_profile[column]
+
+            if user_information["first_name"] != "-" and user_information[
+                    "last_name"] != "-":
+                user_information["name"] = user_information[
+                    "first_name"] + " " + user_information["last_name"]
+            else:
+                user_information["name"] = "-"
+
             values = (user_information["name"], user_information["email"],
-                      user_information["date created"],
-                      user_information["last sign in"], user_profile["id"],
+                      user_information["date_created"],
+                      user_information["last_sign_in"], user_profile["id"],
                       user_profile["privilege_level"])
 
             # Put the profiles in the table tagging whether the row is odd
