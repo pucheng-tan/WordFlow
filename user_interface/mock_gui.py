@@ -53,7 +53,7 @@ class TESTGUI(object):
 
         # context_service.ContextService.__instance = ContextServiceTest()
         self.context_service = context_service.ContextService.get_instance()
-        self.context_service.set_user(2,"T1b5iP7q96YBnaPDRuEN8c5Arwh1","3p1U6xAvKic1RvXMl5nJ","principal@test.com")
+        self.context_service.set_user(0, "22gk6tCud3NbZeBwGUsxT0nSICL2", "Usask", "principal@test.com")
 
         self.privilege = self.context_service.get_user_privilege()
         # self.master.state("zoomed")
@@ -72,5 +72,10 @@ class TESTGUI(object):
         # Display the main menu
         self.main_menu.show_main_menu()
         # Display the active window
+        self.active_window.show()
+
+    def change_window(self, new_window):
+        self.active_window.hide()
+        self.active_window = new_window
         self.active_window.show()
 

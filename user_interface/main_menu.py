@@ -27,7 +27,7 @@ class MainMenu(object):
         """MainMenu init
 
         Args:
-            privilege ([type]): privilege level of the user, obtained from the context_service.
+            privilege ([type]): privilege level of the user, obtained from logging in.
                                 Needed in order to display the correct menu items that correspond to the user type
 
             gui ([GUI]): the gui is needed in order to display the main menu on the GUI's frame

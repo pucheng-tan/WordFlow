@@ -4,14 +4,12 @@ from user_interface import main_menu
 from user_interface.active_windows import home_window
 
 
-from services import context_service
-
 class GUI(object):
     """GUI class will create a main menu and an active window, which together will make up the GUI.
 
     In order to run the GUI, you can run this class.
     """
-    def __init__(self, master):
+    def __init__(self, master, privilege):
         """GUI init
 
         Args:
@@ -22,9 +20,8 @@ class GUI(object):
         """
 
         self.master = master
-        
-        self.context_service = context_service.ContextService.get_instance()
-        self.privilege = self.context_service.get_user_privilege()
+
+        self.privilege = privilege
 
         # self.master.state("zoomed")
         # self.master.resizable(False, False)
@@ -41,6 +38,10 @@ class GUI(object):
         # Display the active window
         self.active_window.show()
 
+    def change_window(self, new_window):
+        self.active_window.hide()
+        self.active_window = new_window
+        self.active_window.show()
 # root = tk.Tk()
 
 # GUI("Standard", root)
