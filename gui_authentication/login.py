@@ -161,7 +161,7 @@ class Authentication(tk.Frame):
             print(response)
             self.master.destroy()
             new_root = tk.Tk()
-            gui.GUI(new_root)
+            gui.GUI(new_root, response["privilege_level"])
             new_root.mainloop()
         else:
             print("No")
