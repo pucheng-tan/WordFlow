@@ -74,3 +74,8 @@ class TESTGUI(object):
         # Display the active window
         self.active_window.show()
 
+    def change_window(self, new_window):
+        self.active_window.hide()
+        self.active_window = new_window
+        self.active_window.show()
+

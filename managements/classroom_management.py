@@ -22,8 +22,8 @@ class ClassroomManagement(ApplicationManagement):
     def get_classroom_members(self, classroom):
         return ClassroomManagement._service.get_user_profiles(classroom["members"])
 
-    def add_classroom(self, classroom):
-        pass
+    def update_classroom(self, classroom):
+        return ClassroomManagement._service.update_classroom(self._context.get_school_id(), classroom)
 
     def assign_classroom_teacher(self, classroom_id, teacher_uid):
         pass
