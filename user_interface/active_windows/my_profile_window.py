@@ -53,6 +53,8 @@ class MyProfileWindow(active_window.ActiveWindow):
             messagebox.showerror("Error", "Change failed. Nothing was entered.")
 
         if confirmation:
+
+            self.user_management.update_current_user_profile(str(answer), information_option.lower().replace(" ", "_"))
             
 
     def show(self):

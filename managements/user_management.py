@@ -124,6 +124,14 @@ class UserManagement(ApplicationManagement):
     def invite_user(self, user):
         pass
 
+    def update_current_user_profile(self, new_field_value, new_field):
+        user_id = UserManagement._context.get_user_uid()
+        school_id = UserManagement._context.get_school_id()
+        name_data = {new_field: new_field_value}
+
+        UserManagement._service.update_user_profile(user_id, school_id, name_data)
+
+
     def update_privilege(self, user, new_privilege_level):
         """Change the privilege of the user.
 
