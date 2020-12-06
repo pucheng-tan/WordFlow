@@ -3,7 +3,7 @@ from firebase_admin import auth
 import requests
 import json
 
-from services.api_service import API
+from api_service import API
 
 
 class UserService:
@@ -102,6 +102,22 @@ class UserService:
     def reset_password(self, user):
         # link = auth.generate_password_reset_link(user["email"])
         return False
+
+    def get_user_document(self, user_id, school_id):
+        """Gets the user's information from the api.
+
+        Args:
+            user_id: The id of the logged in user.
+            school_id: The id of the school.
+
+        Returns:
+            Returns a dictionary with the user's information.
+        """
+        path = "Schools/" + school_id + "/UserProfiles/" + user_id
+
+        user_document = UserService._api.get(path)
+
+        return user_document
 
     def update_user_profile(self, user_id, school_id, data):
         """Replaces the user's old data with the new data for the field or

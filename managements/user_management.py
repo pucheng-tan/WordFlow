@@ -169,3 +169,14 @@ class UserManagement(ApplicationManagement):
             user["privilege_level"] = PRIVILEGE["standard"]
 
         return user
+
+    def get_logged_in_user_profile(self):
+        """Gets the profile of the logged in user."""
+
+        user_id = UserManagement._context.get_user_uid()
+        school_id = UserManagement._context.get_school_id()
+
+        user_profile = UserManagement._service.get_user_document(user_id,
+                                                                 school_id)
+
+        return user_profile

@@ -6,5 +6,4 @@ class MyProfileWindow(active_window.ActiveWindow):
         active_window.ActiveWindow.__init__(self, gui)
 
         # // TODO Make the My Profile Window
-        label = tk.Label(self.frame, text="My Profile")
-        label.pack()
+
