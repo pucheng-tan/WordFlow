@@ -124,8 +124,32 @@ class UserManagement(ApplicationManagement):
     def invite_user(self, user):
         pass
 
-    def update_privilege(self, user, privilege_level):
-        pass
+    def update_privilege(self, user, new_privilege_level):
+        """Change the privilege of the user.
+
+        Args:
+            user: A dictionary of information of the user whose privilege is
+            being changed.
+            new_privilege_level: The new privilege level of the user.
+        """
+        user_id = user["id"]
+        school_id = UserManagement._context.get_school_id()
+        new_privilege = PRIVILEGE[new_privilege_level]
+        privilege_data = {"privilege_level": new_privilege}
+
+        if user["privilege_level"] == new_privilege:
+            message = ("Privilege level failed. User already has this level of"
+                       " privilege!")
+        else:
+            updated = UserManagement._service.update_user_profile(user_id,
+                                                                  school_id,
+                                                                  privilege_data)
+            if updated:
+                message = ("Change successful! The privilege level of the user"
+                           " has been changed to " + new_privilege_level + "!")
+            else:
+                message = "Change failed."
+        return message
 
     def remove_user(self):
         pass

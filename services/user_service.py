@@ -106,3 +106,29 @@ class UserService:
     def search_users(self, school_id, where_clauses, limit=None, order_by=None):
         path = "Schools/" + school_id + "/UserProfiles/"
         return UserService._api.get(path=path, where_clauses=where_clauses, limit=limit, order_by=order_by)
+    def update_user_profile(self, user_id, school_id, data):
+        """Replaces the user's old data with the new data for the field or
+        creates it if it doesn't exist.
+
+        Args:
+            user_id: The id of the user whose profile is being updated.
+            school_id: The id of the school.
+            data: A dictionary containing a key of the string of the field in
+            the profile to be updated or created and the value to place in that
+            field.
+
+        Returns:
+            Returns a boolean value. True if the user_profile was successfully
+            updated to be the value in data. False if it was not.
+        """
+        path = "Schools/" + school_id + "/UserProfiles/" + user_id
+        UserService._api.post(path, data)
+
+        user_profile = UserService._api.get(path)
+
+        success = True
+        for field in data:
+            if user_profile[field] != data[field]:
+                success = False
+
+        return success
