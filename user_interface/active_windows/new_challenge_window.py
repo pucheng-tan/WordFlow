@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.font
 from user_interface.active_windows import active_window
+from user_interface import virtual_keyboard
 import threading
 import time
 import datetime
@@ -168,9 +169,18 @@ class BaseTypingChallenge(object):
 		self.display_text_box.pack()
 		self.display_text_box.insert('end', self.text_content)
 
+	
+
 		# the element that the user types into
 		self.answer_box = tk.Entry(self.frame, width=10, font=("TkDefaultFont", 50))
 		self.answer_box.pack()
+
+		self.keyboard_frame = tk.LabelFrame(self.frame,width=900,height=350)
+		self.keyboard_frame.pack()
+
+		virtual_keyboard.create_onscreen_keyboard(self.keyboard_frame,self.answer_box)
+
+		
 
 	 
 	def execute_challenge(self):
