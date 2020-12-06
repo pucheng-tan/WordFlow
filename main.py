@@ -1,7 +1,7 @@
 """Runs the authentication screen."""
 
 import tkinter as tk
-from gui_authentication import login, screen_handler
+from gui_authentication import login
 
 
 def main():

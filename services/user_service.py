@@ -24,7 +24,9 @@ class UserService:
         display_name = user["display_name"]
 
         try:
-            auth_result = auth.create_user(display_name=display_name, email=email, password=password)
+            auth_result = auth.create_user(display_name=display_name,
+                                           email=email,
+                                           password=password)
             user_result = {"uid": auth_result.uid}
         except auth.EmailAlreadyExistsError:
             user_result = self.__login(email, password)
@@ -32,7 +34,9 @@ class UserService:
             if "email" in str(e):
                 user_result = {"error": "Invalid email format"}
             elif "password" in str(e):
-                user_result = {"error": "Password must be at least 6 characters long"}
+                user_result = {
+                    "error": "Password must be at least 6 characters long"
+                }
 
         return user_result
 
@@ -42,26 +46,29 @@ class UserService:
         User must already exist in auth.
         """
         path = "Schools/" + school_id + "/UserProfiles/" + user["id"]
-        result = UserService._api.post(path, user) 
+        result = UserService._api.post(path, user)
         return result["document"]
 
     def __login(self, email, password):
         """ Authenticates the user.
-        Should not be used outside of this module as most logins should be with a school.
+        Should not be used outside of this module as most logins should be with
+        a school.
         """
         # https://firebase.google.com/docs/reference/rest/auth
         url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDg_L6PD2cbSSFUTEpET56VOVKJaGWm5Nc"
-        result_json = requests.post(
-            url=url,
-            data={'email': email, 'password': password, 'returnSecureToken': True}
-        )
+        result_json = requests.post(url=url,
+                                    data={
+                                        'email': email,
+                                        'password': password,
+                                        'returnSecureToken': True
+                                    })
         # format the response to a dict
         result = json.loads(result_json.text)
         # error will be received if bad password, account not found... probably more
         if "error" in result:
             login_result = {"error": "Failed to authenticate"}
-        
-        else: 
+
+        else:
             # this is the user's UID
             uid = result["localId"]
             # not sure what to do with this but it may come in handy later
@@ -71,7 +78,7 @@ class UserService:
                 "expiresIn": result["expiresIn"]
             }
             login_result = {"uid": uid, "token": token}
-        
+
         return login_result
 
     def login(self, email, password, school_id):
@@ -88,20 +95,64 @@ class UserService:
         else:
             login_result = {"error": "No user at school"}
         return login_result
-    
+
     def logout(self, email):
         return False
 
-    def invite_user(self, user, school_id):
-        # link = auth.generate_email_verification_link(user["email"])
-        return False
+    def signup(self, email, password):
+        """Communicates with the api to finish setting up the user's account.
+
+        Sets the new password the user has entered, so they can log in.
+
+        Args:
+            email: The user who is signing up's email.
+            password: The user who is signing up's password.
+        """
+        user = auth.get_user_by_email(email)
+        auth.update_user(user.uid, password=password)
+
+    def generate_verification_link(self, user_email):
+        """Generates an email verification link for the given user's email.
+
+        Args:
+            user_email: The user who the link is being sent to's email.
+
+        Returns:
+             The email verification link.
+        """
+        link = auth.generate_email_verification_link(user_email)
+        return link
 
     def invite_users_bulk(self, users, school_id):
         return False
 
-    def reset_password(self, user):
-        # link = auth.generate_password_reset_link(user["email"])
-        return False
+    def generate_password_reset_link(self, user_email):
+        """Generates a password reset link for the given user's email.
+
+        Args:
+            user_email: The user who the link is being sent to's email.
+
+        Returns:
+            The password reset link.
+        """
+        link = auth.generate_password_reset_link(user_email)
+        return link
+
+    def is_verified(self, user_email):
+        """Checks if the user's email is verified.
+
+        Args:
+            user_email: The email of the user that is being verified.
+
+        Returns:
+             Returns True if the user's email is verified and False if the
+             user's email is not verified.
+        """
+        verified = False
+        user = auth.get_user_by_email(user_email)
+        if user.email_verified:
+            verified = True
+        return verified
 
     def search_users(self, school_id, where_clauses, limit=None, order_by=None):
         path = "Schools/" + school_id + "/UserProfiles/"
@@ -111,7 +162,7 @@ class UserService:
         """Gets the user's information from the api.
 
         Args:
-            user_id: The id of the logged in user.
+            user_id: The id of the user.
             school_id: The id of the school.
 
         Returns:

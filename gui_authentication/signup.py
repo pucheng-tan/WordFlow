@@ -8,6 +8,7 @@ Typical usage example:
 import tkinter as tk
 # from GUI_Authentication import login
 from gui_authentication import screen_handler
+from managements import user_management
 
 class CreateUser(tk.Frame):
     """Creates the CreateUser window.
@@ -18,6 +19,7 @@ class CreateUser(tk.Frame):
     """
     def __init__(self, master=None):
         super().__init__(master)
+
         self.master = master
         self.master.title("Welcome")
 
@@ -27,6 +29,8 @@ class CreateUser(tk.Frame):
         self.master.grid_rowconfigure(0, weight=1)
         self.master.grid_rowconfigure(2, weight=1)
         self.master.grid_columnconfigure(0, weight=1)
+
+        self.user_management = user_management.UserManagement()
 
         self.create_borders()
         self.create_permanent_labels()
@@ -61,7 +65,6 @@ class CreateUser(tk.Frame):
 
         self.school_label = tk.Label(self.frame, text="School:")
         self.email_label = tk.Label(self.frame, text="Email:")
-        # self.invite_code_label = tk.Label(self.frame, text="Invite Code:")
         self.password_label = tk.Label(self.frame, text="Password:")
         self.verify_password_label = tk.Label(self.frame,
                                               text="Verify Password:")
@@ -70,7 +73,6 @@ class CreateUser(tk.Frame):
 
         self.school_label.grid(row=3)
         self.email_label.grid(row=5)
-        # self.invite_code_label.grid(row=7)
         self.password_label.grid(row=9)
         self.verify_password_label.grid(row=11)
 
@@ -86,6 +88,11 @@ class CreateUser(tk.Frame):
         self.different_passwords_label = tk.Label(
             self.frame, text="The passwords do not match!", fg="red")
 
+        self.password_too_short_label = tk.Label(
+            self.frame,
+            text="Password must be at least six characters long!",
+            fg="red")
+
         self.success_label = tk.Label(
             self.frame,
             text="Account successfully created! Sign in to get started!",
@@ -96,13 +103,11 @@ class CreateUser(tk.Frame):
 
         self.school_entry = tk.Entry(self.frame)
         self.email_entry = tk.Entry(self.frame)
-        # self.invite_code_entry = tk.Entry(self.frame)
         self.password_entry = tk.Entry(self.frame)
         self.verify_password_entry = tk.Entry(self.frame)
 
         self.school_entry.grid(row=4, padx=10, pady=10)
         self.email_entry.grid(row=6)
-        # self.invite_code_entry.grid(row=8)
         self.password_entry.grid(row=10)
         self.verify_password_entry.grid(row=12)
 
@@ -146,16 +151,21 @@ class CreateUser(tk.Frame):
 
         self.school = self.school_entry.get().strip()
         self.email = self.email_entry.get().strip()
-        # self.invite_code = self.invite_code_entry.get().strip()
         self.password = self.password_entry.get().strip()
         self.verify_password = self.verify_password_entry.get().strip()
 
         valid_entries = self.check_entries()
 
-        # TODO: Connect so that a user is signed up.
         if valid_entries:
             print("Good entries")
-
+            if self.temporary_label:
+                self.forget_temporary_label()
+            result = self.user_management.signup(self.email, self.password)
+            if result is True:
+                self.temporary_label = tk.Label(self.frame, text="Account successfully created. Log in to get started!", fg="green")
+            else:
+                self.temporary_label = tk.Label(self.frame, text=result, fg="red")
+            self.temporary_label.grid(row=14)
         else:
             print("Bad entries")
 
@@ -181,11 +191,14 @@ class CreateUser(tk.Frame):
         # Password and Verify Password don't match
         elif self.password != self.verify_password:
             self.temporary_label = self.different_passwords_label
+        # Password too short, must be at least 6 characters long
+        elif len(self.password) < 6:
+            self.temporary_label = self.password_too_short_label
         else:
-            self.temporary_label = self.success_label
             valid_entries = True
 
-        self.temporary_label.grid(row=14)
+        if self.temporary_label:
+            self.temporary_label.grid(row=14)
 
         print(self.school, self.email, self.password, self.verify_password)
 

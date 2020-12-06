@@ -82,6 +82,14 @@ def test_create_user_profile(user, school_id, json_metadata):
     expected_path = "Schools/" + TEST_POST_SCHOOL_ID + "/UserProfiles/" + uid
     assert path == expected_path
 
+@pytest.mark.parametrize("user_email, expected_result", [
+                        ("hyibeiqt@sharklasers.com", True),
+                        ("1128@gmail.com", False)
+])
+def test_is_verified(user_email, expected_result):
+    result = user_service.is_verified(user_email)
+    assert result == expected_result
+
 @pytest.mark.api_call
 @pytest.mark.parametrize("userid, school_id", [
     ("2gJDgxzwJwfXai5rjZucYtNjBoE2", "3p1U6xAvKic1RvXMl5nJ"),

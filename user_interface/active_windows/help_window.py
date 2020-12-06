@@ -55,6 +55,12 @@ class HelpWindow(active_window.ActiveWindow):
         button.
         3. Enter in the new information.
         4. Click My Profile again to see the change.
+        
+        Resetting your password:
+        1. Click My Profile in the main menu.
+        2. Click the Reset Password button.
+        3. Confirm yes that you want to reset your password.
+        4. An email with the password reset link will be sent to your email.
         """
         self.help_text.insert(tk.END, help_information)
         self.help_text.configure(font=("Helvetica", 15))
@@ -101,6 +107,16 @@ class HelpWindow(active_window.ActiveWindow):
         5. Click enter. A verification email will be sent to them.
         6. Once they have verified their email, they can sign up and then log
         in.
+        
+        Inviting Individual Users to the School:
+        1. Click User Management in the main menu.
+        2. Select the tab with the given privilege level of the user you want to
+        invite.
+        3. Click on that user in the table.
+        4. Click View User.
+        5. Click Invite.
+        6. Confirm yes you want to invite that user.
+        7. An email with an email verification link will be sent to that user.
         
         Changing Privilege Level of Users:
         1. Click User Management in the main menu.

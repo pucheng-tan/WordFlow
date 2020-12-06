@@ -1,5 +1,4 @@
 import tkinter as tk
-from services import context_service
 
 # In order to create a window in our GUI, create a new window that extends active window, or use one of our already created windows.
 # Next, create widgets and display them in the self.frame of the window being created
@@ -23,9 +22,6 @@ class ActiveWindow(object):
         self.privilege = gui.privilege
 
         self.frame = tk.Frame(self.master)
-
-        #self.context_service = context_service.ContextService.get_instance()
-        self.context_service = gui.context_service
 
     def show(self):
         """Show the active window
