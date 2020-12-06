@@ -103,6 +103,10 @@ class UserService:
         # link = auth.generate_password_reset_link(user["email"])
         return False
 
+    def search_users(self, school_id, where_clauses, limit=None, order_by=None):
+        path = "Schools/" + school_id + "/UserProfiles/"
+        return UserService._api.get(path=path, where_clauses=where_clauses, limit=limit, order_by=order_by)
+
     def get_user_document(self, user_id, school_id):
         """Gets the user's information from the api.
 
@@ -145,3 +149,5 @@ class UserService:
                 success = False
 
         return success
+
+

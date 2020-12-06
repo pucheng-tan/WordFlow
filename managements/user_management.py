@@ -162,6 +162,23 @@ class UserManagement(ApplicationManagement):
     def remove_user(self):
         pass
 
+    def search_users(self, search_text, search_fields, user_privilege=None, limit=10, order_by=None):
+        # get school id
+        school_id = self._context.get_school_id()
+        # set up a where clause with user privilege if applicable
+        where_clauses = [["privilege_level", "==", user_privilege]] if user_privilege is not None else []
+
+        search_results = {}
+        # separate search must be performed for each field
+        for field in search_fields:
+            clause = [field, "string_starts", search_text]
+            where_clauses.insert(0, clause)
+            users = self._service.search_users(school_id, where_clauses, limit, order_by)
+            for uid, user in users.items():
+                search_results[uid] = user
+
+        return search_results
+
     @staticmethod
     def _validate_user(user, fields):
         """ Makes sure user has fields for UserProfile
