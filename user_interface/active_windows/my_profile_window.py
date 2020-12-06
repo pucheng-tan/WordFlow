@@ -8,7 +8,6 @@ class MyProfileWindow(active_window.ActiveWindow):
     def __init__(self, gui):
         active_window.ActiveWindow.__init__(self, gui)
 
-        # // TODO Make the My Profile Window
         self.user_management = user_management.UserManagement()
 
         self.user_profile = self.user_management.get_logged_in_user_profile()

@@ -65,9 +65,6 @@ class HelpWindow(active_window.ActiveWindow):
         email_label["font"] = ("Helvetica", 15)
         email_label.pack(anchor=tk.S)
 
-    # def show(self):
-    #     self.frame.pack(fill=tk.BOTH)
-
     def add_admin_help_information(self):
         """Adds help information for admin users to text box or the help window.
         """
