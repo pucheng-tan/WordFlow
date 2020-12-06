@@ -348,7 +348,7 @@ class ProgrammingTypingChallenge(BaseTypingChallenge):
 		
 		super().__init__(master,challenge_duration,challenge_content,mode)
 		self.answer_box.configure(width=40, font=("TkDefaultFont", 30))
-		self.display_text_box.configure(height=30, width=100)
+		self.display_text_box.configure(height=25, width=100, font=("Times New Roman", 18))
 		self.execute_challenge()
 
 	def _highlight_progress(self):
