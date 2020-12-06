@@ -1,7 +1,19 @@
 from managements.application_management import ApplicationManagement
 from services.user_service import UserService
 
+import smtplib
+import ssl
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
 PRIVILEGE = {"standard": 2, "admin": 1, "super_admin": 0}
+
+PORT = 465  # For SSL
+SENDER_MAIL = "wordflow2020@gmail.com"
+PASSWORD = "fc8Zspv84phbT8J"
+
+# Create a secure SSL context
+CONTEXT = ssl.create_default_context()
 
 
 class UserManagement(ApplicationManagement):
@@ -92,6 +104,7 @@ class UserManagement(ApplicationManagement):
 
             # and then do the profile
             user_data = self.create_user_profile(email, auth_user["id"], privilege_level, display_name)
+
         except:
             # return the user object else an error message. TODO: Make the error message better
             user_data = {"error": "Failed to create user"}
@@ -121,8 +134,17 @@ class UserManagement(ApplicationManagement):
         UserManagement._context.reset_context()
         # TODO: There is more to this function than just resetting the context
 
-    def invite_user(self, user):
-        pass
+    def signup(self, email, password):
+        try:
+            verified = UserManagement._service.is_verified(email)
+            if verified:
+                UserManagement._service.signup(email, password)
+                result = True
+            else:
+                result = "Email is not verified. Please verify your email to sign up."
+        except Exception as e:
+            result = str(e)
+        return result
 
     def update_current_user_profile(self, new_field_value, new_field):
         user_id = UserManagement._context.get_user_uid()
@@ -188,3 +210,82 @@ class UserManagement(ApplicationManagement):
                                                                  school_id)
 
         return user_profile
+
+    def send_invite_email(self, user):
+        try:
+            receiver_mail = user["email"]
+            # school_id = UserManagement._context.get_school_id()
+            school_id = "School_id"
+
+            link = UserManagement._service.generate_verification_link(receiver_mail)
+
+            print("Link:", link)
+            message = MIMEMultipart("alternative")
+            message["Subject"] = "Email Verification"
+            message["From"] = SENDER_MAIL
+            message["To"] = receiver_mail
+
+            verification_text = """\
+            Hello,
+
+            You have been registered in school: """ + school_id + """
+            Follow this link to verify your email address: """ + link + """
+            Afterwards sign up to finish setting up your account and log in to get
+            started.
+            If you're not sure why you've received this, you can ignore this email.
+
+            Thank you,
+            WordFlow
+            """
+
+            email_body = MIMEText(verification_text, 'plain')
+            message.attach(email_body)
+
+            with smtplib.SMTP_SSL("smtp.gmail.com", PORT,
+                                  context=CONTEXT) as server:
+                server.login(SENDER_MAIL, PASSWORD)
+
+                server.sendmail(SENDER_MAIL, receiver_mail, message.as_string())
+            email_sent = True
+        except Exception as e:
+            email_sent = str(e)
+        return email_sent
+
+    def send_reset_password_email(self, user):
+        try:
+            receiver_mail = user["email"]
+
+            link = UserManagement._service.generate_password_reset_link(receiver_mail)
+
+            print("Link:", link)
+            message = MIMEMultipart("alternative")
+            message["Subject"] = "Email Verification"
+            message["From"] = SENDER_MAIL
+            message["To"] = receiver_mail
+
+            verification_text = """\
+            Hello,
+
+            Follow this link to reset your password: """ + link + """
+            If you're not sure why you've received this, you can ignore this email.
+
+            Thank you,
+            WordFlow
+            """
+
+            email_body = MIMEText(verification_text, 'plain')
+            message.attach(email_body)
+
+            with smtplib.SMTP_SSL("smtp.gmail.com", PORT,
+                                  context=CONTEXT) as server:
+                server.login(SENDER_MAIL, PASSWORD)
+
+                server.sendmail(SENDER_MAIL, receiver_mail, message.as_string())
+            email_sent = True
+        except Exception as e:
+            email_sent = str(e)
+
+        return email_sent
+
+
+

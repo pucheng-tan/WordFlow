@@ -130,6 +130,12 @@ class UserManagementWindow(active_window.ActiveWindow):
                            " or invalid email address.")
             else:
                 message = "The user has been created!"
+                email_sent = self.user_management.send_invite_email(user)
+                if email_sent:
+                    invitation_message = "Success! Invitation email sent!"
+                else:
+                    invitation_message = email_sent
+                messagebox.showinfo("Invitation", invitation_message)
 
         messagebox.showinfo("Creating new user", message)
         self.new_user_root.destroy()
@@ -448,6 +454,16 @@ class UserInformationWindow(active_window.ActiveWindow):
             button["font"] = ("Helvetica", 20)
             button.pack(side=tk.LEFT, expand=True)
 
+        invite_button["command"] = self.invite_button_response
+
+    def invite_button_response(self):
+        email_sent = self.user_management.send_invite_email(self.user_info)
+        if email_sent:
+            invitation_message = "Success! Invitation email sent!"
+        else:
+            invitation_message = email_sent
+        messagebox.showinfo("Invitation", invitation_message)
+
     def create_profile_frame(self):
         """
         Creates and places the frame that holds the profile information for the
@@ -459,7 +475,6 @@ class UserInformationWindow(active_window.ActiveWindow):
         """
         print(self.user_info)
 
-        # TODO: Connect to API or figure out appropriate way to get user information
         profile_frame = tk.Frame(self.frame)
         profile_frame.pack(fill=tk.BOTH, pady=20)
 

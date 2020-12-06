@@ -92,22 +92,33 @@ class UserService:
     def logout(self, email):
         return False
 
-    def invite_user(self, user, school_id):
-        # link = auth.generate_email_verification_link(user["email"])
-        return False
+    def signup(self, email, password):
+        user = auth.get_user_by_email(email)
+        auth.update_user(user.uid, password=password)
+
+    def generate_verification_link(self, user_email):
+        link = auth.generate_email_verification_link(user_email)
+        return link
 
     def invite_users_bulk(self, users, school_id):
         return False
 
-    def reset_password(self, user):
-        # link = auth.generate_password_reset_link(user["email"])
-        return False
+    def generate_password_reset_link(self, user_email):
+        link = auth.generate_password_reset_link(user_email)
+        return link
+
+    def is_verified(self, user_email):
+        verified = False
+        user = auth.get_user_by_email(user_email)
+        if user.email_verified:
+            verified = True
+        return verified
 
     def get_user_document(self, user_id, school_id):
         """Gets the user's information from the api.
 
         Args:
-            user_id: The id of the logged in user.
+            user_id: The id of the user.
             school_id: The id of the school.
 
         Returns:
