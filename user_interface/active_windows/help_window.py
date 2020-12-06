@@ -15,6 +15,10 @@ class HelpWindow(active_window.ActiveWindow):
         self.help_text.configure(state="disabled")
 
     def display_help_information(self):
+        heading_label = tk.Label(self.frame, text="Welcome to Word Flow!")
+        heading_label["font"] = ("Helvetica", 20, "bold")
+        heading_label.pack()
+
         help_scroll_bar = tk.Scrollbar(self.frame)
         self.help_text = tk.Text(self.frame)
         help_scroll_bar.pack(side=tk.RIGHT, fill=tk.Y)
@@ -22,14 +26,22 @@ class HelpWindow(active_window.ActiveWindow):
         help_scroll_bar.config(command=self.help_text.yview)
         self.help_text.config(yscrollcommand=help_scroll_bar.set)
         help_information = """
-        Welcome to Word Flow!
-        This is a typing tool that helps users improve their typing speed. The
-        target users are any computer users that wish to improve their speed.
-        We want to make tests that fit different types of users, including
-        programmers, professional typists, TBD. The user is given text to type,
-        and metrics are recorded and displayed at the end of the test. We hope
-        to develop different types of metrics that can help users track their
-        improvement!
+        Word Flow is a typing tool that helps users improve their typing speed.
+        The target users are any computer users that wish to improve their
+        speed. We want to make tests that fit different types of users,
+        including programmers, professional typists, TBD. The user is given text
+        to type, and metrics are recorded and displayed at the end of the test.
+        We hope to develop different types of metrics that can help users track
+        their improvement!
+        
+        Types of typing challenges:
+        Standard Mode
+        Consists of English words, spaces, and punctuation.
+        Programming Mode
+        The user types code including special characters.
+        Dictation Mode
+        Audio is played back over the device's speakers. There is no
+        punctuation.
         
         Taking a typing challenge:
         1. Click New Challenge in the main menu.
@@ -38,7 +50,8 @@ class HelpWindow(active_window.ActiveWindow):
         
         Changing your profile information:
         1. Click My Profile in the main menu.
-        2. Select a feature to change and click the button.
+        2. Select a feature to change from the drop down menu and click the
+        button.
         3. Enter in the new information.
         4. Click My Profile again to see the change.
         """
@@ -53,8 +66,7 @@ class HelpWindow(active_window.ActiveWindow):
     #     self.frame.pack(fill=tk.BOTH)
 
     def add_admin_help_information(self):
-        """
-        Adds help information for admin users to text box or the help window.
+        """Adds help information for admin users to text box or the help window.
         """
         help_information = """
         Creating a Classroom
@@ -66,15 +78,18 @@ class HelpWindow(active_window.ActiveWindow):
         self.help_text.insert(tk.END, help_information)
 
     def add_super_admin_help_information(self):
-        """
-        Adds help information for super admin users to text box for the help window.
+        """Adds help information for super admin users to text box for the help
+        window.
         """
         help_information = """
         Types of Users:
         There are three of types of users.
+        Standard Users
         Standard users are equivalent to students. They can take challenges.
+        Admin Users
         Admin users are equivalent to teachers. They can do everything standard
         users can do and manage classrooms.
+        Super-Admin Users
         Super-admin users are equivalent to principals or IT staff. They can do
         everything that admin users can do and manage users in the school.
         
