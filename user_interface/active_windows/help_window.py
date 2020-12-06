@@ -1,6 +1,7 @@
 import tkinter as tk
 from user_interface.active_windows import active_window
 
+
 class HelpWindow(active_window.ActiveWindow):
     def __init__(self, gui):
         active_window.ActiveWindow.__init__(self, gui)
@@ -58,7 +59,9 @@ class HelpWindow(active_window.ActiveWindow):
         self.help_text.insert(tk.END, help_information)
         self.help_text.configure(font=("Helvetica", 15))
 
-        email_label = tk.Label(self.frame, text="If you have any issues, email us at group2@gmail.com!")
+        email_label = tk.Label(
+            self.frame,
+            text="If you have any issues, email us at group2@gmail.com!")
         email_label["font"] = ("Helvetica", 15)
         email_label.pack(anchor=tk.S)
 
