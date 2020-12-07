@@ -19,9 +19,10 @@ Note: Preferred Python version is python 3.6
 1. Clone the git repo
 2. Run make in the root directory
 3. Enter into the created virual environment by typing 'source env/bin/activate'
-4. Run automated tests (see below)
-5. When finished running tests, type 'deactivate' to leave the virtual environment
-6. Type 'make clean' or use 'rm -rf env' to remove the environment
+4. Run our program using python3 main.py, or run our gui by using run_gui.py
+5. Run automated tests (see below)
+6. When finished running tests, type 'deactivate' to leave the virtual environment
+7. Type 'make clean' or use 'rm -rf env' to remove the environment
 
 ## Windows:
 
