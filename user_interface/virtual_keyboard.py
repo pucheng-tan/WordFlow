@@ -1,6 +1,6 @@
 import tkinter as tk
 import os
-
+import time, threading
 
 
 # window1 = tk.Tk()
@@ -41,7 +41,7 @@ def create_onscreen_keyboard(window,e):
 
 
     default_color = "powder blue"
-    keypressed_color = "green"
+    keypressed_color = "blue"
 
     # labels = {}
 
@@ -88,7 +88,10 @@ def create_onscreen_keyboard(window,e):
             # Use the key pressed to get the label
             label = keys_dict[event.char.lower()]
             # Use the label to get the tkinter object
-            labels[label].configure(bg="green")
+            
+            labels[label].configure(bg=keypressed_color)
+            
+            
         
 
     def key_released_new(event):
@@ -101,6 +104,7 @@ def create_onscreen_keyboard(window,e):
         if (event.char.lower() in keys):
             label = keys_dict[event.char.lower()]
             labels[label].configure(bg=default_color)
+            
 
     e.bind("<KeyPress>", key_pressed_new)
     e.bind("<KeyRelease>", key_released_new)
