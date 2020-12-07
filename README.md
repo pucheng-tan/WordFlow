@@ -37,6 +37,7 @@ NOTE: It is recommended to use PowerShell for running commands in Windows
 ### Known issues on Windows:
 
 1. You do not have permission to run scripts. First open Windows PowerShell as administrator, then enter the command 'Set-ExecutionPolicy RemoteSigned'
+- NOTE: if issues continue after trying the above fix, try the line 'Set-ExecutionPolicy Bypass'
 2. The PowerShell script assumes that the "python" command rather than "python3" is used, which may cause issues on devices with multiple versions of python installed. Open the script in a text editor and change 'python' and 'pip' commands to 'python3' and 'pip3'.
 
 ## To run automated tests:
