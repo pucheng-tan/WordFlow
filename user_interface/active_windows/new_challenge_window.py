@@ -199,6 +199,7 @@ class BaseTypingChallenge(object):
 		
 		self.display_text_box.pack()
 		self.display_text_box.insert('end', self.text_content)
+		self.display_text_box.config(state='disabled')
 
 		self.frame.focus_set()
 	
@@ -318,11 +319,15 @@ class StandardTypingChallenge(BaseTypingChallenge):
 			self.answer_box.delete(0,'end')
 
 			if(user_input == self.list_of_words[self.progress_counter]):
+				self.display_text_box.config(state='normal')
 				self.display_text_box.tag_add("correct", self.start_index, self.end_index)
+				self.display_text_box.config(state='disabled')
 				self.correct_words+=1
 				self.total_words_completed+=1
 			else:
+				self.display_text_box.config(state='normal')
 				self.display_text_box.tag_add("false", self.start_index, self.end_index)
+				self.display_text_box.config(state='disabled')
 				self.incorrect_words+=1
 				self.total_words_completed+=1
 
@@ -413,12 +418,15 @@ class ProgrammingTypingChallenge(BaseTypingChallenge):
 
 
 			if(user_input == self.list_of_words[self.progress_counter].strip('\n').strip('\t')):
-				
+				self.display_text_box.config(state='normal')
 				self.display_text_box.tag_add("correct", self.start_index, self.end_index)
+				self.display_text_box.config(state='disabled')
 				self.correct_words+=1
 				self.total_words_completed+=1
 			else:
+				self.display_text_box.config(state='normal')
 				self.display_text_box.tag_add("false", self.start_index, self.end_index)
+				self.display_text_box.config(state='disabled')
 				self.incorrect_words+=1
 				self.total_words_completed+=1
 
@@ -452,7 +460,9 @@ class DictationTypingChallenge(BaseTypingChallenge):
 
 	def __init__(self, master, challenge_duration, challenge_content, mode):
 		super().__init__(master,challenge_duration,challenge_content,mode)
+		self.display_text_box.config(state='normal')
 		self.display_text_box.configure(foreground="white") #make words invisible
+		self.display_text_box.config(state='disabled')
 		
 		self.execute_challenge()
 
@@ -602,11 +612,15 @@ class DictationTypingChallenge(BaseTypingChallenge):
 			
 
 			if(user_input == self.list_of_words[self.progress_counter]):
+				self.display_text_box.config(state='normal')
 				self.display_text_box.tag_add("correct", self.start_index, self.end_index)
+				self.display_text_box.config(state='disabled')
 				self.correct_words+=1
 				self.total_words_completed+=1
 			else:
+				self.display_text_box.config(state='normal')
 				self.display_text_box.tag_add("false", self.start_index, self.end_index)
+				self.display_text_box.config(state='disabled')
 				self.incorrect_words+=1
 				self.total_words_completed+=1
 
