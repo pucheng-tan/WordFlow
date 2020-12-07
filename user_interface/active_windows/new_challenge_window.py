@@ -8,7 +8,7 @@ import datetime
 from managements import challenge_management
 import pyttsx3
 import os
-
+import platform
 import re
 
 os.system('xset r off')
@@ -41,6 +41,7 @@ class NewChallengeWindow(active_window.ActiveWindow):
 		self.challenge_management = challenge_management.ChallengeManagement()
 
 		self._load_new_challenge()
+
 
 	def _load_new_challenge(self):
 		"""Creates a typing test based on the challenge type
@@ -211,7 +212,7 @@ class BaseTypingChallenge(object):
 		self.keyboard_frame = tk.LabelFrame(self.frame,width=900,height=350)
 		self.keyboard_frame.pack()
 		
-		virtual_keyboard.create_onscreen_keyboard(self.keyboard_frame,self.frame)
+		virtual_keyboard.create_onscreen_keyboard(self.keyboard_frame,self.answer_box)
 
 		
 
@@ -561,7 +562,13 @@ class DictationTypingChallenge(BaseTypingChallenge):
 					run_next = False
 					
 					phrase = next_word
-					child_process = subprocess.Popen(args=["python3", "speak.py", phrase],stdout=subprocess.PIPE)
+					if platform.system() == "Darwin":
+						child_process = subprocess.Popen(args=["python3", "speak.py", phrase],stdout=subprocess.PIPE)
+					elif platform.system() == "Windows":
+						child_process = subprocess.Popen(args=["python", "speak.py", phrase],stdout=subprocess.PIPE)
+					else:
+						child_process = subprocess.Popen(args=["python", "speak.py", phrase],stdout=subprocess.PIPE)
+
 
 					# this will continue until process is finished
 					while child_process.poll() is None:
