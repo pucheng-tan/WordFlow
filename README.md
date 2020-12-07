@@ -14,6 +14,8 @@ Tara Epp
 
 Note: Preferred Python version is python 3.6
 
+Here is a link to the download (scroll to the bottom of the page, to the Files section): https://www.python.org/downloads/release/python-360/
+
 ## Mac:
 
 1. Clone the git repo
