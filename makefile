@@ -34,7 +34,7 @@ req: requirements.txt
 	#this dot is equal to saying source
 	. env/bin/activate
 
-	env/bin/pip3 install --use-feature=2020-resolver -r requirements.txt
+	env/bin/pip3 install -r requirements.txt
 	
 
 	
