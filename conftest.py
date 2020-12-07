@@ -1,6 +1,145 @@
 import pytest
 from datetime import datetime
 from pytest_jsonreport.plugin import JSONReport
+import mockfirestore
+from services import api_service
+
+# TODO: This should be stored in an external JSON file.
+default_schools = [
+    {
+        "id": "Usask",
+        "owner": "Super_Admin_1",
+        "Classrooms": [
+            {"id": "c1",
+            "name": "Class1",
+            "managed_by": ["Admin_1", "Admin_2"],
+            "members": ["Standard_1", "Standard_2"]}
+        ],
+        "UserProfiles": [
+            {"id": "Super_Admin_1", 
+            "email": "Super_Admin_1@email.com",
+            "privilege_level": 0},
+
+            {"id": "Standard_1", 
+            "email": "Standard_1@email.com",
+            "privilege_level": 2}
+        ]
+    },
+    {
+        "id": "Mock_School",
+        "owner" "Super_Admin_2"
+        "UserProfiles": [
+            {"id": "Super_Admin_2", 
+            "email": "Super_Admin_2@email.com",
+            "privilege_level": 0},
+            {"id": "Super_Admin_3", 
+            "email": "Super_Admin_3@email.com",
+            "privilege_level": 0},
+            {"id": "Super_Admin_4", 
+            "email": "Super_Admin_4@email.com",
+            "privilege_level": 0},
+            {"id": "Super_Admin_5", 
+            "email": "Super_Admin_5@email.com",
+            "privilege_level": 0},
+
+            {"id": "Admin_1", 
+            "email": "Admin_1@email.com",
+            "privilege_level": 1},
+            {"id": "Admin_2", 
+            "email": "Admin_2@email.com",
+            "privilege_level": 1},
+            {"id": "Admin_3", 
+            "email": "Admin_3@email.com",
+            "privilege_level": 1},
+            {"id": "Admin_4", 
+            "email": "Admin_4@email.com",
+            "privilege_level": 1}, 
+
+            {"id": "Standard_1", 
+            "email": "Standard_1@email.com",
+            "privilege_level": 2}, 
+            {"id": "Standard_2", 
+            "email": "Standard_2@email.com",
+            "privilege_level": 2}, 
+            {"id": "Standard_3", 
+            "email": "Standard_3@email.com",
+            "privilege_level": 2}, 
+            {"id": "Standard_4", 
+            "email": "Standard_4@email.com",
+            "privilege_level": 2}, 
+            {"id": "Standard_5", 
+            "email": "Standard_5@email.com",
+            "privilege_level": 2}, 
+            {"id": "Standard_6", 
+            "email": "Standard_6@email.com",
+            "privilege_level": 2}, 
+            {"id": "Standard_71", 
+            "email": "Standard_7@email.com",
+            "privilege_level": 2}, 
+            {"id": "Standard_8", 
+            "email": "Standard_8@email.com",
+            "privilege_level": 2}
+        ]
+    }
+]
+
+@pytest.fixture
+def mock_api(scope="module"):
+    # make the mock
+    mock = mockfirestore.MockFirestore()
+    api_service.API._db = mock
+
+    # fill it with data
+    api_instance = api_service.API.get_api()
+    set_mock_data(api_instance)
+
+    yield api_instance
+
+
+def set_mock_data(api_instance):
+    """ Set up some default data for schools, users, classrooms, history.
+    Put it in the mock database so we can pull it in tests.
+    """
+    for school in default_schools:
+        school_id = school["id"]
+        school_path = "Schools/" + school_id + "/"
+        s = {
+            "id": school_id,
+            "name": school_id,
+            "owner": school_path + "UserProfiles/" + school["owner"]
+        }
+        
+        api_instance.post(path=school_path, data=s)
+
+        if "Classrooms" in school:
+            for classroom in school["Classrooms"]:
+                c = {
+                    "name": classroom["name"],
+                    "members": [school_path + member for member in classroom["members"]],
+                    "managed_by": [school_path + managed for managed in classroom["managed_by"]]
+                }
+                class_path = school_path + "Classrooms/" + classroom["id"]
+                api_instance.post(path=class_path, data=c)
+
+        if "UserProfiles" in school:
+            for profile in school["UserProfiles"]:
+                user = {
+                   "id":  profile["id"],
+                   "email": profile["email"],
+                   "id": profile["id"],
+                   "privilege_level": profile["privilege_level"]
+                }
+                user_path = school_path + "UserProfiles/" + profile["id"]
+                api_instance.post(path=user_path, data=user)
+
+                if "History" in user:
+                    history_path = user_path + "/History"
+                    for history_item in user["History"]:
+                        h = history_item
+                        h["user_profile"] = user_path
+                        api_instance.post(path=history_path, data=h)
+
+
 
 @pytest.hookimpl(optionalhook=True)
 def pytest_json_modifyreport(json_report):

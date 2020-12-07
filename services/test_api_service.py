@@ -54,7 +54,10 @@ TEST_DATE = datetime(2020, 10, 30, tzinfo=timezone.utc)# November 1
         "meta": "get all documents in a collection with a descending sort"
     }, [TEST_USER_ID, TEST_USER_ID_ADMIN, TEST_USER_ID_SUPER]) # params4: PASS
 ])
-def test_get_valid(params, expected_references, json_metadata):
+def test_get_valid(params, expected_references, json_metadata, mock_api):
+    """This test has been rewritten to go with the mock Firestore database.
+    Note that the get_all function does not work with the mock, so it does not use it.
+    """
     json_metadata['id'] = "UT API.1"
     json_metadata['description'] = "Testing various valid 'get' queries with the API: " + params["meta"]
        
@@ -67,9 +70,10 @@ def test_get_valid(params, expected_references, json_metadata):
     # perform the query. Different call if there is a "path" parameter
     if "path" in params: # get
         path = params["path"]
-        results = api.get(path, where_clauses, order_by, limit)        
+        results = mock_api.get(path, where_clauses, order_by, limit)        
 
-    else: # get_all 
+    else: # get_all: 
+        # NOTE: The mock does not have the method that this tests- using actual here
         collection_name = params["collection_name"]
         results = api.get_all(collection_name, where_clauses, order_by, limit)
 
@@ -138,7 +142,7 @@ def test_get_invalid(params, json_metadata):
             api.get_all(collection_name, where_clauses, order_by, limit)
 
 @pytest.mark.api_call
-def test_post_valid(json_metadata):
+def test_post_valid(json_metadata, mock_api):
     json_metadata['id'] = "UT API.3"
     json_metadata['description'] = "Testing 'post' queries with all the datatypes available"
     # TODO: There needs to be a setup that kills this collection or a mock setup
@@ -159,7 +163,7 @@ def test_post_valid(json_metadata):
             }
         }
     # post it, grab the id and the path from the post results
-    result = api.post(path, data)
+    result = mock_api.post(path, data)
     document_id = result["document"]["id"]
     document_path = result["document"]["path"]
 
