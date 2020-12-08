@@ -160,9 +160,14 @@ class CreateUser(tk.Frame):
             print("Good entries")
             if self.temporary_label:
                 self.forget_temporary_label()
-            result = self.user_management.signup(self.email, self.password)
+            result = self.user_management.signup(self.school,
+                                                 self.email,
+                                                 self.password)
             if result is True:
-                self.temporary_label = tk.Label(self.frame, text="Account successfully created. Log in to get started!", fg="green")
+                text = "Account successfully created. Log in to get started!"
+                self.temporary_label = tk.Label(self.frame,
+                                                text=text,
+                                                fg="green")
             else:
                 self.temporary_label = tk.Label(self.frame, text=result, fg="red")
             self.temporary_label.grid(row=14)

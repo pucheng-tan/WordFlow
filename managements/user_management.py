@@ -165,11 +165,12 @@ class UserManagement(ApplicationManagement):
         UserManagement._context.reset_context()
         # TODO: There is more to this function than just resetting the context
 
-    def signup(self, email, password):
+    def signup(self, school_id, email, password):
         """
         Finishes setting up the invited user's account.
 
         Args:
+            school_id: The id of the school the user is signing up for.
             email: The invited user's email.
             password: The invited user's password.
 
@@ -178,13 +179,19 @@ class UserManagement(ApplicationManagement):
              sends a string stating why the account wasn't successfully set up.
         """
         try:
-            verified = UserManagement._service.is_verified(email)
-            if verified:
-                UserManagement._service.signup(email, password)
-                result = True
+            user_profile = UserManagement._service.get_user_document(None,
+                                                                 school_id,
+                                                                 email)
+            if not user_profile:
+                result = "You have not been added to this school!"
             else:
-                result = ("Email is not verified. Please verify your email to"
-                          " sign up.")
+                verified = UserManagement._service.is_verified(email)
+                if verified:
+                    UserManagement._service.signup(email, password)
+                    result = True
+                else:
+                    result = ("Email is not verified. Please verify your email"
+                              " to sign up.")
         except Exception as e:
             result = str(e)
         return result
@@ -344,7 +351,7 @@ class UserManagement(ApplicationManagement):
                 receiver_mail)
 
             message = MIMEMultipart("alternative")
-            message["Subject"] = "Email Verification"
+            message["Subject"] = "Reset Password"
             message["From"] = SENDER_MAIL
             message["To"] = receiver_mail
 

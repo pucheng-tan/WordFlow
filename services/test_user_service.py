@@ -91,16 +91,24 @@ def test_is_verified(user_email, expected_result):
     assert result == expected_result
 
 @pytest.mark.api_call
-@pytest.mark.parametrize("userid, school_id", [
-    ("2gJDgxzwJwfXai5rjZucYtNjBoE2", "3p1U6xAvKic1RvXMl5nJ"),
-    ("6L5FvIXenBNcZJt5poTVCbxMSWi2", "3p1U6xAvKic1RvXMl5nJ"), 
-    ("22gk6tCud3NbZeBwGUsxT0nSICL2", "Usask"),
-    ("1234", "Test_Post_School")])
+@pytest.mark.parametrize("userid, school_id, email, in_school", [
+    ("2gJDgxzwJwfXai5rjZucYtNjBoE2", "3p1U6xAvKic1RvXMl5nJ", None, True),
+    ("6L5FvIXenBNcZJt5poTVCbxMSWi2", "3p1U6xAvKic1RvXMl5nJ", None, True),
+    ("22gk6tCud3NbZeBwGUsxT0nSICL2", "Usask", None, True),
+    ("1234", "Test_Post_School", None, True),
+    ("qqqqqq", "Test_Post_School", None, False),
+    (None, "3p1U6xAvKic1RvXMl5nJ", "1123@gmail.com", True)
+])
 
-def test_get_user_document(userid, school_id):
-    result = user_service.get_user_document(userid, school_id)
-    assert result["id"] == userid
-    
+def test_get_user_document(userid, school_id, email, in_school):
+    result = user_service.get_user_document(userid, school_id, email)
+    if in_school:
+        if userid:
+            assert result["id"] == userid
+        elif email:
+            assert result["email"] == email
+    else:
+        assert result is None
 
 # @pytest.mark.xfail
 # @pytest.mark.api_call
