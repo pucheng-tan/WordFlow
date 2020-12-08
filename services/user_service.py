@@ -158,19 +158,25 @@ class UserService:
         path = "Schools/" + school_id + "/UserProfiles/"
         return UserService._api.get(path=path, where_clauses=where_clauses, limit=limit, order_by=order_by)
 
-    def get_user_document(self, user_id, school_id):
+    def get_user_document(self, user_id, school_id, email=None):
         """Gets the user's information from the api.
 
         Args:
             user_id: The id of the user.
             school_id: The id of the school.
+            email: The email of the user.
 
         Returns:
             Returns a dictionary with the user's information.
         """
-        path = "Schools/" + school_id + "/UserProfiles/" + user_id
+        user_document = None
+        if email:
+            user_id = auth.get_user_by_email(email).uid
 
-        user_document = UserService._api.get(path)
+        if user_id:
+            path = "Schools/" + school_id + "/UserProfiles/" + user_id
+
+            user_document = UserService._api.get(path)
 
         return user_document
 

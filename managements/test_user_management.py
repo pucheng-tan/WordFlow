@@ -29,14 +29,15 @@ def test_create_user(user, result, json_metadata):
 def test_login():
     pass
 
-@pytest.mark.parametrize("email, password, expected_result", [
-                        ("1128@gmail.com", "123456", "Email is not verified."),
-                        ("bad_email", "123456", "Malformed email"),
-                        ("not_in_firebase@fdjsfk.com", "123456", "No user record found"),
-                        ("", "123456", "Email must be a non-empty string.")
+@pytest.mark.parametrize("school_id, email, password, expected_result", [
+                        ("3p1U6xAvKic1RvXMl5nJ", "1128@gmail.com", "123456", "Email is not verified."),
+                        ("3p1U6xAvKic1RvXMl5nJ", "bad_email", "123456", "Malformed email"),
+                        ("3p1U6xAvKic1RvXMl5nJ", "not_in_firebase@fdjsfk.com", "123456", "No user record found"),
+                        ("", "", "123456", "You have not been added to this school!"),
+                        ("3p1U6xAvKic1RvXMl5nJ", "1206_admin_1@gmail.com", "123456", "You have not been added to this school!")
 ])
-def test_signup(email, password, expected_result):
-    result = user_management.signup(email, password)
+def test_signup(school_id, email, password, expected_result):
+    result = user_management.signup(school_id, email, password)
     assert expected_result in result
 
 @pytest.mark.parametrize("user, expected_result", [
