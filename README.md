@@ -53,3 +53,15 @@ NOTE: It is recommended to use PowerShell for running commands in Windows
    - all other tests will log additional debugging information
    - any warnings will be logged
 
+
+## External Libraries
+External libraries are listed in the requirements.txt file and will be installed by following the Mac or Windows instructions.
+The following external libraries are used:
+* requests 2.25.0 (https://pypi.org/project/requests/)
+* firebase-admin 4.4.0 (https://pypi.org/project/firebase-admin/)
+* pyttsx3 2.90 (https://pypi.org/project/pyttsx3/)
+* yapf 0.30.0 (https://pypi.org/project/yapf/)
+* pytest 6.1.2 (https://pypi.org/project/pytest/) 
+* pytest-json-report 1.2.4 (https://pypi.org/project/pytest-json-report/)
+* mock-firestore 0.7.3 (https://pypi.org/project/mock-firestore/) **Note that this library is not used in the master branch, only on branch #83 which is not fully implemented.
+
