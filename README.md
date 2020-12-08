@@ -32,7 +32,8 @@ NOTE: It is recommended to use PowerShell for running commands in Windows
 
 1. Clone the git repo
 2. Run the PowerShell script 'windows-create-environment.ps1' to create and activate the virtual environment, and install dependencies.
-3. When finished running tests, type 'deactivate' and then 'rm env'
+3. Run our program using python3 main.py or run our gui by using run_gui.py
+4. When finished running tests, type 'deactivate' and then 'rm env'
 
 ### Known issues on Windows:
 
